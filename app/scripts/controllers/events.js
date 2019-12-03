@@ -24,7 +24,13 @@ angular.module('erpSaarangFrontendApp')
               "args":{
                       "table":"event",
                       "columns":["*",
-                        {"name": "category", "columns": ["name"]}
+                        {"name": "category", "columns": ["name"]},
+                        {
+                          "name": "getEventSubCategory",
+                          "columns": [
+                              "name"
+                          ]
+                      }
                       ]
                     }
             },
@@ -52,6 +58,25 @@ angular.module('erpSaarangFrontendApp')
              }
       }).then(function(res){
       $rootScope.categories = res.data;
+    }).catch(function(err){
+      console.log(err.data);
+      // console.log($localStorage.auth_token);
+    });
+    $http({
+      method:'POST',
+      url:'https://data.saarang.org/v1/query',
+      data:{
+              "type":"select",
+              "args":{
+                      "table":"event_subcategory",
+                      "columns":["*"]
+                    }
+            },
+      headers:{
+                'Authorization' :"Bearer "+$localStorage.auth_token
+             }
+      }).then(function(res){
+      $rootScope.subcategories = res.data;
     }).catch(function(err){
       console.log(err.data);
       // console.log($localStorage.auth_token);

@@ -97,6 +97,14 @@ angular.module('erpSaarangFrontendApp')
     $scope.eventData.registration_ends = new Date();
     $scope.ind=-1;
     $scope.title = true;
+    $scope.filtersubcategories = function(cat_id){
+      $scope.filtered_subcategories = []
+      for(var i=0;i<$scope.subcategories.length;i++){
+        if(cat_id==$scope.subcategories[i].category_id){
+          $scope.filtered_subcategories.push($scope.subcategories[i])
+        }
+      }
+    }
     if($stateParams.name!== undefined){
         $scope.event_c.subtab = true;
         $scope.ind = 1
@@ -106,7 +114,10 @@ angular.module('erpSaarangFrontendApp')
         if($scope.eventData == undefined){
             $scope.eventData = {};
             $location.path('/events');
+        }else{
+          $scope.filtersubcategories($scope.eventData.category_id)
         }
+        
         $scope.eventData.registration_starts = new Date($scope.eventData.registration_starts);
         $scope.eventData.registration_ends = new Date($scope.eventData.registration_ends);
         $scope.uploader = $scope.eventData.event_image_url;
@@ -116,6 +127,7 @@ angular.module('erpSaarangFrontendApp')
         // console.log($scope.uploader);
     }
     $scope.categories = $rootScope.categories;
+    $scope.subcategories = $rootScope.subcategories;
     /*get categories*/
     if($scope.categories == undefined){
       $http({
@@ -138,6 +150,32 @@ angular.module('erpSaarangFrontendApp')
       }).catch(function(err){
         console.log(err);
       });
+      
+    }
+    if($scope.subcategories == undefined){
+      $http({
+        method:'POST',
+        url:'https://data.saarang.org/v1/query',
+        data:{
+                "type":"select",
+                "args":{
+                        "table":"event_subcategory",
+                        "columns":["*"]
+                      }
+              },
+        headers:{
+                  'Authorization' :"Bearer "+$localStorage.auth_token,
+                  'X-Hasura-Role' : "core"
+               }
+        }).then(function(res){
+        $rootScope.subcategories = res.data;
+        $scope.subcategories = $rootScope.subcategories;
+        $scope.filtered_subcategories = $scope.subcategories
+       
+      }).catch(function(err){
+        console.log(err);
+      });
+      
     }
 
     $scope.cancel = function(){
@@ -166,6 +204,7 @@ angular.module('erpSaarangFrontendApp')
                             {
                               "name":$scope.eventData.name,
                               "category_id":parseInt($scope.eventData.category_id),
+                              "sub_category_id":parseInt($scope.eventData.sub_category_id),
                               "registration_type":$scope.eventData.registration_type,
                               "registration_starts":$scope.eventData.registration_starts,
                               "registration_ends":$scope.eventData.registration_ends,
@@ -214,6 +253,7 @@ angular.module('erpSaarangFrontendApp')
                             {
                               "name":$scope.eventData.name,
                               "category_id":parseInt($scope.eventData.category_id),
+                              "sub_category_id":parseInt($scope.eventData.sub_category_id),
                               "registration_type":$scope.eventData.registration_type,
                               "registration_starts":$scope.eventData.registration_starts,
                               "registration_ends":$scope.eventData.registration_ends,

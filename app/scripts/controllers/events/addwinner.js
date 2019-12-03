@@ -19,7 +19,7 @@ angular.module('erpSaarangFrontendApp')
   })
  .controller('AddWinnerCtrl',['$scope','$rootScope','$mdDialog','$http','$localStorage','$window', function ($scope,$rootScope,$mdDialog,$http,$localStorage,$window) {
       $scope.event_c.subtab = false;
-      $scope.event_c.tabIndex = 2;
+      $scope.event_c.tabIndex = 3;
       $scope.events = [];
       $scope.winners = [];
       $scope.winner = null;
