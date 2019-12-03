@@ -1,0 +1,15 @@
+.navbar{
+	margin: 0 !important;
+}
+
+.navbar-item
+{
+	font-weight: 600;
+	font-family: 'Cinzel Decorative';
+	cursor: pointer;
+}
+
+body
+{
+	overflow-x: hidden !important;
+}

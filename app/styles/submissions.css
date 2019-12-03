@@ -1,0 +1,9 @@
+.pending{
+    background-color: whitesmoke;
+}
+.successful{
+    background-color: lightgreen;
+}
+.rejected{
+    background-color: rgba(230, 82, 82, 0.9);
+}

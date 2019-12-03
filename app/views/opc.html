@@ -1,0 +1,49 @@
+<div class="opcpage">
+	<form>
+	  <div class="form-group">
+	    <div class="input-group">
+	      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+	      <input type="text" class="form-control" placeholder="Search" ng-model="searchTag">
+	    </div>      
+	  </div>
+	</form>
+	<div id="exportButtons">
+		<md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+		<md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+		<md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+		<md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+	</div>
+
+	<div class="container-fluid" style="width:100vw;float: left;overflow:auto">
+	<table id="export" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td>
+				No.
+				</td>
+				<td>
+					Name
+				</td>
+				<td>
+					Mobile
+				</td>
+				<td>
+					Email
+				</td>
+				<td>
+					Photo
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="reg in opc_registrations | filter:searchTag">
+				<td>{{$index + 1}}</td>
+				<td>{{reg.user.name}}</td>
+				<td>{{reg.user.mobile}}</td>
+				<td>{{reg.user.email}}</td>
+				<td><a ng-href="{{reg.entry_url}}" target="_blank">{{reg.entry_url}}</a></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</div>

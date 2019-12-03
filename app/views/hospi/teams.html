@@ -1,0 +1,818 @@
+<div class="container" style="left: 0;right: 0;margin: auto; overflow: scroll;">
+
+	<br>
+<!-- Create Team Form -->
+	<div>
+		<form class="form form-horizontal" ng-show="!showAddTeam">
+			<div class="form-group">
+				<label class="control-label col-sm-2">Team Name</label>
+				<div class="input-group col-sm-10">
+					<input type="text" class="form-control" ng-model="team.name">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-2">Team Leader ID</label>
+				<div class="input-group col-sm-10">
+					<input type="text" class="form-control" ng-model="team.leader_id">
+				</div>
+			</div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">City</label>
+                <div class="input-group col-sm-10">
+                    <input type="text" class="form-control" ng-model="team.city">
+                </div>
+            </div>
+
+            <div class="form-group">
+				<label class="control-label col-sm-2">Account Number</label>
+				<div class="input-group col-sm-10">
+					<input type="text" class="form-control" ng-model="team.acc_no">
+				</div>
+            </div>
+            
+            <div class="form-group">
+				<label class="control-label col-sm-2">IFSC Code</label>
+				<div class="input-group col-sm-10">
+					<input type="text" class="form-control" ng-model="team.ifsc_no">
+				</div>
+			</div>
+
+			<div class="form-group">
+    			<label class="control-label col-sm-2">From</label>
+				<div class='input-group date col-sm-10' id='from_date_time'>
+    				<input type="text" class="form-control">
+
+    				<span class="input-group-addon">
+                    	<span class="glyphicon glyphicon-calendar"></span>
+                	</span>
+            	</div>
+			</div>
+
+			<div class="form-group">
+    			<label class="control-label col-sm-2">To</label>
+				<div class='input-group date col-sm-10' id='to_date_time'>
+    				<input type="text" class="form-control">
+
+    				<span class="input-group-addon">
+                    	<span class="glyphicon glyphicon-calendar"></span>
+                	</span>
+            	</div>
+			</div>
+
+			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+		    	<md-button class="md-raised md-primary" ng-click="create();">
+		    		Add
+		    	</md-button>
+		    	<md-button class="md-raised" ng-click="showAddTeam = true">
+		    		Cancel
+		    	</md-button>
+		    </section>
+		</form>
+	</div>
+
+	<section layout="row" layout-sm="column" layout-align="center center" layout-wrap ng-show="showAddTeam">
+    	<md-button class="md-raised md-primary" ng-click="showAddTeam = false">
+    		<span class="glyphicon glyphicon-plus" aria-hidden="true">
+    		</span>
+    		Add Team
+    	</md-button>
+    </section>
+
+<!-- end:Create Team Form -->
+
+    <br>
+
+<!-- Download Buttons -->
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-progress-circular ng-show="hideCSV" class="md-primary" md-diameter="30"></md-progress-circular>
+        <md-button class="md-raised md-primary" ng-click="Export('excel')" ng-hide="hideXLS">
+            XLS
+        </md-button>
+        <md-progress-circular class="md-primary" md-diameter="30" ng-show="hideXLS"></md-progress-circular> 
+        <md-button class="md-raised md-warn" ng-click="Export('pdf')" ng-hide="hidePDF">
+            PDF
+        </md-button>
+        <md-progress-circular class="md-warn" md-diameter="30" ng-show="hidePDF"></md-progress-circular>
+    </section>
+<!-- end:Download Buttons -->
+
+    <br>
+
+<!-- Search Input Field -->
+    <form ng-submit="GetData(currentPage)">
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-addon">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</div>
+				<input type="text" class="form-control" placeholder="Search by name" ng-model="searchTag" ng-change="GetData(currentPage)">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Filter By Status&nbsp;&nbsp;<span class = "caret"></span></button>
+                    <ul class="dropdown-menu pull-right" style="cursor: pointer;">
+                        <li ng-click='statusFilter=["Not Requested", "Request Pending", "Request Confirmed", "Request Waitlisted", "Request Rejected"]; GetData(currentPage);'><a>All</a></li>
+                        <li ng-click='statusFilter=["Request Pending"]; GetData(currentPage);'><a>Request Pending</a></li>
+                        <li ng-click='statusFilter=["Request Confirmed"]; GetData(currentPage);'><a>Request Confirmed</a></li>
+                        <li ng-click='statusFilter=["Request Waitlisted"]; GetData(currentPage);'><a>Request Waitlisted</a></li>
+                        <li ng-click='statusFilter=["Request Rejected"]; GetData(currentPage);'><a>Request Rejected</a></li>
+                        <li ng-click='statusFilter=["Not Requested"]; GetData(currentPage);'><a>Not Requested</a></li>
+                    </ul>
+                </div>
+			</div>
+		</div>
+	</form>
+<!-- end:Search Input Field -->
+
+
+<!-- Table -->
+    <dir-pagination-controls on-page-change="GetData(newPageNumber)">
+    </dir-pagination-controls>
+
+    <table class="table table-bordered table-striped table-hover" style="table-layout: auto;">
+    	<thead>
+    		<tr>
+    			<th>
+    				<a ng-click = "sortType = 'checked_in'; sortReverse = !sortReverse; GetData(currentPage);">
+    					In
+						<span ng-show = "sortType == 'checked_in' && !sortReverse" class="glyphicon glyphicon-triangle-bottom">
+						</span>
+						<span ng-show = "sortType == 'checked_in' && sortReverse" class="glyphicon glyphicon-triangle-top">
+						</span>
+					</a>
+                    <a ng-show="sortType == 'checked_in'" ng-click="sortType='accommodation_requested_on'; sortReverse=false; GetData(currentPage);">
+                        <span class="glyphicon glyphicon-remove" style="float: right; padding-top: 3px;"></span>
+                    </a>
+    			</th>
+                <th>
+                    <a ng-click = "sortType = 'checked_out'; sortReverse = !sortReverse; GetData(currentPage);">
+                        Out
+                        <span ng-show = "sortType == 'checked_out' && !sortReverse" class="glyphicon glyphicon-triangle-bottom">
+                        </span>
+                        <span ng-show = "sortType == 'checked_out' && sortReverse" class="glyphicon glyphicon-triangle-top">
+                        </span>
+                    </a>
+                    <a ng-show="sortType == 'checked_out'" ng-click="sortType='accommodation_requested_on'; sortReverse=false; GetData(currentPage);">
+                        <span class="glyphicon glyphicon-remove" style="float: right; padding-top: 3px;"></span>
+                    </a>
+                </th>
+    			<th>
+    				<a ng-click = "sortType = 'accommodation_status'; sortReverse = !sortReverse; GetData(currentPage);">
+    					Status
+						<span ng-show = "sortType == 'accommodation_status' && !sortReverse" class="glyphicon glyphicon-triangle-bottom">
+						</span>
+						<span ng-show = "sortType == 'accommodation_status' && sortReverse" class="glyphicon glyphicon-triangle-top">
+						</span>
+					</a>
+                    <a ng-show="sortType == 'accommodation_status'" ng-click="sortType='accommodation_requested_on'; sortReverse=false; GetData(currentPage);">
+                        <span class="glyphicon glyphicon-remove" style="float: right; padding-top: 3px;"></span>
+                    </a>
+    			</th>
+    			<th>
+    				<a ng-click = "sortType = 'saarang_id'; sortReverse = !sortReverse; GetData(currentPage);">
+    					ID
+						<span ng-show = "sortType == 'saarang_id' && !sortReverse" class="glyphicon glyphicon-triangle-bottom">
+						</span>
+						<span ng-show = "sortType == 'saarang_id' && sortReverse" class="glyphicon glyphicon-triangle-top">
+						</span>
+					</a>
+                    <a ng-show="sortType == 'saarang_id'" ng-click="sortType='accommodation_requested_on'; sortReverse=false; GetData(currentPage);">
+                        <span class="glyphicon glyphicon-remove" style="float: right; padding-top: 3px;"></span>
+                    </a>
+    			</th>
+    			<th>
+    				<a ng-click = "sortType = 'name'; sortReverse = !sortReverse; GetData(currentPage);">
+    					Name
+						<span ng-show = "sortType == 'name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom">
+						</span>
+						<span ng-show = "sortType == 'name' && sortReverse" class="glyphicon glyphicon-triangle-top">
+						</span>
+					</a>
+                    <a ng-show="sortType == 'name'" ng-click="sortType='accommodation_requested_on'; sortReverse=false; GetData(currentPage);">
+                        <span class="glyphicon glyphicon-remove" style="float: right; padding-top: 3px;"></span>
+                    </a>
+    			</th>
+    			<th>
+    				<a ng-click = "sortType = 'time_of_arrival'; sortReverse = !sortReverse; GetData(currentPage);">
+    					Arrival
+						<span ng-show = "sortType == 'time_of_arrival' && !sortReverse" class="glyphicon glyphicon-triangle-bottom">
+						</span>
+						<span ng-show = "sortType == 'time_of_arrival' && sortReverse" class="glyphicon glyphicon-triangle-top">
+						</span>
+					</a>
+                    <a ng-show="sortType == 'time_of_arrival'" ng-click="sortType='accommodation_requested_on'; sortReverse=false; GetData(currentPage);">
+                        <span class="glyphicon glyphicon-remove" style="float: right; padding-top: 3px;"></span>
+                    </a>
+    			</th>
+    			<th>
+    				<a ng-click = "sortType = 'time_of_departure'; sortReverse = !sortReverse; GetData(currentPage);">
+    					Departure
+						<span ng-show = "sortType == 'time_of_departure' && !sortReverse" class="glyphicon glyphicon-triangle-bottom">
+						</span>
+						<span ng-show = "sortType == 'time_of_departure' && sortReverse" class="glyphicon glyphicon-triangle-top">
+						</span>
+					</a>
+                    <a ng-show="sortType == 'time_of_departure'" ng-click="sortType='accommodation_requested_on'; sortReverse=false; GetData(currentPage);">
+                        <span class="glyphicon glyphicon-remove" style="float: right; padding-top: 3px;"></span>
+                    </a>
+    			</th>
+    			<th>
+    				<a ng-click = "sortType = 'leader.mobile'; sortReverse = !sortReverse; GetData(currentPage);">
+    					Contact
+						<span ng-show = "sortType == 'leader.mobile' && !sortReverse" class="glyphicon glyphicon-triangle-bottom">
+						</span>
+						<span ng-show = "sortType == 'leader.mobile' && sortReverse" class="glyphicon glyphicon-triangle-top">
+						</span>
+					</a>
+                    <a ng-show="sortType == 'leader.mobile'" ng-click="sortType='accommodation_requested_on'; sortReverse=false; GetData(currentPage);">
+                        <span class="glyphicon glyphicon-remove" style="float: right; padding-top: 3px;"></span>
+                    </a>
+    			</th>
+    			<th>
+    				<a>
+    					M
+					</a>
+    			</th>
+    			<th>
+    				<a>
+    					F
+					</a>
+    			</th>
+                <th>
+                    <a>
+                        Total
+                    </a>
+                </th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<tr dir-paginate = "t in teams | itemsPerPage: 20" total-items="total_entries" current-page="currentPage" data-toggle="modal" data-target="#teamDetails" ng-click="teamDetailsFn(t)" style="outline: none;">
+    			<td>
+    				{{ DateString(t.checked_in) }}
+    			</td>
+    			<td>
+    				{{ DateString(t.checked_out) }}
+    			</td>
+    			<td>
+    				<span ng-class="statusClasses[t.accommodation_status]">
+                        {{t.accommodation_status}}
+                    </span>
+    			</td>
+    			<td>
+    				{{ t.saarang_id }}
+    			</td>
+    			<td>
+    				{{ t.name }}
+    			</td>
+    			<td>
+    				{{ DateString(t.time_of_arrival) }}
+    			</td>
+    			<td>
+    				{{ DateString(t.time_of_departure) }}
+    			</td>
+    			<td>
+    				{{ t.leader.mobile }}
+    			</td>
+    			<td>
+    				{{ t.male_members }}
+    			</td>
+                <td>
+                    {{ t.female_members }}
+                </td>
+                <td>
+                    {{ t.members.length }}
+                </td>
+    		</tr>
+    	</tbody>
+    </table>
+
+    <dir-pagination-controls on-page-change="GetData(newPageNumber)">
+    </dir-pagination-controls>
+    
+<!-- end:Table -->
+
+
+<!-- Team Details -->
+<div class="modal fade" id="teamDetails" role="dialog" style="overflow: scroll;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{teamDetails.name}}</h4>
+                <p>{{teamDetails.saarang_id}}</p>
+                <h5>
+                    <span ng-class="statusClasses[teamDetails.accommodation_status]">
+                        {{teamDetails.accommodation_status}}
+                    </span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <p>{{DateString(teamDetails.time_of_arrival)}} <strong>to</strong> {{DateString(teamDetails.time_of_departure)}}</p>
+
+                <div class="btn-group" ng-init="showChangeDate=false">
+                    <button type="button" class="btn btn-primary" ng-click="showChangeDate = !showChangeDate" ng-show="teamDetails.accommodation_status!='Request Confirmed'">
+                        Edit Team
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            Change Status <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="stat in ['Not Requested', 'Request Pending', 'Request Confirmed', 'Request Waitlisted', 'Request Rejected']" style="cursor: pointer;"><a ng-click="confirmDialog_changeStatus(stat)">{{stat}}</a></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#splitTeam" ng-click="SplitTeam()" ng-show="teamDetails.accommodation_status=='Request Confirmed'">Split Team</button>
+                    <button type="button" class="btn btn-primary" ng-show="(teamDetails.accommodation_status=='Request Confirmed')&&!teamDetails.checked_in&&!(teamDetails.male_members&&teamDetails.female_members)" data-toggle="modal" data-target="#checkIn" ng-click="CheckIn()">Check In</button>
+                    <button type="button" class="btn btn-primary" ng-show="(teamDetails.checked_in)&&(!teamDetails.checked_out)" ng-click="CheckOutActive=true">Check Out</button>
+                    <button type="button" class="btn btn-primary" ng-show="teamDetails.accommodation_status=='Request Confirmed'" ng-click="printBill()">Print Bill</button>
+                    <button type="button" class="btn btn-primary" ng-show="teamDetails.accommodation_status=='Request Confirmed'" ng-click="printSAAR()">Print SAAR</button>
+                </div>      
+
+                <br>
+                <br>
+
+                <div>
+                    <form ng-show="showChangeDate">
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Team Name</label>
+                            <div class="input-group col-sm-10">
+                                <input type="text" class="form-control" ng-model="teamDetails.name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">City</label>
+                            <div class="input-group col-sm-10">
+                                <input type="text" class="form-control" ng-model="teamDetails.city">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">From</label>
+                            <div class='input-group date col-sm-8' id='from_date_timeM'>
+                                <input type="text" name="from" class="form-control" required>
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">To</label>
+                            <div class='input-group date col-sm-8' id='to_date_timeM'>
+                                <input type="text" name="to" class="form-control" required>
+
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                            <md-button class="md-raised md-primary" type="submit" ng-click="changeDate()">
+                                Save
+                            </md-button>
+                            <md-button class="md-raised" ng-click="showChangeDate = false">
+                                Cancel
+                            </md-button>
+                        </section>
+                    </form>
+                </div>
+
+                <div ng-show="CheckOutActive">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Mattress returned</label>
+                        <div class="input-group col-sm-10">
+                            <input type="number" class="form-control" ng-model="CheckOut_Mattress">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Pillows returned</label>
+                        <div class="input-group col-sm-10">
+                            <input type="number" class="form-control" ng-model="CheckOut_Pillow">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Blankets returned</label>
+                        <div class="input-group col-sm-10">
+                            <input type="number" class="form-control" ng-model="CheckOut_Blanket">
+                        </div>
+                    </div>
+                    <md-button class="md-raised md-primary" ng-click="CheckOut()">
+                        Save
+                    </md-button>
+                    <md-button class="md-raised" ng-click="CheckOutActive=false">
+                        Cancel
+                    </md-button>
+                </div>
+
+                <br>
+                <br>
+
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th colspan="4">
+                                Billing details
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                Days of stay
+                            </th>
+                            <th>
+                                No. of accepted members
+                            </th>
+                            <th>
+                                Amount per team member
+                            </th>
+                            <th>
+                                Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{teamDetails.days_of_stay}}
+                            </td>
+                            <td>
+                                {{teamDetails.members_view.length}}
+                            </td>
+                            <td>
+                                {{CalculateAmount}}
+                            </td>
+                            <td>
+                                {{CalculateAmount * teamDetails.members_view.length}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">
+                                Caution Deposit
+                            </th>
+                            <td>
+                                300
+                            </td>
+                            <td>
+                                {{teamDetails.members_view.length * 300}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">
+                                Amount payable
+                            </th>
+                            <td>
+                                {{CalculateAmount * teamDetails.members_view.length + teamDetails.members_view.length * 300}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Account Number: <strong>{{teamDetails.acc_no}}</strong></p>
+                <p>IFSC Code: <strong>{{teamDetails.ifsc_no}}</strong></p>
+                
+                <div class="panel panel-info">
+                    <div class="panel-heading">{{teamDetails.members_view.length}} Confirmed Members ({{teamDetails.male_members}} Male, {{teamDetails.female_members}} Female)</div>
+                    <div class="panel-body" style="overflow: scroll;">
+
+                        <div class="input-group" ng-show="(teamDetails.accommodation_status!='Request Confirmed')">
+                           <input type="text" class="form-control" ng-model="new_member_id" placeholder="Add member by Saarang ID">
+                           <span class="input-group-btn">
+                              <button class="btn btn-success" type="button" ng-click="AddMember(new_member_id)">
+                                 Add
+                              </button>
+                           </span>
+                        </div>
+                        <br>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info" ng-click="ExportInner('csv')">CSV</button>
+                            <button type="button" class="btn btn-info" ng-click="ExportInner('excel')">XLS</button>
+                            <button type="button" class="btn btn-info" ng-click="ExportInner('pdf')">PDF</button>
+                        </div>
+
+                        <br>
+                        <br>
+
+                      <!-- Search Input Field -->
+                        <form>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Search" ng-model="memberSearchTag">
+                                </div>
+                            </div>
+                        </form>
+                    <!-- end:Search Input Field -->
+
+                        <table class="table" style="table-layout: auto;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        Gender
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Mobile
+                                    </th>
+                                    <th>
+                                        College
+                                    </th>
+                                    <th>
+                                        Roll No
+                                    </th>
+                                    <th ng-show="(teamDetails.accommodation_status!='Request Confirmed')">
+                                        Options
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="tm in teamMemberDetails|filter:memberSearchTag">
+                                    <td style="text-align: left;">
+                                        {{tm.member_view.saarang_id}}
+                                    </td>
+                                    <td style="text-align: left;">
+                                        {{tm.member_view.gender}}
+                                    </td>
+                                    <td style="text-align: left;">
+                                        {{tm.member_view.email}}
+                                    </td>
+                                    <td style="text-align: left;">
+                                        {{tm.member_view.name}}
+                                    </td>
+                                    <td style="text-align: left;">
+                                        {{tm.member_view.mobile}}
+                                    </td>
+                                    <td style="text-align: left;">
+                                        {{tm.member_view.college}}
+                                    </td>
+                                    <td style="text-align: left;">
+                                        {{tm.member_view.college_id}}
+                                    </td>
+                                    <td style="text-align: left;" ng-show="(teamDetails.accommodation_status!='Request Confirmed' && tm.member_view.id !=teamDetails.leader_id)">
+                                        <button type="button" class="btn btn-danger btn-xs" ng-show="tm.is_confirmed" ng-click="confirmDialog_removeMember(tm)">DELETE</button>
+                                        <button type="button" class="btn btn-success btn-xs" ng-show="!tm.is_confirmed" ng-click="AcceptMember(tm)">ACCEPT</button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-show="!tm.is_confirmed" ng-click="RejectMember(tm)">REJECT</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="splitTeam" role="dialog" style="overflow: scroll;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">OLD TEAM: {{teamDetails.name}}</h4>
+            </div>
+            <div class="modal-body" style="overflow-x: scroll;">
+                <table class="table" style="table-layout: auto;">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Gender
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Mobile
+                            </th>
+                            <th>
+                                College
+                            </th>
+                            <th>
+                                Roll No
+                            </th>
+                            <th>
+                                Move
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tm in oldSplitTeam">
+                            <td style="text-align: left;">
+                                {{tm.member_view.saarang_id}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.gender}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.email}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.firstname}}&nbsp;{{tm.member_view.lastname}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.mobile}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.college}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.college_id}}
+                            </td>
+                            <td stylteamDetailsFe="text-align: left;">
+                                <button type="button" class="btn btn-success btn-xs" ng-show="tm.member_view.saarang_id!=teamDetails.leader_view.saarang_id" ng-click="MoveMember($index)">MOVE</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h4 class="modal-title">NEW TEAM</h4>
+                <hr>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Team Name</label>
+                    <div class="input-group col-sm-10">
+                        <input type="text" class="form-control" ng-model="split_Team.name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Team Leader ID</label>
+                    <div class="input-group col-sm-10">
+                        <input type="text" class="form-control" ng-model="split_Team.leader_id">
+                    </div>
+                </div>
+                <table class="table" style="table-layout: auto;">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Gender
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Mobile
+                            </th>
+                            <th>
+                                College
+                            </th>
+                            <th>
+                                Roll No
+                            </th>
+                            <th>
+                                Undo
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tm in newSplitTeam">
+                            <td style="text-align: left;">
+                                {{tm.member_view.saarang_id}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.gender}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.email}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.firstname}}&nbsp;{{tm.member_view.lastname}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.mobile}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.college}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.member_view.college_id}}
+                            </td>
+                            <td style="text-align: left;">
+                                <button type="button" class="btn btn-warning btn-xs" ng-click="UndoMoveMember($index)">UNDO</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <md-button class="md-raised md-primary" type="submit" ng-click="SaveSplitTeam()">
+                        Save
+                    </md-button>
+                    <md-button class="md-raised" data-dismiss="modal" ng-click="teamDetailsFn(teamDetails)">
+                        Cancel
+                    </md-button>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="checkIn" role="dialog" style="overflow: scroll;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Check In</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" style="table-layout: auto;">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Gender
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Hostel
+                            </th>
+                            <th>
+                                Room No
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tm in checkInMembers">
+                            <td style="text-align: left;">
+                                {{tm.user.saarang_id}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.user.gender}}
+                            </td>
+                            <td style="text-align: left;">
+                                {{tm.user.name}}
+                            </td>
+                            <td>
+                                <!-- <md-select placeholder="Hostel" ng-model="tm.hostel_id" class="md-no-underline" ng-change="GetCheckInRooms($index)">
+                                    <md-option ng-value="h.id" ng-repeat="h in CheckIn_hostels">{{h.name}}</md-option>
+                                </md-select> -->
+                                <md-input-container>
+                                    <input ng-model="tm.user.hostel" type="text" aria-label="hostel">
+                                </md-input-container>
+                            </td>
+                            <td>
+                                <!-- <md-select placeholder="Room" ng-model="tm.user.room_id" class="md-no-underline">
+                                    <md-option ng-value="r.id" ng-repeat="r in tm.rooms">{{r.number}}</md-option>
+                                </md-select> -->
+                                <md-input-container>
+                                    <input ng-model="tm.user.room" type="text" aria-label="room">
+                                </md-input-container>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Mattress issued</label>
+                    <div class="input-group col-sm-10">
+                        <input type="number" class="form-control" ng-model="CheckIn_Mattress">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Pillows issued</label>
+                    <div class="input-group col-sm-10">
+                        <input type="number" class="form-control" ng-model="CheckIn_Pillow">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Blankets issued</label>
+                    <div class="input-group col-sm-10">
+                        <input type="number" class="form-control" ng-model="CheckIn_Blanket">
+                    </div>
+                </div>
+                <md-button class="md-raised md-primary" ng-click="SaveCheckIn()">
+                    Save
+                </md-button>
+                <md-button class="md-raised" data-dismiss="modal">
+                    Cancel
+                </md-button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div id="ExportContainer" style="height: 1px;overflow:hidden;"></div>

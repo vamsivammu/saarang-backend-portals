@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <div class = "row">
+	<br>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <md-input-container class="md-block" flex-gt-sm>
+    <label>Name</label>
+    <input ng-model="data.name">
+    </md-input-container>
+    </div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <md-input-container class="md-block" flex-gt-sm>
+    <label>Description</label>
+    <input ng-model="data.description">
+    </md-input-container>
+    </div>    
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <md-input-container class="md-block" flex-gt-sm>
+    <label>Milan Date (Enter manually)</label>
+    <input ng-model="data.milan_date">
+    </md-input-container>
+    </div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <md-input-container class="md-block" flex-gt-sm>
+    <label>Milan Time (Enter manually)</label>
+    <input ng-model="data.milan_time">
+    </md-input-container>
+    </div>    	
+  </div>
+
+  <div style="text-align:center;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <md-button ng-hide="status" class="md-raised md-warn" type="file" ngf-select="uploadFiles($file)" accept="image/*">Upload City Image</md-button>
+    <md-button ng-show="status" class="md-raised md-warn" disabled="">Uploading...{{progress}}</md-button>
+  </div>  
+</div>

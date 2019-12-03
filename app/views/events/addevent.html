@@ -1,0 +1,163 @@
+<div class="addEventPage">
+	<h3 class="title" ng-show="title">Add New Event</h3>
+	<div class="container-fluid" id="details">
+		<div class="row">
+			<form id="addEvent" name="addEvent" role="form" ng-submit="onSubmit()" class="form-horizontal">
+				<div class="form-group">
+					<label for="Event-name" class="control-label col-sm-2">Event Name&nbsp;:</label>
+					<div class="col-sm-10">
+						<input id="name" name="name" ng-model="eventData.name" class="form-control" required="true"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="Category" class="control-label col-sm-2">Category&nbsp;:</label>
+					<div class="col-sm-10">
+						<select id="category" name="category" ng-model="eventData.category_id" class="form-control" required="true" ng-options="category.id as category.name for category in categories">
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="event_type" class="control-label col-sm-2">Event Registration Type&nbsp;:</label>
+					<div class="col-sm-10">
+						<select id="team_event" name="team_event" ng-model="eventData.registration_type" class="form-control" required="true" ng-options="o.name as o.name for o in registration_types">
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+	    			<label class="control-label col-sm-2">Registration Starts:</label>
+					<div class='input-group date col-sm-10'>
+						<datepicker>
+	    					<input type="text" class="form-control" placeholder="Click to select date" ng-model="eventData.registration_starts">
+	    				</datepicker>
+	            	</div>
+				</div>
+
+				<div class="form-group">
+	    			<label class="control-label col-sm-2">Registration Ends:</label>
+					<div class='input-group date col-sm-10'>
+						<datepicker>
+							<input type="text" class="form-control" placeholder="Click to select date" ng-model="eventData.registration_ends">
+						</datepicker>
+	            	</div>
+				</div>
+				<div class="form-group">
+					<label for="team_event" class="control-label col-sm-2">Team Event&nbsp;:</label>
+					<div class="col-sm-10">
+						<select id="team_event" name="team_event" ng-model="eventData.is_team_event" class="form-control" required="true"
+							ng-options="o.v as o.n for o in [{ n: 'Not a Team Event', v: false }, { n: 'Team event', v: true }]">
+						</select>
+					</div>
+				</div>
+				<div ng-show="eventData.is_team_event">
+					<div class="form-group">
+						<label for="team_min_size" class="control-label col-sm-2">Team Min Size&nbsp;:</label>
+						<div class="col-sm-2">
+							<input type="number" id="team_min_size" name="team_min_size" ng-model="eventData.team_min_size" class="form-control" ng-required="eventData.is_team_event"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="team_max_size" class="control-label col-sm-2">Team Max Size&nbsp;:</label>
+						<div class="col-sm-2">
+							<input type="number" id="team_max_size" name="team_max_size" ng-model="eventData.team_max_size" class="form-control" ng-required="eventData.is_team_event"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="contact_name_1" class="control-label col-sm-2">Contact Name - 1&nbsp;:</label>
+					<div class="col-sm-4">
+						<input type="text" id="contact_name_1" name="contact_name_1" ng-model="eventData.contact[0].name" class="form-control"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="contact_no_1" class="control-label col-sm-2">Contact Number - 1&nbsp;:</label>
+					<div class="col-sm-4">
+						<input type="text" id="contact_no_1" name="contact_no_1" ng-model="eventData.contact[0].number" class="form-control"/>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label for="contact_name_1" class="control-label col-sm-2">Contact Name - 2&nbsp;:</label>
+					<div class="col-sm-4">
+						<input type="text" id="contact_name_2" name="contact_name_2" ng-model="eventData.contact[1].name" class="form-control"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="contact_no_2" class="control-label col-sm-2">Contact Number - 2&nbsp;:</label>
+					<div class="col-sm-4">
+						<input type="text" id="contact_no_2" name="contact_no_2" ng-model="eventData.contact[1].number" class="form-control"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="Email-id" class="control-label col-sm-2">Event email&nbsp;:</label>
+					<div class="col-sm-10">
+						<input type="email" id="email" name="email" ng-model="eventData.contact_email" class="form-control" required="true"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="short_description" class="control-label col-sm-2">Short Description&nbsp;:</label>
+					<div class="col-sm-10">
+						<input id="short_description" name="short_description" placeholder="Add data as HTML" ng-model="eventData.short_description" class="form-control" required="true"/>
+					</div>
+					
+				</div>
+
+				<div class="form-group">
+					<label for="long_description" class="control-label col-sm-2">Long Description&nbsp;:</label>
+					<div class="col-sm-10">
+						<textarea id="long_description" name="long_description" placeholder="Add data as HTML" ng-model="eventData.long_description" class="form-control" required="true"></textarea>
+					</div>
+				</div>
+
+
+				<div class="form-group" ng-show="eventData.registration_type=='google-form' || (eventData.registration_type=='online' && eventData.is_team_event=='true')">
+					<label for="is_extra" class="control-label col-sm-2">Require Extra Details&nbsp;:</label>
+					<div class="col-sm-10">
+						<select id="is_extra" name="is_extra" ng-model="eventData.is_extra" class="form-control" required="true"
+							ng-options="o.v as o.n for o in [{ n: 'No', v: false }, { n: 'Yes', v: true }]">
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group" ng-show="eventData.is_extra">
+					<label for="extra_details" class="control-label col-sm-2">Extra Details for Registration&nbsp;:</label>
+					<div class="col-sm-10">
+						<textarea id="extra_details" name="extra_details" placeholder="Enter the description for the extra content the participant must upload" ng-model="eventData.extra_details" class="form-control" ng-required="eventData.is_extra"></textarea>
+					</div>
+				</div>
+
+				<!-- Image upload -->
+				<md-button class="md-raised md-primary" type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">Upload Photo</md-button>
+			    
+			    <span ng-if="uploadInprogress"><b>Upload progress </b>:{{progress}}</span>
+			    <span ng-if="uploadComplete" style="color:green"><b>Image Upload Success</b></span>
+			    <span ng-if="uploadFailed" style="color:red"><b>Image Upload Failed</b></span>
+			    
+			    <br>
+			    <br>
+			    
+			    <div ng-if='uploadComplete'>
+			    <label><b>Image Preview:</b></label>
+			      <img ng-src="{{uploader}}" />
+			    </div>
+
+			    <br>
+			    <div class="form-group">
+			    	<label for="image_url" class="control-label col-sm-2">image url&nbsp;:</label>
+			    	<div class="col-sm-10">
+			    		<textarea name="image_url" ng-model="uploader" class="form-control"></textarea>
+			    	</div>
+			    </div>	
+				<div class="button-holder text-center">
+					<button type="submit" class="btn btn-primary">Add Event</button>
+					<button ng-click="cancel()" type="button" ui-sref="events.allevents" class="btn btn-default">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

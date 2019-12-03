@@ -1,0 +1,28 @@
+<div layout="row" layout-align="left left" style="font-size:1.5em">
+  <a ui-sref="main" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+</div>
+<md-tabs md-stretch-tabs="always" md-selected="finance.tabIndex">
+  <md-tab ui-sref="finance.payment">
+    <md-tab-label>
+      <span>
+        Payments Portal
+      </span>
+    </md-tab-label>
+  </md-tab>
+  <md-tab ui-sref="finance.ppm">
+    <md-tab-label>
+      <span>
+        Prize-Money Portal
+      </span>
+    </md-tab-label>
+  </md-tab>
+  <md-tab ui-sref="finance.reimbursement">
+    <md-tab-label>
+      <span>
+        Reimbursement Portal
+      </span>
+    </md-tab-label>
+  </md-tab>
+</md-tabs>
+
+<md-content style="background-color: white;" ui-view=""></md-content>

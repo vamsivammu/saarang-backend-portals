@@ -1,0 +1,28 @@
+<div class="container-fluid">
+      <br>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Choose the Department</label>
+           <md-select  name="department" ng-model="data.department" required>
+           <md-option ng-repeat="department in departments" value="{{department.name}}">
+                {{department.name}}
+           </md-option>
+           </md-select>
+        </md-input-container>
+      </div>  
+        
+<div style="text-align:center;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <md-button ng-disabled="!(data.department)" class="md-accent md-raised" ng-click="fetchQues()">Get the Questionnaire</md-button>
+  <hr>
+</div>
+ 
+ <div class="row" ng-repeat="ques in questions">
+      <a href="{{ques.url}}" target="_blank">
+        <div class="col-sm-8 col-sm-offset-2 md-whiteframe-2dp" style="height:5em;background-color:#fff;padding-top:2em;margin-bottom:1em;text-align:center">
+          {{ques.sub_department}} | {{ques.position}}
+        </div>
+      </a>
+ </div>
+</div>
+
+

@@ -1,0 +1,22 @@
+<div layout="row" layout-align="left left" style="font-size:1.5em">
+  <a ui-sref="login" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+</div>
+
+<md-tabs md-stretch-tabs="always" md-selected="coordPortal.tabIndex">
+  <md-tab ui-sref="coordPortal.view">
+    <md-tab-label>
+      <span>
+        View Applications
+      </span>
+    </md-tab-label>
+  </md-tab>
+  <md-tab ui-sref="coordPortal.submit">
+    <md-tab-label>
+      <span>
+        Submit Applications
+      </span>
+    </md-tab-label>
+  </md-tab>
+</md-tabs>
+
+<md-content style="background-color: white;" ui-view=""></md-content>

@@ -1,0 +1,77 @@
+<div class="allregistrationspage">
+	
+	<div layout="row" layout-align="left left" style="font-size:1.5em">
+        <a ui-sref="main" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+    </div>
+	
+	<form ng-submit="GetData(currentPage)">
+	  <div class="form-group">
+	    <div class="input-group">
+	      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+	      <input type="text" class="form-control" placeholder="Search by mobile number" ng-model="searchTag" ng-change="GetData(currentPage)">
+	    </div>      
+	  </div>
+	</form>
+
+  <dir-pagination-controls on-page-change="GetData(newPageNumber)"></dir-pagination-controls>
+
+	<table id="export" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td>
+				No.
+				</td>
+				<td>
+					<a  ng-click="sortType = 'saarang_id'; sortReverse = !sortReverse; GetData(currentPage);">SaarangID
+						<span ng-show="sortType == 'saarang_id' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'saarang_id' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a  ng-click="sortType = 'firstname'; sortReverse = !sortReverse; GetData(currentPage);">Name
+						<span ng-show="sortType == 'firstname' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'firstname' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a  ng-click="sortType = 'email'; sortReverse = !sortReverse; GetData(currentPage);">Email
+						<span ng-show="sortType == 'email' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'email' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'mobile'; sortReverse = !sortReverse; GetData(currentPage);">Mobile
+						<span ng-show="sortType == 'mobile' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'mobile' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'gender'; sortReverse = !sortReverse; GetData(currentPage);">Gender
+						<span ng-show="sortType == 'gender' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'gender' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'college'; sortReverse = !sortReverse; GetData(currentPage);">College
+						<span ng-show="sortType == 'college' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'college' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr dir-paginate="user in allusers | itemsPerPage: 20" total-items="total_entries" current-page="currentPage">
+				<td>{{($index+1)+((currentPage-1)*20)}}</td>
+				<td>{{user.saarang_id}}</td>
+				<td>{{user.firstname}} {{user.lastname}}</td>
+				<td>{{user.email}}</td>
+				<td>{{user.mobile}}</td>
+				<td>{{user.gender}}</td>
+				<td>{{user.college}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+  <dir-pagination-controls on-page-change="GetData(newPageNumber)"></dir-pagination-controls>
+
+</div>

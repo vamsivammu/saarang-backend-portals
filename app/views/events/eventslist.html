@@ -1,0 +1,99 @@
+<div class="container-fluid alleventspage">
+	<div style="margin-bottom:10px;">
+		<md-button class="md-fab md-mini md-primary" aria-label="Add" ui-sref="events.addevent">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		</md-button>
+	</div>
+	<div class="event-table">
+		<form>
+		  <div class="form-group">
+		    <div class="input-group">
+		      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+		      <input type="text" class="form-control" placeholder="Search The event" ng-model="searchTag">
+		    </div>      
+		  </div>
+		</form>
+		<div id="exportButtons">
+		<!--	<md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+			<md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+			-->
+			<md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+			<md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+		</div>
+		<table id="export" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<td></td>
+					<td>
+						<a ng-click="sortType = 'name'; sortReverse = !sortReverse">Name
+							<span ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</td>
+					<td>
+						<a ng-click="sortType = 'category'; sortReverse = !sortReverse">
+							Category
+							<span ng-show="sortType == 'category' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="sortType == 'category' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</td>
+					<td>
+						<a ng-click="sortType = 'short_description'; sortReverse = !sortReverse">
+							Short Description
+							<span ng-show="sortType == 'short_description' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="sortType == 'short_description' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</td>
+					<td>
+						<a ng-click="sortType = 'registration_type'; sortReverse = !sortReverse">
+							Registration Type
+							<span ng-show="sortType == 'registration_type' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="sortType == 'registration_type' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</td>
+					<td>
+						<a ng-click="sortType = 'Team_event'; sortReverse = !sortReverse">
+							Team Event
+							<span ng-show="sortType == 'team_event' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="sortType == 'team_event' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</td>
+					<td>
+						<a ng-click="sortType = 'team_size'; sortReverse = !sortReverse">
+							team Size
+							<span ng-show="sortType == 'team_size' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="sortType == 'team_size' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</td>
+					<td>
+						<a ng-click="sortType = 'image'; sortReverse = !sortReverse">
+							Long Description
+							<span ng-show="sortType == 'image' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="sortType == 'image' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</td>
+					<td>
+						<a ng-click="sortType = 'extra_details'; sortReverse = !sortReverse">
+							Extra Details
+							<span ng-show="sortType == 'extra_details' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="sortType == 'extra_details' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="event in events | orderBy:sortType:sortReverse| filter:searchTag">
+					<td ng-click="delete(event)"><i class="glyphicon glyphicon-trash icons" ng-click="edit(event)"></i></td>
+					<td ng-click="showtab(event)" ui-sref="events.editevent({name:edit_event.name})">{{event.name}}</td>
+					<td ng-click="showtab(event)" ui-sref="events.editevent({name:edit_event.name})">{{event.category.name}}</td>
+					<td ng-click="showtab(event)" ui-sref="events.editevent({name:edit_event.name})" ng-bind-html="event.short_description"></td>
+					<td ng-click="showtab(event)" ui-sref="events.editevent({name:edit_event.name})">{{event.registration_type}}</td>
+					<td ng-click="showtab(event)" ui-sref="events.editevent({name:edit_event.name})">{{event.is_team_event}}</td>
+					<td ng-click="showtab(event)" ui-sref="events.editevent({name:edit_event.name})">{{event.team_min_size}}<span ng-show="event.is_team_event">to {{event.team_max_size}}</span> </td>
+					<td ng-click="showtab(event)" ui-sref="events.editevent({name:edit_event.name})" ng-bind-html="event.long_description"></td>
+					<td ng-click="showtab(event)" ui-sref="events.editevent({name:edit_event.name})" ng-bind-html="event.extra_details"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

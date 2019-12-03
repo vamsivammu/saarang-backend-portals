@@ -1,0 +1,36 @@
+<!--<md-button class="md-raisd md-warn" ng-click="execute()">Start</md-button>-->
+<div layout="row" layout-align="left left" style="font-size:1.5em">
+  <a ui-sref="main" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+</div>
+<div class="conatiner-fluid">
+ <table class="table table-bordered table-responsive">
+    <thead>
+      <tr>
+        <td>
+         Sl No.
+        </td>
+        <td>
+          Name
+        </td>
+        <td>
+          Mobile
+        </td>
+        <td>
+          Email
+        </td>
+        <td>
+          Role
+        </td>
+      </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="x in team_members" ng-click="toggleModal(x)">
+    <td>{{$index + 1}}</td>
+    <td>{{x.name}}</td>
+    <td>{{x.mobile}}</td>
+    <td>{{x.email}}</td>
+    <td>{{x.role}}</td>
+  </tr>
+  </tbody>
+</table>  
+</div>    

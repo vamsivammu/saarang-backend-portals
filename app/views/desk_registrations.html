@@ -1,0 +1,495 @@
+<style>
+	.registered {
+		background: lightgreen;
+		color:black;
+	}
+  .not_registered {
+		background: lightcoral;
+		color:black;
+	}
+
+</style>
+<div class="allregistrationspage">
+	
+	<div layout="row" layout-align="left left" style="font-size:1.5em">
+        <a ui-sref="main" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+    </div>
+	
+	     <!-- Search Input Field -->
+    <form ng-submit="GetData(currentPage)">
+    <div class="form-group" style="width: 80%">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+        <input type="text" class="form-control" placeholder="Search " ng-model="searchTag" ng-change="GetData(currentPage)">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{searchFilter}}&nbsp;&nbsp;<span class = "caret"></span></button>
+                    <ul class="dropdown-menu pull-right" style="cursor: pointer;">
+                        
+                      
+                         <li ng-click="searchFilter='saarang_id'; change();"><a data-value="">SaarangID</a></li>
+                        <li ng-click=" searchFilter='name' ;change();"><a data-value="">Name</a></li>
+                        <li ng-click="searchFilter='mobile'; change();"><a data-value="">Mobile</a></li>
+                        <li ng-click=" searchFilter='email';change(); "><a data-value="">Email</a></li>
+                        <li ng-click="searchFilter='college';change(); "><a data-value="">College</a></li>
+                    
+                    </ul>
+                </div>
+           </div>
+    </div>
+  </form>
+
+<div layout="row" layout-align="center center" style="font-size:1.5em">
+    	<md-button class="md-primary md-raised" ng-click="show_signup_modal()">Add New Registration</md-button>
+</div>
+
+	<div id="exportButtons">
+		<md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+		<md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+		<md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+		<md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+	</div>
+
+
+
+    <md-card>
+      <md-card-content>
+        <div layout="row" layout-align="center center" style="font-size:1em">
+		    	Click on the <b>&nbsp; Desk Registration &nbsp;</b> column to regsiter the user, click anywhere else to get the details of that user
+        </div>
+      </md-card-content>
+    </md-card>
+
+
+  <dir-pagination-controls on-page-change="GetData(newPageNumber)"></dir-pagination-controls>
+
+	<table id="export" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td>
+				No.
+				</td>
+				<td>
+					<a  ng-click="sortType = 'saarang_id'; sortReverse = !sortReverse; GetData(currentPage);">SaarangID
+						<span ng-show="sortType == 'saarang_id' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'saarang_id' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a  ng-click="sortType = 'name'; sortReverse = !sortReverse; GetData(currentPage);">Name
+						<span ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a  ng-click="sortType = 'email'; sortReverse = !sortReverse; GetData(currentPage);">Email
+						<span ng-show="sortType == 'email' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'email' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'mobile'; sortReverse = !sortReverse; GetData(currentPage);">Mobile
+						<span ng-show="sortType == 'mobile' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'mobile' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'gender'; sortReverse = !sortReverse; GetData(currentPage);">Gender
+						<span ng-show="sortType == 'gender' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'gender' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'college'; sortReverse = !sortReverse; GetData(currentPage);">College
+						<span ng-show="sortType == 'college' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'college' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+          <a ng-click="sortType = 'desk_registration'; sortReverse = !sortReverse; GetData(currentPage);">Desk Registration
+						<span ng-show="sortType == 'desk_registration' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'desk_registration' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					Status Updated By
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr dir-paginate="user in allusers | itemsPerPage: 20" total-items="total_entries" current-page="currentPage">
+				<td ng-class="user.desk_registration ? 'registered' : 'not_registered'" ng-click="show_user_modal(user)">{{($index+1)+((currentPage-1)*20)}}</td>
+				<td ng-class="user.desk_registration ? 'registered' : 'not_registered'" ng-click="show_user_modal(user)">{{user.saarang_id}}</td>
+				<td ng-class="user.desk_registration ? 'registered' : 'not_registered'" ng-click="show_user_modal(user)">{{user.name}}</td>
+				<td ng-class="user.desk_registration ? 'registered' : 'not_registered'" ng-click="show_user_modal(user)">{{user.email}}</td>
+				<td ng-class="user.desk_registration ? 'registered' : 'not_registered'" ng-click="show_user_modal(user)">{{user.mobile}}</td>
+				<td ng-class="user.desk_registration ? 'registered' : 'not_registered'" ng-click="show_user_modal(user)">{{user.gender}}</td>
+				<td ng-class="user.desk_registration ? 'registered' : 'not_registered'" ng-click="show_user_modal(user)">{{user.college}}</td>
+				<td ng-class="user.desk_registration ? 'registered' : 'not_registered'" ng-click="toggle_registration(user)">{{user.desk_registration}}</td>
+				<td ng-class="user.desk_registration ? 'registered' : 'not_registered'" ng-click="show_user_modal(user)">{{user.registered_by.username}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+  <dir-pagination-controls on-page-change="GetData(newPageNumber)"></dir-pagination-controls>
+
+<!--SIGNUP MODAL-->
+	<div class="modal" id="signup_modal" style="max-height:100vh;overflow:auto">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button class="text-center btn btn-danger" layout="row" layout-align="right right" ng-click="hide_signup_modal()">Close</button>
+				<div class="row text-center">
+            	     <h3>SignUp</h3>
+              	</div>
+              <hr>
+                <form class="form" name="signUp_form" ng-submit="register(signUp_form)" novalidate>
+
+                  <div class="form-group col-md-3 col-md-offset-3" ng-class="{ 'has-success': signUp_form.firstname.$valid && submitted,
+                                                    'has-error': signUp_form.firstname.$invalid && submitted }">
+                    <label>First Name<span>*</span></label>
+
+                    <input type="text" name="firstname" class="form-control" ng-model="new_user.name"
+                         required/>
+                    <p class="help-block" ng-show="signUp_form.firstname.$error.required && submitted">
+                      Your First Name is required
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-3" ng-class="{ 'has-success': signUp_form.lastname.$valid && submitted,
+                                                    'has-error': signUp_form.lastname.$invalid && submitted }">
+                    <label>Last Name<span>*</span></label>
+
+                    <input type="text" name="lastname" class="form-control" ng-model="new_user.lastname"
+                         required/>
+                    <p class="help-block" ng-show="signUp_form.lastname.$error.required && submitted">
+                      Your Last Name is required
+                    </p>
+                  </div>
+                  
+                  <div class="form-group col-md-6 col-md-offset-3" ng-class="{ 'has-success': signUp_form.email.$valid && submitted,
+                                                    'has-error': signUp_form.email.$invalid && submitted }">
+                    <label>Email<span>*</span></label>
+
+                    <input type="email" name="email" class="form-control" ng-model="new_user.email"
+                         required
+                         mongoose-error/>
+                    <p class="help-block" ng-show="signUp_form.email.$error.email && submitted">
+                      Doesn't look like a valid email.
+                    </p>
+                    <p class="help-block" ng-show="signUp_form.email.$error.required && submitted">
+                      What's your email address?
+                    </p>
+                    <p class="help-block" ng-show="signUp_form.email.$error.mongoose">
+                      {{ errors.email }}
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-3 col-md-offset-3" ng-class="{ 'has-success': signUp_form.password.$valid && submitted,
+                                                    'has-error': signUp_form.password.$invalid && submitted }">
+                    <label>Password<span>*</span></label>
+
+                    <input type="password" name="password" class="form-control" ng-model="new_user.password"
+                         ng-minlength="8"
+                         required
+                         mongoose-error/>
+                    <p class="help-block"
+                     ng-show="(signUp_form.password.$error.minlength || signUp_form.password.$error.required) && submitted">
+                      Password must be at least 8 characters.
+                    </p>
+                    <p class="help-block" ng-show="signUp_form.password.$error.mongoose">
+                      {{ errors.password }}
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-3" ng-class="{ 'has-success': signUp_form.confirm_password.$valid &&submitted,
+                                                    'has-error': signUp_form.confirm_password.$invalid &&submitted }">
+                    <label>Confirm Password<span>*</span></label>
+                    <input type="password" name="confirm_password" class="form-control" ng-model="new_user.confirm_password"
+                         match="new_user.password"
+                         ng-minlength="8" required/>
+                    <p class="help-block"
+                     ng-show="signUp_form.confirm_password.$error.match && submitted">
+                      Passwords must match.
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-6 col-md-offset-3" ng-class="{ 'has-success': signUp_form.mobile.$valid && submitted,
+                                                    'has-error': signUp_form.mobile.$invalid && submitted }">
+                    <label>Mobile number<span>*</span></label>
+
+                    <input type="text" name="mobile" class="form-control" ng-model="new_user.mobile"
+                         required/>
+                    <p class="help-block" ng-show="signUp_form.mobile.$error.required && submitted">
+                      Mobile number is required
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-6 col-md-offset-3" ng-class="{ 'has-success': signUp_form.city.$valid && submitted,
+                                                    'has-error': signUp_form.city.$invalid && submitted }">
+                    <label>City<span>*</span></label>
+
+                    <input type="text" name="city" class="form-control" ng-model="new_user.city"
+                         required/>
+                    <p class="help-block" ng-show="signUp_form.city.$error.required && submitted">
+                      City is required
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-6 col-md-offset-3" ng-class="{ 'has-success': signUp_form.college.$valid && submitted,
+                                                    'has-error': signUp_form.college.$invalid && submitted }">
+                    <label>College<span>*</span></label>
+                    <select id="college" name="college" ng-model="new_user.college" class="form-control" required="true" ng-options="collegename.a for collegename in collegelist">
+                    </select>
+                    <p class="help-block" ng-show="signUp_form.city.$error.required && submitted">
+                      College name is required
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-6 col-md-offset-3" ng-class="{ 'has-success': signUp_form.college_id.$valid && submitted,
+                                                    'has-error': signUp_form.college_id.$invalid && submitted }">
+                    <label>College ID<span>*</span></label>
+
+                    <input type="text" name="college_id" class="form-control" ng-model="new_user.college_id"
+                         required/>
+                    <p class="help-block" ng-show="signUp_form.college_id.$error.required && submitted">
+                      College ID is required
+                    </p>
+                  </div>
+               
+                  <div class="form-group col-md-6 col-md-offset-3">
+                    <label>Gender<span>*</span></label>
+                    <br/>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-4">
+                        <div class="radio-inline">
+                          <label>
+                            <input type="radio" name="gender" value="Male" ng-model="new_user.gender"/>
+                            Male
+                          </label>
+                        </div> 
+                      </div>
+                        
+                      <div class="col-md-4 col-sm-4">
+                        <div class="radio-inline">
+                          <label>
+                            <input type="radio" name="gender" value="Female" ng-model="new_user.gender"/>
+                            Female
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4 col-sm-4">
+                        <div class="radio-inline">
+                          <label>
+                            <input type="radio" name="gender" value="Other" ng-model="new_user.gender"/>
+                            Other
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="help-block">
+                     {{signup_error_message}}
+                  </p>
+
+                  <div class="row">  
+                    <div class="col-md-offset-2 col-md-8 text-center">
+                      <md-button class="md-raised md-primary" type="submit">Sign up</md-button>
+                    </div>
+                  </div>
+                </form>
+			</div>
+		</div>	
+	</div>
+
+<!--USER DETAILS-->
+	<div class="modal" id="user_modal" style="max-height:100vh;overflow:auto">
+		<div class="modal-content">
+			<div class="modal-body">
+			<h1>User Details</h1>
+				<table class="table table-bordered">
+					<tr>
+						<td>SaarangID</td>
+						<td>{{user.saarang_id}}</td>
+					</tr>
+					<tr>
+						<td>Name</td>
+						<td>{{user.name}}</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td>{{user.email}}</td>
+					</tr>
+					<tr>
+						<td>Mobile</td>
+						<td>{{user.mobile}}</td>
+					</tr>
+					<tr>
+						<td>College</td>
+						<td>{{user.college}}</td>
+					</tr>
+					<tr>
+						<td>CollegeID</td>
+						<td>{{user.college_id}}</td>
+					</tr>
+					<tr>
+						<td>Gender</td>
+						<td>{{user.gender}}</td>
+					</tr>
+					<tr>
+						<td>City</td>
+						<td>{{user.city}}</td>
+					</tr>
+					<tr>
+						<td>Desk Registration</td>
+						<td>{{user.desk_registration}}</td>
+					</tr>
+					<tr>
+						<td>Status Updated By</td>
+						<td>{{user.registered_by.username}} - {{user.registered_by.department.name}} - {{user.registered_by.mobile}} - {{user.registered_by.role}}</td>
+					</tr>
+				</table>
+        <md-button class="md-raised" ng-click="edit(user)">Change details</md-button>
+				<md-button class="text-center md-raised md-accent" ng-click="hide_user_modal()">Close</md-button>
+			</div>
+		</div>	
+	</div>
+  <div class="modal" id="edit_modal" style="max-height:100vh;overflow:auto">
+    <div class="modal-content">
+      <div class="modal-body">
+              <div class="row text-center" style="color: white">
+                 <h3>Edit Profile</h3>
+              </div>
+              <hr>
+              <div style="max-height:28em;overflow-x:hidden;overflow-y:scroll">
+                <form class="form" name="profile_form" ng-submit="register(profile_form)" novalidate>
+
+                  <div class="form-group col-md-6" ng-class="{ 'has-success': profile_form.name.$valid && submitted,
+                                                    'has-error': profile_form.name.$invalid && submitted }">
+                    <label>First Name</label>
+
+                    <input type="text" name="name" class="form-control" ng-model="user.name"
+                         required/>
+                    <p class="help-block" ng-show="profile_form.name.$error.required && submitted">
+                      Your Name is required
+                    </p>
+                  </div>
+                  
+                  <div class="form-group col-md-12" ng-class="{ 'has-success': profile_form.email.$valid && submitted,
+                                                    'has-error': profile_form.email.$invalid && submitted }">
+                    <label>Email</label>
+
+                    <input type="email" name="email" class="form-control" ng-model="user.email"
+                         disabled required
+                         mongoose-error/>
+                    <p class="help-block" ng-show="profile_form.email.$error.email && submitted">
+                      Doesn't look like a valid email.
+                    </p>
+                    <p class="help-block" ng-show="profile_form.email.$error.required && submitted">
+                      What's your email address?
+                    </p>
+                    <p class="help-block" ng-show="profile_form.email.$error.mongoose">
+                      {{ errors.email }}
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-12" ng-class="{ 'has-success': profile_form.mobile.$valid && submitted,
+                                                    'has-error': profile_form.mobile.$invalid && submitted }">
+                    <label>Mobile number</label>
+
+                    <input type="text" name="mobile" class="form-control" ng-model="user.mobile"
+                         required/>
+                    <p class="help-block" ng-show="profile_form.mobile.$error.required && submitted">
+                      Mobile number is required
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-12" ng-class="{ 'has-success': profile_form.city.$valid && submitted,
+                                                    'has-error': profile_form.city.$invalid && submitted }">
+                    <label>City</label>
+
+                    <input type="text" name="city" class="form-control" ng-model="user.city"
+                         required/>
+                    <p class="help-block" ng-show="profile_form.city.$error.required && submitted">
+                      City is required
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-12" ng-class="{ 'has-success': profile_form.college.$valid && submitted,
+                                                    'has-error': profile_form.college.$invalid && submitted }">
+                    <label>College</label>
+
+                    <input type="text" name="college" class="form-control" ng-model="user.college"
+                         required/>
+                    <p class="help-block" ng-show="profile_form.city.$error.required && submitted">
+                      College name is required
+                    </p>
+                  </div>
+
+                  <div class="form-group col-md-12" ng-class="{ 'has-success': profile_form.college_id.$valid && submitted,
+                                                    'has-error': profile_form.college_id.$invalid && submitted }">
+                    <label>College ID</label>
+
+                    <input type="text" name="college_id" class="form-control" ng-model="user.college_id"
+                         required/>
+                    <p class="help-block" ng-show="profile_form.college_id.$error.required && submitted">
+                      College ID is required
+                    </p>
+                  </div>
+
+                  <!-- <div class="form-group col-md-12" ng-class="{ 'has-success': profile_form.date.$valid && submitted,
+                                                'has-error': profile_form.date.$invalid && submitted }">
+                     <label>Date Of Birth</label>
+
+                    <input id="edit_dateofbirth" type="text" name="date" placeholder="YYYY-MM-DD" class="form-control" ng-model="user.dob" required/>
+                    <p class="help-block" ng-show="profile_form.date.$error.required && submitted">
+                        Date Of Birth is required
+                    </p>
+                  </div> -->
+               
+                  <div class="form-group col-md-12">
+                    <label>Gender</label>
+                    <br/>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-4">
+                        <div class="radio-inline">
+                          <label>
+                            <input type="radio" name="gender" value="Male" ng-model="user.gender"/>
+                            Male
+                          </label>
+                        </div> 
+                      </div>
+                        
+                      <div class="col-md-4 col-sm-4">
+                        <div class="radio-inline">
+                          <label>
+                            <input type="radio" name="gender" value="Female" ng-model="user.gender"/>
+                            Female
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4 col-sm-4">
+                        <div class="radio-inline">
+                          <label>
+                            <input type="radio" name="gender" value="Other" ng-model="user.gender"/>
+                            Other
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="help-block">
+                     {{update_error_message}}
+                  </p>
+                </form>
+              </div>
+          <div class="modal-footer" style="padding:8px">
+            <md-button class="md-primary"ng-click="update(profile_form)" type="submit">Update</md-button>
+            <md-button class="text-center md-raised md-accent" ng-click="hide_edit_modal()">Close</md-button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

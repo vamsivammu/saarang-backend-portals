@@ -1,0 +1,72 @@
+<div class="container-fluid">
+	<div class="row"><br>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+     <md-input-container>
+            <label>Event date</label>
+            <md-datepicker ng-model="data.event_date" md-open-on-focus></md-datepicker>
+          </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+     <md-input-container>
+            <label>Bill date</label>
+            <md-datepicker ng-model="data.bill_date" md-open-on-focus></md-datepicker>
+          </md-input-container>
+    </div>
+ 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Purpose of Purchase</label>
+        <input ng-model="data.purpose">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Event Name</label>
+        <input ng-model="data.event_name">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Amount</label>
+        <input ng-model="data.amount">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Uploader Name</label>
+        <input ng-model="data.name">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Uploader Contact</label>
+        <input ng-model="data.contact">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Comments</label>
+        <input ng-model="data.comments">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Bill No.</label>
+        <input ng-model="data.bill_number">
+      </md-input-container>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Choose the Department</label>
+           <md-select  name="department" ng-model="data.department" required>
+           <md-option ng-repeat="department in departments" value="{{department.name}}">
+                {{department.name}}
+           </md-option>
+           </md-select>
+      </md-input-container>
+    </div>   
+		<div style="text-align:center;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  			<md-button ng-hide="status" class="md-raised md-warn" type="file" ngf-select="uploadFiles($file)" accept=".pdf,.xls,.xlsx">Upload Purchase Invoice</md-button>
+        <md-button ng-show="status" class="md-raised md-warn" disabled="">Uploading...{{progress}}</md-button><!--To show progress of excel sheet file upload-->
+    </div>    
+   </div>
+ </div>  

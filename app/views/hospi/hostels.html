@@ -1,0 +1,224 @@
+<div class="container" style="left: 0;right: 0;margin: auto;">
+
+	<br>
+	<!-- Add Hostel Form -->
+	<div>
+		<form class="form form-horizontal" name="hostelform" ng-submit="createHostel()" novalidate ng-show="!showAddHostel">
+			<div class="form-group">
+				<label class="control-label col-sm-2">Hostel Name</label>
+				<div class="input-group col-sm-10">
+					<input type="text" name="name" class="form-control" ng-model="hostel.name" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-2">Hostel Type</label>
+				<div class="input-group col-sm-10" ng-init="hostel.type='Male'">
+					<label class="radio-inline">
+						<input type="radio" name="gender" ng-model="hostel.type" value="Male">
+						Male
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="gender" ng-model="hostel.type" value="Female">
+						Female
+					</label>	
+				</div>		
+			</div>
+
+			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+		    	<md-button class="md-raised md-primary" type="submit">
+		    		Add
+		    	</md-button>
+		    	<md-button class="md-raised" ng-click="showAddHostel = true">
+		    		Cancel
+		    	</md-button>
+		    </section>
+		</form>
+	</div>
+
+	<section layout="row" layout-sm="column" layout-align="center center" layout-wrap ng-show="showAddHostel">
+    	<md-button class="md-raised md-primary" ng-click="showAddHostel = false">
+    		<span class="glyphicon glyphicon-plus" aria-hidden="true">
+    		</span>
+    		Add Hostel
+    	</md-button>
+    </section>
+	<!-- end:Add Hostel Form -->
+    <br>
+
+</div>
+
+<!-- Hostel Tabs -->
+<md-tabs md-selected="selectedHostel" md-dynamic-height md-border-bottom>
+    <md-tab class="hostel_tab" ng-repeat="h in hostels" md-on-select="getRooms(h.id)">
+
+    	<md-tab-label>
+    		{{h.name + ' (' + h.type + ')'}}
+    	</md-tab-label>
+
+    	<md-tab-body>
+			
+	        <div class="container" style="left: 0;right: 0;margin: auto;">
+
+	        	<br>
+	        	<br>
+				<!-- Add Room Form -->
+				<div ng-show="showAddRoom">
+					<form class="form form-horizontal" name="roomform" ng-submit="createRoom(h.id)" novalidate>
+						<div class="form-group">
+							<label class="control-label col-sm-2">Room Number</label>
+							<div class="input-group col-sm-10">
+								<input type="number" name="number" class="form-control" ng-model="room.number" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-sm-2">Capacity</label>
+							<div class="input-group col-sm-10">
+								<input type="number" name="capacity" class="form-control" ng-model="room.capacity" required>
+							</div>
+						</div>
+
+						<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+					    	<md-button class="md-raised md-primary" type="submit">
+					    		Add
+					    	</md-button>
+					    	<md-button class="md-raised" ng-click="showAddRoom=false;">
+					    		Cancel
+					    	</md-button>
+					    </section>
+					</form>
+					<br>
+				</div>
+				<!-- end:Add Room Form -->
+
+				<!-- Hostel Actions -->
+	        	<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+			    	<md-button class="md-raised md-primary" ng-click="showAddRoom=true;" ng-hide="showAddRoom">
+			    		<span class="glyphicon glyphicon-plus" aria-hidden="true">
+	    				</span>
+			    		Add Room
+			    	</md-button>
+			    	<md-button class="md-raised md-warn" ng-disabled="rooms.length != 0" ng-click="deleteHostel(h.id)">
+			    		<span class="glyphicon glyphicon-remove" aria-hidden="true">
+	    				</span>
+			    		Delete Hostel
+			    	</md-button>
+			    </section>
+				<!-- end:Hostel Actions -->
+
+				<br>
+				<br>
+
+	        	<!-- Hostel Rooms -->
+	        	
+	        	<md-card class="room_card" ng-repeat="r in rooms">
+        			<md-card-title>
+          				<md-card-title-text>
+            				<span class="md-headline">
+            					{{ r.number }}
+            				</span>
+              			</md-card-title-text>
+        			</md-card-title>
+        			<md-card-content>
+	          			<p>
+	          				Capacity: {{ r.capacity }}
+	          			</p>
+	          			<p>
+	          				Now: {{ r.occupants.length }}
+	          			</p>
+        			</md-card-content>
+        			<md-card-actions layout="row" layout-align="center center">
+          				<md-button class="md-raised" data-toggle="modal" data-target="#roomDetails" ng-click="getOccupants(r)">
+          					View
+          				</md-button>
+          				<md-button ng-disabled="r.occupants.length!=0" ng-click="deleteRoom(r)">
+          					Delete
+          				</md-button>
+        			</md-card-actions>
+      			</md-card>
+	      		
+	      		<!-- end:Hostel Rooms -->
+
+				<br>
+				<br>
+
+	        </div>
+			
+		</md-tab-body>
+
+    </md-tab>
+</md-tabs>
+<!-- end:Hostel Tabs -->
+
+
+<div class="modal fade" id="roomDetails" role="dialog" data-backdrop="static"> 
+    <div class="modal-dialog modal-lg">
+      	<div class="modal-content">
+        	<div class="modal-body">
+        		<button type="button" class="close" data-dismiss="modal" ng-click="getRooms(hostels[selectedHostel].id);showEditRoom=false;">&times;</button>
+        		<br>
+        		<br>
+        		<md-button class="md-raised md-primary" ng-hide="showEditRoom" ng-click="Eroom={'number': roomDetails.number, 'capacity': roomDetails.capacity}; showEditRoom=true;">
+		    		Edit Room Details
+		    	</md-button>
+		    	<div ng-show="showEditRoom">
+					<div class="form-group">
+						<label class="control-label col-sm-2">Room Number</label>
+						<div class="input-group col-sm-10">
+							<input type="number" name="number" class="form-control" ng-model="Eroom.number">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-2">Capacity</label>
+						<div class="input-group col-sm-10">
+							<input type="number" name="capacity" class="form-control" ng-model="Eroom.capacity">
+						</div>
+					</div>
+
+					<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+				    	<md-button class="md-raised md-primary" ng-click="EditRoom();">
+				    		Save
+				    	</md-button>
+				    	<md-button class="md-raised" ng-click="showEditRoom=false;">
+				    		Cancel
+				    	</md-button>
+				    </section>
+					<br>
+				</div>
+        		<br>
+        		<br>
+         		<table class="table table-bordered">
+         			<tr ng-repeat="user in roomDetails.occupants">
+         				<td>
+         					{{user.name}}
+         				</td>
+         				<td>
+         					{{user.mobile}}
+         				</td>
+         				<td>
+         					{{user.saarang_id}}
+         				</td>
+         				<td>
+         					<button type="button" class="btn btn-primary btn-xs btn-danger" ng-click="removeUser(user.saarang_id)">REMOVE</button>
+         				</td>
+         			</tr>
+         		</table>
+
+         		<form class="form form-horizontal" name="adduserform" ng-submit="addUser()" novalidate>
+				    <div class="input-group">
+                       <input type="text" class="form-control" ng-model="addUserSaarangId" placeholder="Add member by Saarang ID" required>
+                       <span class="input-group-btn">
+                          <button class="btn btn-success" type="submit">
+                             ADD
+                          </button>
+                       </span>
+                    </div>
+				</form>
+				<br>
+        		<br>
+        	</div>
+      	</div>
+    </div>
+ </div>

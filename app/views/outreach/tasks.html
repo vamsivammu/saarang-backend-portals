@@ -1,0 +1,95 @@
+<div class="container-fluid">
+  <table id="export" class="table table-bordered table-responsive" align="center">
+  <thead>
+    <tr>
+      <td>
+       Sl No.
+      </td>
+      <td>
+        Name
+      </td>
+      <td>
+        Points
+      </td>
+      <td>
+        No of Submissions
+      </td>
+      <td>
+        Successful Submissions
+      </td>
+      <td>
+        Pending Submissions
+      </td>
+      <td>
+        Action
+      </td>
+    </tr>
+</thead>
+
+<tr ng-repeat='x in tasks | orderBy:"id"' ng-click="toggleModal(x)">
+  <td>{{$index+1}}</td>
+  <td>{{x.task_name}}</td>
+  <td>{{x.points}}</td>
+  <td>{{x.num_submissions}}</td>
+  <td>{{x.num_successful}}</td>
+  <td>{{x.num_pending}}</td>
+  <td style="color:skyblue;cursor:pointer" >Update Task</td>
+  
+</tr>
+
+
+</table>
+  <div class="modal fade" id="taskdesc"  role="dialog" aria-labelledby="taskdesc" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+           <h4 class="modal-title" id="myModalLabel">{{task.task_name}},{{task.points}} points</h4>
+        </div>
+        <div class="modal-body">
+              {{task.task_description}}
+        </div>
+        <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="taskdescupdate"  role="dialog" aria-labelledby="taskdescupdate" aria-hidden="true" >
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+           <h4 class="modal-title" id="myModalLabel">{{task.task_name}},{{task.points}} points</h4>
+        </div>
+        <div class="modal-body">
+          <form ng-submit="updatedesc($event)">
+              <div class="row center">
+                  <div class="form-group col-md-4 col-sm-6 col-xs-8">
+                    <input placeholder="Task Name" type="text" ng-model="task_name_to_be_updated" required class="form-control" />
+                  </div>
+                </div>
+              <div class="row center">
+                  <div class="form-group col-md-4 col-sm-6 col-xs-8">
+                    <textarea rows="8" placeholder="Task Description" ng-model="taskdescription_to_be_updated"  required class="form-control"></textarea>
+                  </div>
+                </div>
+                <div class="row center">
+                    <div class="form-group col-md-4 col-sm-6 col-xs-8">
+                      <input placeholder="Points" type="number" ng-model="points_to_be_updated" required class="form-control" />
+                    </div>
+                  </div>
+                <div class="row center">
+                   <button class="btn btn-primary" ng-disabled = "updating" type="submit">{{updating_text}}</button>
+                   &nbsp; &nbsp;
+                   <button class="btn btn-danger" ng-click="deletetask()" ng-disabled = "deleting" type="button">{{deleting_text}}</button>
+                  </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>

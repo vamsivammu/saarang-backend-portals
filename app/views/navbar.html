@@ -1,0 +1,19 @@
+<head>
+ <link href='https://fonts.googleapis.com/css?family=Cinzel Decorative' rel='stylesheet'>
+</head>
+
+<div class="navbar navbar-inverse navbar-static-top" ng-controller="NavbarCtrl">
+  <div class="container">
+    <div class="navbar-header">
+      <a ui-sref="main" class="navbar-brand navbar-item" style="float: left;" ng-show="loggedIn">Saarang'19 ERP</a>
+      <!--<a ui-sref="coordPortal" class="navbar-brand navbar-item" ng-hide="loggedIn">Coord Application Portal</a>-->
+      <a class="navbar-brand navbar-item visible-xs" style="float: right;" ng-show="loggedIn" ng-click="logout()">Logout</a>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-main">
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-show="loggedIn" ui-sref-active="active"><a class="navbar-item" ui-sref="profile"><span class="glyphicon glyphicon-user"></span> Team</a></li>
+        <li ng-show="loggedIn"><a class="navbar-item" ng-click="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

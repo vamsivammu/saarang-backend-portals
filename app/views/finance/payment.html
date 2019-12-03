@@ -1,0 +1,137 @@
+<div class="container-fluid">
+      <br>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Choose the Department</label>
+           <md-select  name="department" ng-model="selected_department" required>
+           <md-option ng-repeat="department in departments" value="{{department.name}}">
+                {{department.name}}
+           </md-option>
+           </md-select>
+        </md-input-container>
+        
+<div style="text-align:center;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <md-button ng-disabled="!(selected_department)" class="md-accent md-raised" ng-click="fetchBills()">Get the Bills</md-button>
+  <hr>
+</div>
+
+<div id="exportButtons">
+  <md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+	
+  <md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+</div>  
+  
+<table id="export" class="table table-bordered table-responsive">
+		<thead>
+      <tr>
+        <td>
+         Sl No.
+        </td>
+        <td>
+          Department
+        </td>
+        <td>
+          Purpose
+        </td>
+        <td>
+          Amount
+        </td>
+        <td>
+          Uploaded By
+        </td>
+        <td>
+          Bill No.
+        </td>
+      </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="x in bills" ng-click="toggleModal(x)">
+    <td>{{$index + 1}}</td>
+    <td>{{x.department}}</td>
+    <td>{{x.purpose}}</td>
+    <td>{{x.amount}}</td>
+    <td>{{x.user_name}}</td>
+    <td><a href="{{x.url}}" target="_blank">{{x.bill_number}}</a></td>
+  </tr>
+  </tbody>
+ 
+					
+	</table>   
+</div>
+
+<div class="modal fade" id="billModal"  role="dialog" aria-labelledby="billModal" aria-hidden="true" >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+             <h4 class="modal-title" id="myModalLabel">DETAILS</h4>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered table-responsive" align="center">
+
+             <tr>
+              <td><b>Department</b></td>
+              <td>{{bill.department}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Purpose</b></td>
+              <td>{{bill.purpose}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Vendor (Account No.)</b></td>
+              <td>{{bill.acc_number}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Vendor (Account name)</b></td>
+              <td>{{bill.acc_name}}</td>
+             </tr>
+
+             <tr>
+              <td><b>IFSC</b></td>
+              <td>{{bill.ifsc}}</td>
+             </tr>
+
+             <tr>
+              <td><b>PAN No.</b></td>
+              <td>{{bill.pan_number}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Amount</b></td>
+              <td>{{bill.amount}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Invoice</b></td>
+              <td><a href="{{bill.url}}" target="_blank">{{bill.bill_number}}</a></td>
+             </tr>
+
+             <tr>
+              <td><b>Vendor (Contact)</b></td>
+              <td>{{bill.vendor_contact}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Uploaded By</b></td>
+              <td>{{bill.user_name}} | {{bill.user_contact}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Status</b></td>
+              <td><input type="text" class="form-control" ng-model="bill.status"></td>
+             </tr>
+
+            </table>
+          </div>
+          <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" ng-click="statusUpdate()">Save Changes</button>
+         </div>
+        </div>
+      </div>
+    </div>
+  <div>
+

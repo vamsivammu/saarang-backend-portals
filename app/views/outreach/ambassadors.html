@@ -1,0 +1,171 @@
+<div class="container-fluid">
+<br>
+<div id="exportButtons">
+  <md-button class="md-raised md-warn" ng-click="download('data.csv',downloaddata)">CSV</md-button>
+  <md-button class="md-raised md-warn" ng-click="taskmodal()">Add Task</md-button>
+
+</div>
+
+
+<table id="export" class="table table-bordered table-responsive" align="center">
+		<thead>
+      <tr>
+        <td>
+         Sl No.
+        </td>
+        <td>
+          Name
+        </td>
+        <td>
+          College
+        </td>
+        <td>
+          Year
+        </td>
+        <td>
+          City
+        </td>
+        <td>
+         Email
+        </td>
+        <td>
+         Contact
+        </td>
+      </tr>
+  </thead>
+
+  <tr ng-repeat='x in ambassadorss | orderBy:"id"' ng-click="toggleModal(x)">
+    <td>{{$index+1}}</td>
+    <td>{{x.name}}</td>
+    <td>{{x.college}}</td>
+    <td>{{x.study_year}}
+    <td>{{x.city}}</td>
+    <td>{{x.email}}</td>
+    <td>{{x.number}}</td>
+  </tr>
+
+
+	</table>
+    
+    <div class="modal fade" id="addTask" role="dialog" aria-labelledby="addTask" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            ADD TASK
+          </div>
+          <div class="modal-body">
+            <form >
+              <div class="row center">
+                <div class="form-group col-md-4 col-sm-6 col-xs-8">
+                  <input placeholder="Task Name" ng-model="task_name" class="form-control" required />
+                </div>
+              </div>
+              <div class="row center">
+                <div class="form-group col-md-4 col-sm-6 col-xs-8">
+                  <textarea rows="8" placeholder="Task Description" ng-model="task_description" required class="form-control"></textarea>
+                </div>
+              </div>
+              <div class="row center">
+                <div class="form-group col-md-4 col-sm-6 col-xs-8">
+                  <input placeholder="Points" type="number" ng-model="points" required class="form-control" />
+                </div>
+              </div>
+              <div class="row center">
+                <div class="form-group col-md-4 col-sm-6 col-xs-8">
+                  <select class="form-control" ng-model="region" required>
+                      <option>Andhra Pradesh</option>
+                      <option>Telangana</option>
+                      <option>North India</option>
+                      <option>Kerala</option>
+                      <option>Karnataka</option>
+                      <option>Tamil Nadu</option>
+                      <option>All</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row center">
+                <div class="form-group col-md-4 col-sm-6 col-xs-8">
+                  <button type="submit" ng-click="addtask()">Add Task</button>
+                </div>
+              </div>
+                            
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="basicModal"  role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+             <h4 class="modal-title" id="myModalLabel">DETAILS</h4>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered table-responsive" align="center">
+
+             <tr>
+              <td><b>Name</b></td>
+              <td>{{user.name}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Email</b></td>
+              <td>{{user.email}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Contact</b></td>
+              <td>{{user.number}}</td>
+             </tr>
+
+             <tr>
+              <td><b>College</b></td>
+              <td>{{user.college}}</td>
+             </tr>
+
+             <tr>
+              <td><b>City</b></td>
+              <td>{{user.city}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Year</b></td>
+              <td>{{user.study_year}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Designation</b></td>
+              <td>{{user.designation}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Facebook</b></td>
+              <td>{{user.facebook_id}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Twitter</b></td>
+              <td>{{user.twitter_id}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Instagram</b></td>
+              <td>{{user.instagram_id}}</td>
+             </tr>
+
+             <tr>
+              <td><b>Score</b></td>
+              <td><input type="text" class="form-control" ng-model="user.score"></td>
+             </tr>
+
+            </table>
+          </div>
+          <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" ng-click="scoreUpdate()">Save Changes</button>
+         </div>
+        </div>
+      </div>
+    </div>
+  <div>

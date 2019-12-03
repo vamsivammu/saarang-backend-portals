@@ -1,0 +1,70 @@
+<div class="container-fluid" id="details">
+	<div class="row" ng-show="edit">
+		<md-button class="md-raised" ng-click="cancel()">View Schedule</md-button>
+		<form id="eventschedule" name="eventschedule" role="form" ng-submit="onSubmit()" class="form-horizontal">
+			<div class="form-group">
+				<label for="start-date" class="control-label col-sm-2">Start-Date&nbsp;:</label>
+				<div class="col-sm-10">
+					<datepicker><input type="text" class="form-control" ng-model="eventschedule.slot_start" placeholder="Click to select date" ng-required="true"></datepicker>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="end-date" class="control-label col-sm-2">End-Date&nbsp;:</label>
+				<div class="col-sm-10">
+				<datepicker>
+					<input type="text" class="form-control" ng-model="eventschedule.slot_end" placeholder="Click to select date" ng-required="true">
+				</datepicker/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Slot" class="control-label col-sm-2">Time - Slot&nbsp;:</label>
+				<div class="col-sm-10">
+					<input id="slot" name="slot" class="form-control" ng-model="eventschedule.slot_start_time" required="true"/>
+					to
+					<input id="slot" name="slot" class="form-control" ng-model="eventschedule.slot_end_time" required="true"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Venue" class="control-label col-sm-2">Venue&nbsp;:</label>
+				<div class="col-sm-10">
+						<select id="venue" name="venue" ng-model="eventschedule.venue" class="form-control" required="true" ng-options="venue.name for venue in venues">
+						</select>
+					
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Venue" class="control-label col-sm-2">Comments&nbsp;:</label>
+				<div class="col-sm-10">
+					<textarea id="venue" name="venue" class="form-control" ng-model="eventschedule.comment" required="true"></textarea>
+					<p style="font-size: 0.8em;color: grey">Eg: Finals, Semi finals etc.</p>
+				</div>
+			</div>
+			<div class="button-holder">
+				<button type="submit" class="btn btn-primary">Add Scheudle</button>
+				<button ng-click="cancel()" class="btn btn-default">Cancel</button>
+			</div>
+		</form>
+	</div>
+	<div class="row" ng-hide="edit">
+		<div style="margin-bottom:10px;">
+			<md-button class="md-fab md-mini md-primary" aria-label="Add" ng-click="add()">
+				<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+			</md-button>
+		</div>
+		<div class="schedule" ng-repeat="schedule in allschedule | orderBy : 'id'">
+			<div class="col-sm-6">starting Slot :</div>
+			<div class="col-sm-6">{{schedule.slot_start | date:'MMMM d' }}th - {{schedule.slot_start_time}}</div>
+			<div class="col-sm-6">Ending Slot :</div>
+			<div class="col-sm-6">{{schedule.slot_end | date:'MMMM d' }}th - {{schedule.slot_end_time}}</div>
+			<div class="col-sm-6">Venue :</div>
+			<div class="col-sm-6">{{schedule.venue}}</div>
+			<div class="col-sm-6">Comments :</div>
+			<div class="col-sm-6">{{schedule.comment}}</div>
+			<div class="button-holder">
+				<button ng-click="edit_schedule(schedule)" class="btn btn-primary">Edit Schedule</button>
+				<button ng-click="delete_schedule(schedule)" type="button" class="btn btn-warn">delete</button>
+			</div>
+		</div>
+	</div>
+</div>

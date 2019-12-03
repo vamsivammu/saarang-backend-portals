@@ -1,0 +1,51 @@
+<div class="container-fluid" id="details">
+	<div class="row text-center">
+		<h4><i>Keep track of the order. The same order will be followed in the main website</i></h4>
+	</div>
+	<div class="row" ng-show="edit">
+		<md-button class="md-raised" ng-click="cancel()">View Tabs</md-button>
+		<form id="addEventTab" name="addEventTab" role="form" ng-submit="onSubmit()" class="form-horizontal">
+			<div class="form-group">
+				<label for="Tab-heading" class="control-label col-sm-2">Tab Heading&nbsp;:</label>
+				<div class="col-sm-10">
+					<input id="heading" name="heading" ng-model="eventTab.name" class="form-control" required="true"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="tab-info" class="control-label col-sm-2">Tab Content&nbsp;:</label>
+				<div class="col-sm-10">
+					<textarea id="info" name="info" ng-model="eventTab.info" class="form-control" placeholder="Add the data as HTML" required="true"></textarea>
+				</div>
+			</div>
+			<div class="button-holder">
+				<button type="submit" class="btn btn-primary">Add Tab</button>
+				<button ng-click="cancel()" type="button" class="btn btn-default">Cancel</button>
+			</div>
+		</form>
+	</div>
+	<div classs="row" ng-hide="edit">
+		<div style="margin-bottom:10px;">
+			<md-button class="md-fab md-mini md-primary" aria-label="Add" ng-click="add()">
+				<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+			</md-button>
+		</div>
+		<div class="tabs" ng-repeat="tab in alltabs | orderBy : 'id'">
+
+			<div class="row">
+				<div class="col-sm-1"><b>Serial no.</b></div>
+				<div class="col-sm-2"><b>Heading</b></div>
+				<div clas="col-sm-9"><b>Content</b></div>
+			</div>	
+			<div class="row">
+				<div class="col-sm-1">{{$index+1}}</div>
+				<div class="col-sm-2">{{tab.name}}</div>
+				<div class="col-sm-9" ng-bind-html="tab.info"></div>
+			</div>
+
+			<div class="button-holder">
+				<button ng-click="edit_tab(tab)" class="btn btn-primary">Edit Tab</button>
+				<button ng-click="delete_tab(tab)" type="button" class="btn btn-warn">delete</button>
+			</div>
+		</div>
+	</div>
+</div>

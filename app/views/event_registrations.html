@@ -1,0 +1,585 @@
+<style>
+	.registered {
+		background: lightgreen;
+		color:black;
+	}
+	.not_registered {
+		background: lightcoral;
+		color:black;
+	}
+
+</style>
+<div class="allregistrationspage" ng-if="selected_event.registration_type === 'no registration'">
+			<md-card style="background-color:rgb(238, 238, 238)">
+				<md-card-content>
+					<div layout="row" layout-align="center center" style="font-size:1.5em;color:rgb(255, 0, 0)">
+						No registrations for this event
+					</div>
+				</md-card-content>
+			</md-card>
+</div>
+<div class="allregistrationspage" ng-if="selected_event.registration_type !== 'no registration'">
+    
+    <md-card>
+      <md-card-content>
+        <div layout="row" layout-align="center center" style="font-size:1.5em">
+            {{selected_event.name}} <span ng-if="!selected_event.is_team_event">&nbsp;-- Individual Event</span> <span ng-if="selected_event.is_team_event">&nbsp;-- Team Event</span>
+        </div>
+      </md-card-content>
+    </md-card>
+
+    <form>
+	  <div class="form-group">
+	    <div class="input-group">
+	      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+	      <input type="text" class="form-control" placeholder="Search" ng-model="searchTag">
+	    </div>      
+	  </div>
+	</form>
+	<div id="exportButtons">
+		<md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+		<md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+		<md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+		<md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+	</div>
+
+
+    <md-card ng-if="selected_event.registration_type !== 'no registration'">
+      <md-card-content>
+        <div layout="row" layout-align="center center" style="font-size:1em">
+			Click on the <b>&nbsp; Participation Status &nbsp;</b> column to update it, click anywhere else to get the details
+        </div>
+      </md-card-content>
+    </md-card>
+
+
+	<div ng-if="!selected_event.is_team_event && (selected_event.registration_type !== 'no registration')">
+		<md-button class="md-raised md-primary" ng-click="show_new_single_reg_modal()" flex="50" flex-offset="40">
+			Add a new Registration to this event
+		</md-button>
+		<!--NEW SINGLE REGISTRATION MODAL-->
+		<div class="modal" id="new_single_reg_modal" style="max-height:100vh;overflow:auto">
+			<div class="modal-content">
+				<div class="modal-body">
+				<md-button class="text-center md-raised md-accent" ng-click="hide_new_single_reg_modal()">Close</md-button>
+				<h1>New Registration for {{selected_event.name}}</h1>
+
+				<h3>Enter the SaarangID or the Mobile Number of the user</h3>
+				<br>
+
+				<md-input-container class="md-block" flex="20" flex-offset="40">
+					<label>Enter SaarangID</label>
+					<input required type="text" name="saarang_id" ng-model="new_single_reg.saarang_id">
+				</md-input-container>
+
+
+				<md-input-container class="md-block"  flex="20" flex-offset="40">
+					<label>Mobile</label>
+					<input required type="text" name="mobile" ng-model="new_single_reg.mobile">
+				</md-input-container>
+
+
+				<md-button class="md-raised md-primary" ng-click="get_user_details(new_single_reg)">Get Details</md-button>
+
+				<md-card style="background-color:rgb(236, 236, 236)" ng-if="err_message">
+					<md-card-content>
+						<div layout="row" layout-align="center center" style="font-size:1.5em;color:rgb(255, 0, 0)">
+							{{err_message}}
+						</div>
+					</md-card-content>
+				</md-card>
+
+					<table class="table table-bordered" ng-if="new_single_res">
+						<tr>
+							<td>SaarangID</td>
+							<td>{{new_single_res.saarang_id}}</td>
+						</tr>
+						<tr>
+							<td>Name</td>
+							<td>{{new_single_res.name}}</td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td>{{new_single_res.email}}</td>
+						</tr>
+						<tr>
+							<td>Mobile</td>
+							<td>{{new_single_res.mobile}}</td>
+						</tr>
+						<tr>
+							<td>College</td>
+							<td>{{new_single_res.college}}</td>
+						</tr>
+						<tr>
+							<td>CollegeID</td>
+							<td>{{new_single_res.college_id}}</td>
+						</tr>
+						<tr>
+							<td>Gender</td>
+							<td>{{new_single_res.gender}}</td>
+						</tr>
+						<tr>
+							<td>City</td>
+							<td>{{new_single_res.city}}</td>
+						</tr>
+						<tr>
+							<td>Desk Registration</td>
+							<td>{{new_single_res.desk_registration}}</td>
+						</tr>
+						<tr>
+							<td>Registered By</td>
+							<td>{{new_single_res.registered_by.username}} - {{new_single_res.registered_by.department}} - {{new_single_res.registered_by.mobile}} - {{new_single_res.registered_by.role}}</td>
+						</tr>
+					</table>
+					<md-button class="md-raised md-warn" ng-click="register_new_single(new_single_res)" ng-if="new_single_res.desk_registration && !err_message">
+						Register <i><b>{{new_single_res.name}}</b></i> for <i><b>{{selected_event.name}}</b></i>
+					</md-button>
+				</div>
+			</div>	
+		</div>
+	</div>
+
+	<div ng-if="selected_event.is_team_event && (selected_event.registration_type !== 'no registration')">
+		<md-button class="md-raised md-primary" flex="50" flex-offset="40" ng-click="Dialog('Team Registration', 'Existing Team', 'New Team', AddExistingTeam, AddNewTeam)">
+			New Registration
+		</md-button>
+	</div>
+
+	<table id="export" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td></td>
+				<td>
+				No.
+				</td>
+				<td ng-if="selected_event.is_team_event">
+					<a>SaarangID</a>
+				</td>
+				<td ng-if="!selected_event.is_team_event">
+					<a>SaarangID</a>
+				</td>
+				<td ng-if="!selected_event.is_team_event">
+					<a>Name</a>
+				</td>
+                <td ng-if="!selected_event.is_team_event">
+					<a>Email</a>
+				</td>
+				<td ng-if="!selected_event.is_team_event">
+					<a>Mobile</a>
+				</td>
+				<td ng-if="!selected_event.is_team_event">
+					<a>Gender</a>
+				</td>
+				<td ng-if="!selected_event.is_team_event">
+					<a>College</a>
+				</td>
+				<td ng-if="!selected_event.is_team_event">
+					Desk Registration
+				</td>
+
+                
+                <!--Team-->
+                <td ng-if="selected_event.is_team_event">
+					<a>Team Name</a>
+				</td>
+
+                <td>
+                    Participation Status                    
+				</td>
+				
+                <td>
+                    Registered/Participation Updated By                    
+				</td>
+				<td ng-if="selected_event.is_extra">
+                    Extra Details
+                </td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="reg in allregs | filter:searchTag">
+				<td ng-if="selected_event.is_team_event" ng-click="deleteTeam(reg)"><i class="glyphicon glyphicon-trash icons"></i></td>
+				<td ng-if="!selected_event.is_team_event" ng-click="deleteParticipant(reg)"><i class="glyphicon glyphicon-trash icons"></i></td>
+                <td>{{$index+1}}</td>
+                <td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'" ng-if="!selected_event.is_team_event" ng-click="show_user_reg_modal(reg)">{{reg.participant.saarang_id}}</td>
+                <td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'" ng-if="!selected_event.is_team_event" ng-click="show_user_reg_modal(reg)">{{reg.participant.name}}</td>
+                <td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'" ng-if="!selected_event.is_team_event" ng-click="show_user_reg_modal(reg)">{{reg.participant.email}}</td>
+				<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'" ng-if="!selected_event.is_team_event" ng-click="show_user_reg_modal(reg)">{{reg.participant.mobile}}</td>
+				<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'" ng-if="!selected_event.is_team_event" ng-click="show_user_reg_modal(reg)">{{reg.participant.gender}}</td>
+				<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'" ng-if="!selected_event.is_team_event" ng-click="show_user_reg_modal(reg)">{{reg.participant.college}}</td>
+				<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'" ng-if="!selected_event.is_team_event" ng-click="show_user_reg_modal(reg)">{{reg.participant.desk_registration}}</td>
+				
+
+                <td ng-if="selected_event.is_team_event" ng-click="AddExistingTeam();AddExistingTeamFind(reg.saarang_id);">{{reg.saarang_id}}</td>
+                <td ng-if="selected_event.is_team_event" ng-click="AddExistingTeam();AddExistingTeamFind(reg.saarang_id);">{{reg.name}}</td>
+                <td ng-class="{'registered' : reg.participated}" ng-if="!selected_event.is_team_event" ng-click="toggle_single_participation(reg)">{{reg.participated}}</td>
+                <td ng-if="selected_event.is_team_event" ng-click="toggle_team_participation(reg)">{{reg.participated}}</td>
+				<td ng-class="{'registered' : reg.participated}" >{{reg.registered_by.username}} | {{reg.registered_by.department.name}}</td>
+				<td ng-if="selected_event.is_team_event && selected_event.is_extra"  ng-click="AddExistingTeam();AddExistingTeamFind(reg.saarang_id);">{{reg.info}} </td>
+				<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'" ng-if="selected_event.is_extra && !selected_event.is_team_event" ng-click="show_user_reg_modal(reg)">{{reg.info}} </td>
+            </tr>
+		</tbody>
+	</table>
+<!--SINGEL REGISTRATION MODAL-->
+    <div class="modal" id="user_reg_modal" style="max-height:100vh;overflow:auto">
+		<div class="modal-content">
+			<div class="modal-body">
+			<h1>User Details</h1>
+				<table class="table table-bordered">
+					<tr>
+						<td>SaarangID</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.saarang_id}}</td>
+					</tr>
+					<tr>
+						<td>Name</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.name}}</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.email}}</td>
+					</tr>
+					<tr>
+						<td>Mobile</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.mobile}}</td>
+					</tr>
+					<tr>
+						<td>College</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.college}}</td>
+					</tr>
+					<tr>
+						<td>CollegeID</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.college_id}}</td>
+					</tr>
+					<tr>
+						<td>Gender</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.gender}}</td>
+					</tr>
+					<tr>
+						<td>City</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.city}}</td>
+					</tr>
+					<tr>
+						<td>Desk Registration</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.desk_registration}}</td>
+					</tr>
+					<tr>
+						<td>Extra Info</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.info}}</td>
+					</tr>
+					<tr>
+						<td>Registered By</td>
+						<td ng-class="reg.participant.desk_registration ? 'registered' : 'not_registered'">{{reg.participant.registered_by.username}} - {{reg.participant.registered_by.department}} - {{reg.participant.registered_by.mobile}} - {{reg.participant.registered_by.role}}</td>
+					</tr>
+				</table>
+				<md-button class="text-center md-raised md-accent" ng-click="hide_user_reg_modal()">Close</md-button>
+			</div>
+		</div>	
+	</div>
+
+<!--TEAM REGISTRATION MODAL-->
+<div class="modal" id="team_reg_modal" style="max-height:100vh;overflow:auto">
+		<div class="modal-content">
+			<div class="modal-body">
+			<h1>Team Details</h1>
+            <h3>{{reg_team.saarang_id}} -- {{reg_team.name}} from {{reg_team.city}}</h3>
+            <h4>Leader -- {{reg_team.leader.name}}</h4>
+            <h4>{{reg_team.members.length}} Members</h4>
+                <table class="table table-bordered">
+					<tr>
+                        <td>
+                            No.
+                        </td>
+                        <td>
+                            SaarangID 
+                        </td>
+                        <td>
+                            Name
+                        </td>
+                        <td>
+                            Email
+                        </td>
+                        <td>
+                            Mobile
+                        </td>
+                        <td>
+                            College
+                        </td>
+                        <td>
+                            Gender
+                        </td>
+                        <td>
+                            Desk Registration
+                        </td>
+                        <td>
+                            Registered By
+                        </td>
+                    </tr>
+                    <tr ng-repeat="member in reg_team.members">
+                        <td ng-class="member.user.desk_registration ? 'registered' : 'not_registered'">{{$index+1}}</td>
+						<td ng-class="member.user.desk_registration ? 'registered' : 'not_registered'">{{member.user.saarang_id}}</td>
+						<td ng-class="member.user.desk_registration ? 'registered' : 'not_registered'">{{member.user.name}}</td>
+						<td ng-class="member.user.desk_registration ? 'registered' : 'not_registered'">{{member.user.email}}</td>
+						<td ng-class="member.user.desk_registration ? 'registered' : 'not_registered'">{{member.user.mobile}}</td>
+						<td ng-class="member.user.desk_registration ? 'registered' : 'not_registered'">{{member.user.college}}</td>
+						<td ng-class="member.user.desk_registration ? 'registered' : 'not_registered'">{{member.user.gender}}</td>
+						<td ng-class="member.user.desk_registration ? 'registered' : 'not_registered'">{{member.user.desk_registration}}</td>
+						<td ng-class="member.user.desk_registration ? 'registered' : 'not_registered'">{{member.user.registered_by.username}}</td>
+                    </tr>
+				</table>
+				<button class="text-center btn btn-danger" ng-click="hide_team_reg_modal()">Close</button>
+			</div>
+		</div>	
+	</div>
+</div>
+<div class="modal fade" id="AddExistingTeam" role="dialog" style="overflow: scroll;">
+    <div class="modal-dialog modal-lg">
+      	<div class="modal-content">
+        	<div class="modal-body" style="overflow: scroll;">
+          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+          		<h4 class="modal-title">Add To Existing Team</h4>
+                <div class="form-group" ng-hide="AddExistingTeamShowDetails">
+                	<br>
+                	<div class="input-group col-sm-10 col-sm-offset-1">
+                   		<input type="text" class="form-control" ng-model="AddExistingTeamSaarangID" placeholder="Find team by Saarang ID">
+                   		<span class="input-group-btn">
+                      		<button class="btn btn-success" type="button" ng-click="AddExistingTeamFind(AddExistingTeamSaarangID)">
+                         		Find
+                      		</button>
+                   		</span>
+                   	</div>
+                </div>
+                <div ng-show="AddExistingTeamShowDetails">
+                	<h3>{{AddExistingTeamDetails.name}}</h3>
+                	<h4>{{AddExistingTeamDetails.saarang_id}}</h4>
+                	<h4>{{AddExistingTeamDetails.city}}</h4>
+                	<h4>{{AddExistingTeamDetails.leader.name + '(' + AddExistingTeamDetails.leader.saarang_id + ')'}}</h4>
+                	<br>
+
+                	<p ng-hide="AddExistingTeamEdit">This team is not ediatble as the accomodation status is confirmed.</p>
+                	<div class="form-group" ng-show="AddExistingTeamEdit">
+	                	<div class="input-group col-sm-10 col-sm-offset-1">
+	                   		<input type="text" class="form-control" placeholder="Add member by Saarang ID" ng-model="AddExistingTeamMemberID">
+	                   		<span class="input-group-btn">
+	                      		<button class="btn btn-success" type="button" ng-click="AddExistingTeamMember(AddExistingTeamMemberID)">
+	                         		Add
+	                      		</button>
+	                   		</span>
+	                   	</div>
+	                </div>
+                	<table class="table table-bordered" style="table-layout: auto;">
+	                    <thead>
+	                        <tr>
+	                            <th>
+	                                No.
+	                            </th>
+								<th>
+	                                ID
+	                            </th>
+	                            <th>
+	                                Gender
+	                            </th>
+	                            <th>
+	                                Email
+	                            </th>
+	                            <th>
+	                                Name
+	                            </th>
+	                            <th>
+	                                College
+	                            </th>
+	                            <!--<th>
+	                                Roll No
+	                            </th>-->
+								<th>
+	                                Desk Registration
+	                            </th>
+								<th>
+	                                Registered By
+	                            </th>
+	                            <th ng-show="AddExistingTeamEdit">
+	                                Remove
+	                            </th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr ng-repeat="tm in AddExistingTeamDetails.members_view">
+	                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+	                                {{$index+1}}
+	                            </td>
+								<td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+	                                {{tm.member.saarang_id}}
+	                            </td>
+	                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+	                                {{tm.member.gender}}
+	                            </td>
+	                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+	                                {{tm.member.email}}
+	                            </td>
+	                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+	                                {{tm.member.name}}
+	                            </td>
+	                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+	                                {{tm.member.college}}
+	                            </td>
+	                            <!--<td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+	                                {{tm.member.college_id}}
+	                            </td>-->
+								<td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+	                                {{tm.member.desk_registration}}
+	                            </td>
+								<td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+									{{tm.member.registered_by.username}} - {{tm.member.registered_by.department}} - {{tm.member.registered_by.mobile}} - {{tm.member.registered_by.role}}
+								</td>
+	                            <td style="text-align: left;" ng-show="AddExistingTeamEdit">
+	                                <button type="button" class="btn btn-danger btn-xs" ng-click="RemoveExistingTeamMember($index)" ng-hide="tm.member.saarang_id == AddExistingTeamDetails.leader.saarang_id">Remove</button>
+	                            </td>
+	                        </tr>
+	                    </tbody>
+					</table>
+					<md-button class="md-raised" ng-click="AddExistingTeamShowDetails=false;">
+							Cancel
+					</md-button>
+                </div>
+        	</div>
+      	</div>
+    </div> 
+</div>
+<div class="modal fade" id="AddNewTeam" role="dialog" style="overflow: scroll;">
+    <div class="modal-dialog modal-lg">
+      	<div class="modal-content">
+        	<div class="modal-body">
+          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+          		<h4 class="modal-title">Create New Team</h4>
+          		<br>
+          		<div class="form-group">
+                    <label class="control-label col-sm-2">Team Name</label>
+                    <div class="input-group col-sm-10">
+                        <input type="text" class="form-control" ng-model="AddNewTeamDetails.name">
+                    </div>
+                </div>
+          		<div class="form-group">
+					<label class="control-label col-sm-2">Leader ID</label>
+                    <div class="input-group col-sm-10">
+						<input type="text" class="form-control" ng-model="AddNewTeamDetails.leader_id" ng-disabled="disableLeader">
+                    </div>
+				</div>
+				<span id="conf">
+					<div class="form-group">
+						<md-button class="md-raised" ng-click="getLeader(AddNewTeamDetails.leader_id)" >
+							Get leader details
+						</md-button>
+					</div>
+					<div ng-show="leader.name">
+						<p><b>Name:</b> {{leader.name}} <b>College:</b> {{leader.college}} <b>City:</b> {{leader.city}} <b>Mobile:</b> {{leader.mobile}}</p>
+					</div>
+					<div class="form-group" id="conf" ng-if="leader.name">
+						<md-button class="md-raised md-primary" ng-click="confirmLeader(AddNewTeamDetails.leader_id)" >
+							Confirm Leader
+						</md-button>
+					</div>
+				</span>
+				<md-card style="background-color:rgb(223, 223, 223)" ng-if="err_message">
+					<md-card-content>
+						<div layout="row" layout-align="center center" style="font-size:1.5em;color:rgb(255, 7, 7)">
+							{{err_message}}
+						</div>
+					</md-card-content>
+				</md-card>
+                
+                <br>
+                <br>
+                <div class="form-group">
+                	<div class="input-group col-sm-10 col-sm-offset-2">
+                   		<input type="text" class="form-control" placeholder="Add member by Saarang ID" ng-model="AddNewTeamMemberID">
+                   		<span class="input-group-btn">
+                      		<button class="btn btn-success" type="button" ng-click="AddNewTeamMember(AddNewTeamMemberID)">
+                         		Add
+                      		</button>
+                   		</span>
+                   	</div>
+                </div>
+                <table class="table table-bordered" style="table-layout: auto;">
+                    <thead>
+                        <tr>
+							<th>
+                                No.
+                            </th>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Gender
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Mobile
+                            </th>
+                            <th>
+                                College
+                            </th>
+                            <!--<th>
+                                Roll No
+                            </th>-->
+							<th>
+								Desk Registration
+							</th>
+							<th>
+								Registered By
+							</th>
+                            <th>
+                                Remove
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tm in AddNewTeamDetails.members">
+							<td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+                                {{$index+1}}
+                            </td>
+                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+                                {{tm.saarang_id}}
+                            </td>
+                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+                                {{tm.gender}}
+                            </td>
+                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+                                {{tm.email}}
+                            </td>
+                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+                                {{tm.name}}
+                            </td>
+                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+                                {{tm.mobile}}
+                            </td>
+                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+                                {{tm.college}}
+                            </td>
+                            <!--<td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+                                {{tm.college_id}}
+                            </td>-->
+							<td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+								{{tm.user.desk_registration}}
+							</td>
+							<td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+								{{tm.user.registered_by.username}} - {{tm.user.registered_by.department}} - {{tm.user.registered_by.mobile}} - {{tm.user.registered_by.role}}
+							</td>
+                            <td style="text-align: left;" ng-class="tm.member.desk_registration ? 'registered' : 'not_registered'">
+                                <button type="button" class="btn btn-danger btn-xs" ng-click="RemoveNewTeamMember($index, tm.saarang_id)" ng-hide="tm.member.saarang_id == AddExistingTeamDetails.leader.saarang_id">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+				</table>
+				<md-button class="md-raised md-primary" ng-click="SaveAndRegisterNewTeam()">
+                    Save & Register
+                </md-button>
+                <md-button class="md-raised" data-dismiss="modal">
+                    Cancel
+                </md-button>
+        	</div>
+      	</div>
+    </div>
+</div>

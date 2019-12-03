@@ -1,0 +1,28 @@
+<div layout="row" layout-align="left left" style="font-size:1.5em">
+  <a ui-sref="main" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+</div>
+<md-tabs md-stretch-tabs="always" md-selected="hosp.tabIndex">
+  <md-tab ui-sref="hospi.statistics">
+    <md-tab-label>
+      <span>
+        STATISTICS
+      </span>
+    </md-tab-label>
+  </md-tab>
+  <md-tab ui-sref="hospi.teams">
+    <md-tab-label>
+      <span>
+        TEAMS
+      </span>
+    </md-tab-label>
+  </md-tab>
+  <md-tab ui-sref="hospi.hostels">
+    <md-tab-label>
+      <span>
+        HOSTELS
+      </span>
+    </md-tab-label>
+  </md-tab>
+</md-tabs>
+
+<md-content style="background-color: transparent;" ui-view=""></md-content>

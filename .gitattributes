@@ -1,0 +1,5 @@
+* text=auto
+*.svg binary
+*.jpg binary
+*.png binary
+*.gif binary

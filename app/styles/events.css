@@ -1,0 +1,270 @@
+/*Events*/
+#codeTextarea{
+  width:95%;
+  height:110px;
+}
+.textAreaWithLines{
+  /*font-family:courier;      */
+  border:1px solid #E0E0E0;
+  
+}
+.textAreaWithLines textarea,.textAreaWithLines div{
+  border:0px;
+  line-height:130%;
+  font-size:14px;
+  padding-top: 20px;
+}
+.lineObj{
+  color:blue;
+  padding-top: 20px;
+}
+.addEventPage .title{
+	text-align: center;
+}
+
+/*AddWinner*/
+.addWinnersPage{
+	padding-top: 25px;
+}
+.table{
+  empty-cells: show;
+}
+#addWinners label{
+	text-align: left;
+}
+#addWinners input{
+	width: 100%;
+}
+.addWinnersPage .modal{
+  display: none;
+  position: fixed; 
+  z-index: 999;
+  padding-top: 50px;
+  padding-bottom: 25px; 
+}
+.addWinnersPage .modal-content{
+  padding: 25px;
+  width: 80%;
+  margin: auto;
+  background-color: white;
+}
+/*AddEvent*/
+
+.addEventPage{
+	padding-top: 10px;	
+	margin: auto;
+}
+table{
+  empty-cells: show;
+}
+.addEventPage #addField,
+.addEventPage #removeField{
+	box-sizing: border-box;
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	border-radius: 50%;
+	border: 0px;
+	font-size: large;
+	font-weight: bold;
+	line-height: 35px;
+	vertical-align: middle;
+	background: #efefef;
+}
+.addEventPage #addField{
+	background-color: #0c0;
+	color: white;
+}
+.addEventPage #addField:hover{
+	background-color: green;
+}
+.addEventPage #removeField{
+	background-color: #c00;
+	color: white;
+}
+.addEventPage #removeField:hover{
+	background-color: red;
+}
+.addEventPage .event-table{
+	padding-top: 10px;
+}
+table td{
+	text-align: center;
+}
+table a,table a:hover, table a:active, table a:visited{
+	text-decoration: none;
+	font-weight: bold;
+}
+table tbody .icons{
+	padding: 0 6px;
+}
+table tbody .icons:hover{
+	color: blue;
+	cursor: pointer ;
+}
+.addEventPage .button-holder{
+	text-align: center;
+}
+.addEventPage .button-holder button{
+	margin: 10px;
+}
+.addEventPage .modal{
+  display: none;
+  position: fixed; 
+  z-index: 999;
+  padding-top: 25px;
+  padding-bottom: 25px; 
+}
+.addEventPage .modal-content{
+  padding: 25px;
+  width: 80%;
+  margin: auto;
+  background-color: white;
+}
+.modal-content .close-btn{
+  cursor: pointer;
+  background: red;
+  color: white; 
+  padding: 2px 4px;
+  font-weight: bold;
+  border-radius: 2px;
+}
+.modal-header{
+	text-align: center;
+	text-transform: uppercase;
+}
+.modal-body{
+	text-align: center;
+}
+.modal-body .sub-heading{
+	font-weight: bold;
+}
+.modal-body .sub-heading .icons{
+	padding-right: 5px;
+}
+.addEventPage .detail-heading{
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.modal-body .category{
+	margin-top: 0px;
+}
+/*AddCategory*/
+.button-holder{
+	text-align: center;
+}
+.title{
+	text-transform: uppercase;
+	text-align: center;
+}
+/*Schedule*/
+.schedule{
+	border: 1px inset grey;
+	border-radius: 2%;
+}
+/*EventList*/
+.alleventspage{
+	padding-top: 20px;
+}
+table{
+    /*table-layout: fixed;*/
+    width: 300px;
+    overflow: auto;
+}
+/*Tabs*/
+.tabs{
+	border: 1px outset white;
+	background: white;	
+	padding: 10px;
+}
+/*Registrations*/
+.addRegistrationsPage{
+	padding-top: 25px;
+}
+.registrationForm{
+	display: none;
+}
+.addRegistrationsPage .modal{
+  display: none;
+  position: fixed; 
+  z-index: 999;
+  padding-top: 25px;
+  padding-bottom: 25px; 
+}
+.addRegistrationsPage .modal-content{
+  padding: 25px;
+  width: 80%;
+  margin: auto;
+  background-color: white;
+}
+#confModal{
+  top: 20vh;
+}
+#confModal .modal-content{
+  width: 40%;
+  text-align: center;
+  font-weight: bold;
+}
+#confModal .modal-content button{
+  margin: 10px;
+}
+.modal-content .close-btn{
+  cursor: pointer;
+  background: red;
+  color: white; 
+  padding: 2px 4px;
+  font-weight: bold;
+  border-radius: 2px;
+}
+.header, .modal-header{
+	text-align: center;
+	text-transform: uppercase;
+}
+.modal-body{
+	text-align: center;
+}
+.modal-body .sub-heading{
+	font-weight: bold;
+}
+.modal-body .sub-heading .icons{
+	padding-right: 5px;
+}
+.addRegistrationsPage .button-holder{
+  text-align: center;
+}
+.addRegistrationsPage .button-holder button{
+  margin: 10px;
+}
+.detail-heading{
+  text-align: right;
+}
+.addRegistrationsPage #addField,
+.addRegistrationsPage #removeField{
+  box-sizing: border-box;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  border: 0px;
+  font-size: large;
+  font-weight: bold;
+  line-height: 35px;
+  vertical-align: middle;
+  background: #efefef;
+}
+.addRegistrationsPage #addField{
+  background-color: #0a0;
+  color: white;
+}
+.addRegistrationsPage #addField:hover{
+  background-color: green;
+}
+.addRegistrationsPage #removeField{
+  background-color: #c00;
+  color: white;
+}
+.addRegistrationsPage #removeField:hover{
+  background-color: red;
+}

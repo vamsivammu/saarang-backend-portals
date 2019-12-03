@@ -1,0 +1,82 @@
+<md-card>
+  <md-card-content>
+      <div class="row">
+          <div class="col-md-12">
+          <h3>Instructions:</h3>
+          <ul>
+              <li><b>Do not delete</b> any event/category once it has been created.</li>
+              <li>If you want to change the content, <b>update</b> the event by clicking on it's name.</li>
+              <li>Wherever the input says "<b>Add data as HTML</b>" you can add HTML tags(if necessary).</li>
+              <li>Few useful tags : "<b>b</b>" for bold,"<b>i</b>" for italic,"<b>u</b>" for underline,"<b>p</b>" for paragraph</li>
+              <li><b>Do not</b> add html, and body tags.</li>
+              <li><b>Do not</b> fill add an event without selecting a category for it.</li>
+              <li><b>You need not add a seperate tab for "About", the data for this tab is taken from "long_description" of that event.</b></li>
+              <li>For google form events, choose Registration type as <b>google-form</b> and give the form link in the extra details</li>
+              <li><i>For any queries, contact <a href="mailto:shafeef@saarang.org"><i>shafeef@saarang.org</i></a></i>
+          </ul>
+          <h3>Conditions for Image Upload:</h3>
+          <ol>
+              <li>Max height:<b>1000px</b></li>
+              <li>Max size:<b>1MB</b></li>
+          </ol>
+          <h4>Link to optimize your image: <i><a href="http://www.imageoptimizer.net/Pages/Home.aspx" target="_blank">Optimize</a></i> </h4>
+          </div>
+      </div>
+  </md-card-content>
+</md-card>
+<!-- Tabs -->
+  <md-tabs md-stretch-tabs="always" md-selected="event_c.tabIndex">
+    <md-tab ui-sref="events.allevents">
+      <md-tab-label>
+        <span>
+          All Events
+        </span>
+      </md-tab-label>
+    </md-tab>
+    <md-tab ui-sref="events.category">
+      <md-tab-label>
+        <span>
+          Category
+        </span>
+      </md-tab-label>
+    </md-tab>
+    <md-tab ui-sref="events.addWinner">
+      <md-tab-label>
+        <span>
+          Add Winners
+        </span>
+      </md-tab-label>
+    </md-tab>
+  </md-tabs>
+  <!--sub tabs-->
+  <md-tabs md-stretch-tabs="always" md-selected="event_c.subIndex" ng-show="event_c.subtab">
+    <md-tab ui-sref="events.editevent({name:edit_event.name})">
+      <md-tab-label>
+        <span>
+          Modify Event
+        </span>
+      </md-tab-label>
+    </md-tab>
+    <md-tab ui-sref="events.eventtabs({name:edit_event.name})">
+      <md-tab-label>
+        <span>
+          Event tabs
+        </span>
+      </md-tab-label>
+    </md-tab>
+    <md-tab ui-sref="events.eventschedule({name:edit_event.name})">
+      <md-tab-label>
+        <span>
+          Event schedule
+        </span>
+      </md-tab-label>
+    </md-tab>
+    <md-tab ui-sref="events.registrations({name:edit_event.name})">
+        <md-tab-label>
+          <span>
+            Registrations
+          </span>
+        </md-tab-label>
+      </md-tab>
+  </md-tabs>
+  <md-content ui-view=""></md-content>

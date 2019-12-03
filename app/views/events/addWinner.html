@@ -1,0 +1,236 @@
+<div>
+	<p>*Click on the event name to add new winner details. Add all the three positions at once.</p>
+	<p>*To edit a particular winner click on the winner name</p>
+	<p>*While adding always click on the get details button to get the details of the winner and then on add button</p>
+	<div ng-show="edit_mod" class="container">
+		<div>
+			<form id="editWinner" name="editWinner" role="form" ng-submit="onEdit()" class="form-horizontal">
+				<h1>{{event.name}}</h1>
+				<div class="form-group">
+					<label for="position" class="control-label col-sm-2">Position :</label>
+					<div class="col-sm-10">
+						<p>{{position}}</p>
+					</div>
+				</div>
+				<div class="form-group" ng-show="event.is_team_event">
+					<label for="teamId" class="control-label col-sm-2">Team-Id&nbsp;:</label>
+					<div class="col-sm-10">
+						<input id="teamId" name="teamId" ng-model="winner.team.saarang_id" class="form-control"/>
+					</div>
+					<md-button ng-click="get_team_details()" class="md-raised">Get details</md-button>
+				</div>
+				<div class="form-group" ng-hide="event.is_team_event">
+					<label for="user-id" class="control-label col-sm-2">User-Id&nbsp;:</label>
+					<div class="col-sm-10">
+						<input id="user-id" name="user-id" ng-model="winner.participant.saarang_id" class="form-control"/>
+					</div>
+					<md-button ng-click="get_user_details()" class="detail_button md-raised">Get details</md-button>
+				</div>
+				<div ng-show="details">
+					<div ng-hide="event.is_team_event">
+						<p class="detail-heading col-sm-6">Name :</p>
+						<p class="col-sm-6">{{winner.participant.firstname}} {{winner.participant.lastname}}</p>
+						<p class="detail-heading col-sm-6">College :</p>
+						<p class="col-sm-6">{{winner.participant.college}}</p>
+					</div>
+					<div ng-show="event.is_team_event">
+						<p class="detail-heading col-sm-6">Team Name :</p>
+						<p class="col-sm-6">{{winner.team.name}}</p>
+						<p class="detail-heading col-sm-6">leader Id :</p>
+						<p class="col-sm-6">{{winner.team.leader.saarang_id}}</p>
+						<p class="detail-heading col-sm-6">Leader Name :</p>
+						<p class="col-sm-6">{{winner.team.leader.firstname}}{{winner.team.leader.lastname}}</p>
+					</div>
+				</div>
+				<div class="button-holder">
+					<button type="submit" class="btn btn-primary">Add Winner</button>
+					<button ng-click="cancel()" type="button" class="btn btn-default">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div ng-show="add_mod" class="container">
+		<div>
+			<form id="addWinner" name="addWinner" role="form" ng-submit="onSubmit()" class="form-horizontal">
+				<h1>{{event.name}}</h1>
+				<div>
+					<div class="form-group">
+						<label for="position" class="control-label col-sm-2">Position :</label>
+						<div class="col-sm-10">
+							<p>1</p>
+						</div>
+					</div>
+					<div class="form-group" ng-show="event.is_team_event">
+						<label for="teamId" class="control-label col-sm-2">Team-Id&nbsp;:</label>
+						<div class="col-sm-10">
+							<input id="teamId" name="teamId" ng-model="winner1.team.saarang_id" class="form-control"/>
+						</div>
+						<md-button ng-click="get_team_details1()" class="md-raised">Get details</md-button>
+					</div>
+					<div class="form-group" ng-hide="event.is_team_event">
+						<label for="user-id" class="control-label col-sm-2">User-Id&nbsp;:</label>
+						<div class="col-sm-10">
+							<input id="user-id" name="user-id" ng-model="winner1.participant.saarang_id" class="form-control"/>
+						</div>
+						<md-button ng-click="get_user_details1()" class="detail_button md-raised">Get details</md-button>
+					</div>
+					<div ng-show="details1">
+						<div ng-hide="event.is_team_event">
+							<p class="detail-heading col-sm-6">Name :</p>
+							<p class="col-sm-6">{{winner1.participant.firstname}} {{winner1.participant.lastname}}</p>
+							<p class="detail-heading col-sm-6">College :</p>
+							<p class="col-sm-6">{{winner1.participant.college}}</p>
+						</div>
+						<div ng-show="event.is_team_event">
+							<p class="detail-heading col-sm-6">Team Name :</p>
+							<p class="col-sm-6">{{winner1.team.name}}</p>
+							<p class="detail-heading col-sm-6">leader Id :</p>
+							<p class="col-sm-6">{{winner1.team.leader.saarang_id}}</p>
+							<p class="detail-heading col-sm-6">Leader Name :</p>
+							<p class="col-sm-6">{{winner1.team.leader.firstname}}{{winner1.team.leader.lastname}}</p>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="form-group">
+						<label for="position" class="control-label col-sm-2">Position :</label>
+						<div class="col-sm-10">
+							<p>2</p>
+						</div>
+					</div>
+					<div class="form-group" ng-show="event.is_team_event">
+						<label for="teamId" class="control-label col-sm-2">Team-Id&nbsp;:</label>
+						<div class="col-sm-10">
+							<input id="teamId" name="teamId" ng-model="winner2.team.saarang_id" class="form-control"/>
+						</div>
+						<md-button ng-click="get_team_details2()" class="md-raised">Get details</md-button>
+					</div>
+					<div class="form-group" ng-hide="event.is_team_event">
+						<label for="user-id" class="control-label col-sm-2">User-Id&nbsp;:</label>
+						<div class="col-sm-10">
+							<input id="user-id" name="user-id" ng-model="winner2.participant.saarang_id" class="form-control"/>
+						</div>
+						<md-button ng-click="get_user_details2()" class="detail_button md-raised">Get details</md-button>
+					</div>
+					<div ng-show="details2">
+						<div ng-hide="event.is_team_event">
+							<p class="detail-heading col-sm-6">Name :</p>
+							<p class="col-sm-6">{{winner2.participant.firstname}} {{winner2.participant.lastname}}</p>
+							<p class="detail-heading col-sm-6">College :</p>
+							<p class="col-sm-6">{{winner2.participant.college}}</p>
+						</div>
+						<div ng-show="event.is_team_event">
+							<p class="detail-heading col-sm-6">Team Name :</p>
+							<p class="col-sm-6">{{winner2.team.name}}</p>
+							<p class="detail-heading col-sm-6">leader Id :</p>
+							<p class="col-sm-6">{{winner2.team.leader.saarang_id}}</p>
+							<p class="detail-heading col-sm-6">Leader Name :</p>
+							<p class="col-sm-6">{{winner2.team.leader.firstname}}{{winner2.team.leader.lastname}}</p>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="form-group">
+						<label for="position" class="control-label col-sm-2">Position :</label>
+						<div class="col-sm-10">
+							<p>3</p>
+						</div>
+					</div>
+					<div class="form-group" ng-show="event.is_team_event">
+						<label for="teamId" class="control-label col-sm-2">Team-Id&nbsp;:</label>
+						<div class="col-sm-10">
+							<input id="teamId" name="teamId" ng-model="winner3.team.saarang_id" class="form-control"/>
+						</div>
+						<md-button ng-click="get_team_details3()" class="md-raised">Get details</md-button>
+					</div>
+					<div class="form-group" ng-hide="event.is_team_event">
+						<label for="user-id" class="control-label col-sm-2">User-Id&nbsp;:</label>
+						<div class="col-sm-10">
+							<input id="user-id" name="user-id" ng-model="winner3.participant.saarang_id" class="form-control"/>
+						</div>
+						<md-button ng-click="get_user_details3()" class="detail_button md-raised">Get details</md-button>
+					</div>
+					<div ng-show="details3">
+						<div ng-hide="event.is_team_event">
+							<p class="detail-heading col-sm-6">Name :</p>
+							<p class="col-sm-6">{{winner3.participant.firstname}} {{winner3.participant.lastname}}</p>
+							<p class="detail-heading col-sm-6">College :</p>
+							<p class="col-sm-6">{{winner3.participant.college}}</p>
+						</div>
+						<div ng-show="event.is_team_event">
+							<p class="detail-heading col-sm-6">Team Name :</p>
+							<p class="col-sm-6">{{winner3.team.name}}</p>
+							<p class="detail-heading col-sm-6">leader Id :</p>
+							<p class="col-sm-6">{{winner3.team.leader.saarang_id}}</p>
+							<p class="detail-heading col-sm-6">Leader Name :</p>
+							<p class="col-sm-6">{{winner3.team.leader.firstname}}{{winner3.team.leader.lastname}}</p>
+						</div>
+					</div>
+				</div>	
+				<div class="button-holder">
+					<button type="submit" class="btn btn-primary">Add Winner</button>
+					<button ng-click="add_cancel()" type="button" class="btn btn-default">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div ng-hide="edit_mod||add_mod" class="category-table">
+		<form>
+		  <div class="form-group">
+		    <div class="input-group">
+		      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+		      <input type="text" class="form-control" placeholder="Search for event" ng-model="searchTag">
+		    </div>      
+		  </div>
+		</form>
+		<div id="exportButtons">
+		<!--	<md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+			<md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+			-->
+			<md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+			<md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+		</div>
+		<table id="export" class="table table-bordered table-striped" style="empty-cells:show;">
+			<thead>
+				<tr>
+					<td></td>
+					<td>
+						<a ng-click="sortType = 'name'; sortReverse = !sortReverse">Name
+							<span ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</td>
+					<td>
+						First place
+					</td>
+					<td>Second Place</td>
+					<td>Third Place</td>					
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="event in events | orderBy:sortType:sortReverse| filter:searchTag">
+					<td ng-click="delete_winners(event)"><i class="glyphicon glyphicon-trash icons"></i></td>
+					<td ng-click="add(event)">{{event.name}}</td>
+					<td>
+						<div ng-click="edit(1,winner,event)" ng-repeat="winner in winners| filter:{position: 1,event_id:event.id}">
+							<p ng-hide="event.is_team_event">{{winner.participant.firstname}} {{winner.participant.lastname}}<br>{{winner.participant.saarang_id}}</p>
+							<p ng-show="event.is_team_event">{{winner.team.name}}<br>{{winner.team.saarang_id}}</p>
+						</div>
+					</td>
+					<td>
+						<div  ng-click="edit(2,winner,event)" ng-repeat="winner in winners| filter:{position: 2,event_id:event.id}">
+							<p ng-hide="event.is_team_event">{{winner.participant.firstname}} {{winner.participant.lastname}}<br>{{winner.participant.saarang_id}}</p>
+							<p ng-show="event.is_team_event">{{winner.team.name}}<br>{{winner.team.saarang_id}}</p>
+						</div>
+					</td>
+					<td>
+						<div  ng-click="edit(3,winner,event)"  ng-repeat="winner in winners| filter:{position: 3,event_id:event.id}">
+							<p ng-hide="event.is_team_event">{{winner.participant.firstname}} {{winner.participant.lastname}}<br>{{winner.participant.saarang_id}}</p>
+							<p ng-show="event.is_team_event">{{winner.team.name}}<br>{{winner.team.saarang_id}}</p>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,157 @@
+<style>
+    .grey_back{
+        background-color: grey; 
+        color: white;
+    }
+    .on-spot{
+        background-color: lightsalmon; 
+        color: black;
+    }
+    .online{
+        background-color: lightskyblue; 
+        color: black;
+    }
+</style>
+<div class="allregistrationspage">
+
+    <div layout="row" layout-align="left left" style="font-size:1.5em">
+        <a ui-sref="main" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+    </div>
+    
+  
+  <div style="padding: 0% 1% 1% 1%">
+    <md-card>
+      <md-card-content>
+          <p style="font-size: 3em;">Sales Summary</p>
+          <p>
+            <b>Choreo Night</b>
+            Chair : {{choreo_chair}}
+            | Gallery : {{choreo_gal}}
+          </p>
+          <p>
+            <b>Rock Night</b>
+            Gallery : {{rock_gal}}
+            | Bowl : {{rock_bowl}}
+            | Fan Pass : {{rock_fan}}
+          </p>
+          <p>
+            <b>EDM Night</b>
+            Gallery : {{EDM_gal}}
+            | Bowl : {{EDM_bowl}}
+            | Fan Pass : {{EDM_fan}}
+          </p>
+          <p>
+            <b>Popular Night</b>
+            Gallery : {{pop_gal}}
+            | Silver chair : {{pop_silv}}
+            | Platinum chair : {{pop_plat}}
+          </p>
+          <p>
+            <b>Polo T-shirt</b>
+            Small size : {{polo_S}}
+            | Medium size : {{polo_M}}
+            | Large size : {{polo_L}}
+            | Extra Large size : {{polo_XL}}
+          </p>
+      </md-card-content>
+    </md-card>
+    
+   </div>
+   <div id="exportButtons">
+    <md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+    <md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+    <md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+    <md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+    <p style="font-style: italic;padding: 1%;text-align: center;">Click on table column headers to <b>sort</b> them</p>
+  </div>
+  
+  <table id="export" class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <td>
+          <a  ng-click="sortType = 'category'; sortReverse = !sortReverse">Category
+            <span ng-show="sortType == 'category' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'category' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+                <td>
+          <a  ng-click="sortType = 'sub_category'; sortReverse = !sortReverse">Sub Category
+            <span ng-show="sortType == 'sub_category' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'sub_category' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+                <td>
+          <a  ng-click="sortType = 'number'; sortReverse = !sortReverse">Number
+            <span ng-show="sortType == 'number' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'number' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'total'; sortReverse = !sortReverse">Total
+            <span ng-show="sortType == 'total' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'total' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'coordinator_id'; sortReverse = !sortReverse">Coordinator_Id
+            <span ng-show="sortType == 'registration_type' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'registration_type' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'location'; sortReverse = !sortReverse">Location
+            <span ng-show="sortType == 'location' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'location' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'session_id'; sortReverse = !sortReverse">Session Id
+            <span ng-show="sortType == 'session_id' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'session_id' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'bill_amount'; sortReverse = !sortReverse">Bill amount
+            <span ng-show="sortType == 'bill_amount' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'bill_amount' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'mode_of_payment'; sortReverse = !sortReverse">Mode of Payment
+            <span ng-show="sortType == 'mode_of_payment' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'mode_of_payment' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'time'; sortReverse = !sortReverse">Time
+            <span ng-show="sortType == 'time' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'time' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'date'; sortReverse = !sortReverse">Date
+            <span ng-show="sortType == 'date' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span ng-show="sortType == 'date' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          </a>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="sales in sales | orderBy:sortType:sortReverse">
+        <td>{{sales.category}}</td>
+        <td>{{sales.sub_category}}</td>
+        <td>{{sales.number}}</td>
+        <td>{{sales.total}}</td>
+        <td>{{sales.coordinator_id}}</td>
+        <td>{{sales.location}}</td>
+        <td>{{sales.session_id}}</td>
+        <td>{{sales.bill_amount}}</td>
+        <td>{{sales.mode_of_payment}}</td>
+        <td>{{sales.time}}</td>
+        <td>{{sales.date}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+ 
+  </div>

@@ -1,0 +1,18 @@
+<div class="container-fluid">
+ <div class="row"><br>
+   <div style="text-align:center;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <a href="files/PPM_blank.xlsx" download class="md-button md-raised md-accent">Download blank PPM sheet</a><br>
+  </div>  
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+       <md-input-container class="md-block" flex-gt-sm>
+            <label>Event Name</label>
+            <input ng-model="data.event">
+        </md-input-container>
+  </div>
+  <div style="text-align:center;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  	<md-button ng-hide="status" class="md-raised md-warn" type="file" ngf-select="uploadFiles($file)" accept=".xlsx,.xls" >Upload filled PPM Sheet</md-button> 
+     <md-button ng-show="status" class="md-raised md-warn" disabled="">Uploading...{{progress}}</md-button><!--To show progress of excel sheet file upload-->
+
+   </div>
+ </div>
+</div> 

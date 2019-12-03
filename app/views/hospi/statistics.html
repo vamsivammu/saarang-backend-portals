@@ -1,0 +1,214 @@
+<div class="container" style="left: 0;right: 0;margin: auto;">
+	<br>
+	<br>
+	<table class="table stati_table">
+		<thead>
+			<tr>
+				<th style="width: 360px;">
+					STATUS
+				</th>
+				<th>
+					TEAMS
+				</th>
+				<th>
+					PARTICIPANTS
+				</th>
+				<th>
+					MALE
+				</th>
+				<th>
+					FEMALE
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="s in stati">
+				<th>
+					<span ng-class="s.class">
+						{{s.status}}
+					</span>
+				</th>
+				<td>
+					{{s.teams}}
+				</td>
+				<td>
+					{{s.male_members + s.female_members}}
+				</td>
+				<td>
+					{{s.male_members}}
+				</td>
+				<td>
+					{{s.female_members}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<table class="table stati_table">
+		<thead>
+			<tr>
+				<th style="width: 360px;">
+					ARRIVAL DATE
+				</th>
+				<th>
+					TEAMS
+				</th>
+				<th>
+					PARTICIPANTS
+				</th>
+				<th>
+					MALE
+				</th>
+				<th>
+					FEMALE
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="s in arrival_stati">
+				<th>
+					<span class="label label-success"> {{s.day}} </span>
+				</th>
+				<td>
+					{{s.teams}}
+				</td>
+				<td>
+					{{s.male_members + s.female_members}}
+				</td>
+				<td>
+					{{s.male_members}}
+				</td>
+				<td>
+					{{s.female_members}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<table class="table stati_table">
+		<thead>
+			<tr>
+				<th style="width: 360px;">
+					DEPARTURE DATE
+				</th>
+				<th>
+					TEAMS
+				</th>
+				<th>
+					PARTICIPANTS
+				</th>
+				<th>
+					MALE
+				</th>
+				<th>
+					FEMALE
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="s in departure_stati">
+				<th>
+					<span class="label label-warning"> {{s.day}} </span>
+				</th>
+				<td>
+					{{s.teams}}
+				</td>
+				<td>
+					{{s.male_members + s.female_members}}
+				</td>
+				<td>
+					{{s.male_members}}
+				</td>
+				<td>
+					{{s.female_members}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<table class="table stati_table">
+		<thead>
+			<tr>
+				<th style="width: 360px;">
+					CHECK IN DATE
+				</th>
+				<th>
+					TEAMS
+				</th>
+				<th>
+					PARTICIPANTS
+				</th>
+				<th>
+					MALE
+				</th>
+				<th>
+					FEMALE
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="s in checkin_stati">
+				<th>
+					<span class="label label-info"> {{s.day}} </span>
+				</th>
+				<td>
+					{{s.teams}}
+				</td>
+				<td>
+					{{s.male_members + s.female_members}}
+				</td>
+				<td>
+					{{s.male_members}}
+				</td>
+				<td>
+					{{s.female_members}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<table class="table stati_table">
+		<thead>
+			<tr>
+				<th style="width: 360px;">
+					DEPARTURE DATE
+				</th>
+				<th>
+					TEAMS
+				</th>
+				<th>
+					PARTICIPANTS
+				</th>
+				<th>
+					MALE
+				</th>
+				<th>
+					FEMALE
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="s in checkout_stati">
+				<th>
+					<span class="label label-default"> {{s.day}} </span>
+				</th>
+				<td>
+					{{s.teams}}
+				</td>
+				<td>
+					{{s.male_members + s.female_members}}
+				</td>
+				<td>
+					{{s.male_members}}
+				</td>
+				<td>
+					{{s.female_members}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

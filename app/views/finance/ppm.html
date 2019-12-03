@@ -1,0 +1,23 @@
+<div class="container-fluid">
+<br><br>
+<div id="exportButtons">
+    <md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+    <md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+</div>
+
+<table id="export" class="table table-bordered table-responsive">
+    <thead>
+      <tr>
+        <td>Serial No.</td>
+        <td>Event</td>
+        <td>PPM Sheet</td>
+      </tr>
+        </thead>    
+      <tr ng-repeat="sheet in sheets">
+        <td>{{$index+1}}</td>
+        <td>{{sheet.event}}</td>
+        <td><a href="{{sheet.url}}" target="_blank">{{sheet.url}}</a></td>
+      </tr>
+</table>        
+
+</div>

@@ -1,0 +1,83 @@
+<style>
+    .poor{
+        background-color:red;
+        color:white;
+    }
+    .not-bad{
+        background-color:yellow;
+        color: black;
+    }
+    .average{
+        color: black;
+    }
+    .good{
+        background-color:lightgreen;
+        color: black;
+    }
+    .excellent{
+        background-color:green;
+        color: black;
+    }
+</style>
+<div class="allregistrationspage">
+	  <div layout="row" layout-align="left left" style="font-size:1.5em">
+        <a ui-sref="main" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+    </div>
+
+	<form>
+	  <div class="form-group" style="width: 80%">
+	    <div class="input-group">
+	      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+	      <input type="text" class="form-control" placeholder="Search The event" ng-model="searchTag">
+	    </div>      
+	  </div>
+	</form>
+	<div id="exportButtons">
+		<md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+		<md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+		<md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+		<md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+	</div>
+	<table id="export" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td>
+				No.
+				</td>
+				<td>
+                    Navigation
+				</td>
+                <td>
+                    Aesthetics
+				</td>
+                <td>
+                    Informative
+				</td>
+                <td>
+                    Responsiveness
+				</td>
+                <td>
+                    Overall
+                </td>
+                <td>
+                    Comments
+				</td>
+                <td>
+                    Submitted On
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="feedback in feedbacks | filter:searchTag">
+                <td>{{$index+1}}</td>
+            	<td ng-class="{'poor':feedback.question_1 == 1,'not-bad':feedback.question_1 == 2,'average':feedback.question_1 == 3,'good':feedback.question_1 == 4,'excellent':feedback.question_1 == 5}">{{feedback.question_1}}</td>
+				<td ng-class="{'poor':feedback.question_2 == 1,'not-bad':feedback.question_2 == 2,'average':feedback.question_2 == 3,'good':feedback.question_2 == 4,'excellent':feedback.question_2 == 5}">{{feedback.question_2}}</td>
+				<td ng-class="{'poor':feedback.question_3 == 1,'not-bad':feedback.question_3 == 2,'average':feedback.question_3 == 3,'good':feedback.question_3 == 4,'excellent':feedback.question_3 == 5}">{{feedback.question_3}}</td>
+				<td ng-class="{'poor':feedback.question_4 == 1,'not-bad':feedback.question_4 == 2,'average':feedback.question_4 == 3,'good':feedback.question_4 == 4,'excellent':feedback.question_4 == 5}">{{feedback.question_4}}</td>
+				<td ng-class="{'poor':feedback.question_5 == 1,'not-bad':feedback.question_5 == 2,'average':feedback.question_5 == 3,'good':feedback.question_5 == 4,'excellent':feedback.question_5 == 5}">{{feedback.question_5}}</td>
+				<td>{{feedback.comments}}</td>
+                <td>{{feedback.submitted_on|date : "short"}}</td>
+            </tr>
+		</tbody>
+	</table>
+</div>

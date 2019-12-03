@@ -1,0 +1,22 @@
+<div class="container-fluid">
+   <div class="row"><br>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+       <md-input-container class="md-block" flex-gt-sm>
+            <label>Sub-department</label>
+            <input ng-model="data.sub_department">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Position</label>
+            <input ng-model="data.position">
+        </md-input-container>
+      </div>
+      
+     
+     <div style="text-align:center;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+       <md-button ng-hide="status" class="md-raised md-warn" type="file" ngf-select="uploadFiles($file)" accept=".pdf">Upload the Questionnaire</md-button>
+       <md-button ng-show="status" class="md-raised md-warn" disabled="">Uploading...{{progress}}</md-button><!--To show progress of pdf file upload-->
+     </div>
+   </div><br>
+</div>   

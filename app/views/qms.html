@@ -1,0 +1,42 @@
+<div class="container-fluid"><br><br>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Enter the title (Fill it only if you're uploading a document)</label>
+           <input name="title" ng-model="data.title">
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Choose the Department</label>
+           <md-select name="department" ng-model="data.department" required>
+           <md-option ng-repeat="department in departments" value="{{department.name}}">
+                {{department.name}}
+           </md-option>
+           </md-select>
+        </md-input-container>
+
+    <div class="row">
+
+     <div style="text-align:center;" class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+        <md-button ng-hide="fetching" class="md-accent md-raised" ng-click="fetchDocs()">Get the Documents</md-button>
+
+        <md-button ng-show="fetching" class="md-accent md-raised" disabled="">Fetching...</md-button>
+     </div>
+
+      <div style="text-align:center;" class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+       <md-button ng-hide="status" class="md-raised md-warn" type="file" ngf-select="uploadFiles($file)" accept="application/pdf">Upload the Document</md-button>
+       <md-button ng-show="status" class="md-raised md-warn" disabled="">Uploading...{{progress}}</md-button><!--To show progress of pdf file upload-->
+
+      </div>
+    </div>
+</div><hr>
+
+<div class="container-fluid">
+ <div class="row" ng-repeat="doc in documents">
+      <a href="{{doc.url}}" target="_blank">
+        <div class="col-sm-8 col-sm-offset-2 md-whiteframe-2dp" style="height:5em;background-color:#fff;padding-top:2em;margin-bottom:1em;text-align:center">
+          {{doc.department}} | {{doc.title}}
+        </div>
+      </a>
+  </div>
+</div>

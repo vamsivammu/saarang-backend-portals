@@ -1,0 +1,78 @@
+<div class="container-fluid">
+   <div class="row"><br>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+       <md-input-container class="md-block" flex-gt-sm>
+            <label>Purpose</label>
+            <input ng-model="data.purpose">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Bill No.</label>
+            <input ng-model="data.bill_number">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Vendor- (Account No.)</label>
+            <input ng-model="data.acc_number">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Vendor- (Account Name)</label>
+            <input ng-model="data.acc_name">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>IFSC</label>
+            <input ng-model="data.ifsc">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>PAN No.</label>
+            <input ng-model="data.pan_number">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Vendor- (Contact No.)</label>
+            <input ng-model="data.vendor_contact">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Amount</label>
+            <input ng-model="data.amount">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Uploader Name</label>
+          <input ng-model="data.name">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Uploader Contact</label>
+          <input ng-model="data.contact">
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
+            <md-input-container class="md-block" flex-gt-sm>
+          <label>Choose the Department</label>
+           <md-select  name="department" ng-model="data.department" required>
+           <md-option ng-repeat="department in departments" value="{{department.name}}">
+                {{department.name}}
+           </md-option>
+           </md-select>
+        </md-input-container> 
+     </div>   
+     <div style="text-align:center;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+       <md-button ng-hide="status" class="md-raised md-warn" type="file" ngf-select="uploadFiles($file)" accept=".pdf">Upload Payment Receipt</md-button>
+       <md-button ng-show="status" class="md-raised md-warn" disabled="">Uploading...{{progress}}</md-button><!--To show progress of pdf file upload-->
+     </div>
+   </div><br>
+</div>   

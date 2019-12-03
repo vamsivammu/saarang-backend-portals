@@ -1,0 +1,158 @@
+<style>
+	.error{
+		background-color:lightcoral;
+	}
+
+</style>
+<div class="allregistrationspage">
+    <div layout="row" layout-align="left left" style="font-size:1.5em">
+        <a ui-sref="main" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+    </div>
+
+	<form>
+	  <div class="form-group">
+	    <div class="input-group">
+	      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+	      <input type="text" class="form-control" placeholder="Search" ng-model="searchTag">
+	    </div>      
+	  </div>
+	</form>
+	<div id="exportButtons">
+		<md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+		<md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+		<md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+		<md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+	</div>
+
+    <div layout="row" layout-align="center center" style="font-size:1.5em">
+        Total Teams Registered for Events = {{all_team_regs.length}}
+    </div>
+
+<!--<md-button class="md-raised md-warn" ng-click="delete_teamreg(all_team_regs)">Delete</md-button>-->
+
+	<table id="export" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td>
+				No.
+				</td>
+				<td>
+					<a ng-click="sortType = 'team.saarang_id'; sortReverse = !sortReverse">SaarangID
+						<span ng-show="sortType == 'team.saarang_id' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'team.saarang_id' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+                <td>
+					<a ng-click="sortType = 'team.event'; sortReverse = !sortReverse">Event Name
+						<span ng-show="sortType == 'team.event' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'team.event' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'team.name'; sortReverse = !sortReverse">Team Name
+						<span ng-show="sortType == 'team.name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'team.name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'team.city'; sortReverse = !sortReverse">City
+						<span ng-show="sortType == 'team.city' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'team.city' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+                <td>
+					<a ng-click="sortType = 'team.leader'; sortReverse = !sortReverse">Leader
+						<span ng-show="sortType == 'team.leader' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'team.leader' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'team.leader.college'; sortReverse = !sortReverse">College
+						<span ng-show="sortType == 'team.leader.college' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'team.leader.college' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+                <td>
+					<a ng-click="sortType = 'team.members.length'; sortReverse = !sortReverse">Members
+						<span ng-show="sortType == 'team.members.length' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'team.members.length' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="reg in all_team_regs | orderBy:sortType:sortReverse| filter:searchTag">
+                <td>{{$index+1}}</td>
+				<td ng-class="{error: reg.team.name=='Crescendo Girls'}" ng-click="show_team_modal(reg)">{{reg.team.saarang_id}}</td>
+                <td ng-class="{error: reg.team.name=='Crescendo Girls'}" ng-click="show_team_modal(reg)">{{reg.event.name}}</td>
+                <td ng-class="{error: reg.team.name=='Crescendo Girls'}" ng-click="show_team_modal(reg)">{{reg.team.name}}</td>
+                <td ng-class="{error: reg.team.name=='Crescendo Girls'}" ng-click="show_team_modal(reg)">{{reg.team.city}}</td>
+                <td ng-class="{error: reg.team.name=='Crescendo Girls'}" ng-click="show_team_modal(reg)">{{reg.team.leader.firstname}} {{reg.team.leader.lastname}} - {{reg.team.leader.mobile}}</td>
+				<td ng-class="{error: reg.team.name=='Crescendo Girls'}" ng-click="show_team_modal(reg)">{{reg.team.leader.college}}</td>
+				<td ng-class="{error: reg.team.name=='Crescendo Girls'}" ng-click="show_team_modal(reg)">{{reg.team.members.length}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+    <div class="modal" id="team_modal" style="max-height:100vh;overflow:auto">
+		<div class="modal-content">
+			<div class="modal-body">
+            <md-button class="text-center md-raised md-accent" ng-click="hide_team_modal()">Close</md-button>
+            <h1>{{reg.event.name}}</h1>
+            <h2>Team Details</h2>
+			<md-button ng-if="!team_update" class="md-raised md-warn" ng-click="show_update_team()">Update Team Name/City</md-button>
+			<md-button ng-if="team_update" class="md-raised md-primary" ng-click="update_team(reg)">Done</md-button>
+			<md-button ng-if="team_update" class="md-raised md-accent" ng-click="show_update_team()">Cancel</md-button>
+			<h3 ng-if="!team_update">{{reg.team.saarang_id}} -- {{reg.team.name}} from {{reg.team.city}}</h3>
+            <h3 ng-if="team_update">{{reg.team.saarang_id}} -- <input type="text" ng-model="reg.team.name"> from <input type="text" ng-model="reg.team.city"></h3>
+			<h4>Leader -- {{reg.team.leader.firstname}} {{reg.team.leader.lastname}}</h4>
+            <h4>{{reg.team.members.length}} Members</h4>
+                <table class="table table-bordered">
+					<tr>
+                        <td>
+                            No.
+                        </td>
+                        <td>
+                            SaarangID 
+                        </td>
+                        <td>
+                            Name
+                        </td>
+                        <td>
+                            Email
+                        </td>
+                        <td>
+                            Mobile
+                        </td>
+                        <td>
+                            College
+                        </td>
+                        <td>
+                            Gender
+                        </td>
+                        <td>
+                            Desk Registration
+                        </td>
+                        <td>
+                            Registered By
+                        </td>
+                    </tr>
+                    <tr ng-repeat="member in reg.team.members">
+                        <td>{{$index+1}}</td>
+						<td>{{member.user.saarang_id}}</td>
+						<td>{{member.user.firstname}} {{member.user.lastname}}</td>
+						<td>{{member.user.email}}</td>
+						<td>{{member.user.mobile}}</td>
+						<td>{{member.user.college}}</td>
+						<td>{{member.user.gender}}</td>
+						<td>{{member.user.desk_registration}}</td>
+						<td>{{member.user.registered_by.username}}</td>
+                    </tr>
+				</table>
+			</div>
+		</div>	
+	</div>
+
+
+
+</div>

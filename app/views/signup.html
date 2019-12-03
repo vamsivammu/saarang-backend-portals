@@ -1,0 +1,42 @@
+<div class="wrapper">
+  <form class="login" name="form" ng-submit="register(form)" novalidate>
+    <p class="title">Sign Up</p>
+     <input required type="text" name="name" placeholder="username" ng-model="user.username" flex-gt-sm autofocus/>
+     <i class="fa fa-user"></i>
+
+      <input required type="text" name="phone" placeholder="mobile" ng-model="user.phone" flex-gt-sm autofocus/>
+      <i class="fa fa-phone"></i>
+
+      <input required type="email" name="email" placeholder="email" ng-model="user.email" flex-gt-sm autofocus/>
+      <i class="fa fa-envelope"></i>
+
+      <input required type="password" name="password" placeholder="password" ng-model="user.password" flex-gt-sm autofocus/>
+      <i class="fa fa-key"></i><br>
+       
+      <md-input-container class="md-block" flex-gt-sm>
+            <label>Department</label>
+            <md-select  name="department" ng-model="user.department_id" required>
+              <md-option ng-repeat="department in departments" value="{{department.id}}">
+                {{department.name}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <br>
+          
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Role</label>
+            <md-select  name="role" ng-model="user.role" required>
+              <md-option ng-repeat="role in roles" value="{{role.name}}">
+                {{role.name}}
+              </md-option>
+            </md-select>
+          </md-input-container><br>
+
+          <a ui-sref="login">Go back to login</a><br>          
+
+     <button type="submit">
+      <i class="spinner"></i>
+      <span class="state">Sign Up</span>
+    </button>
+  </form>
+</div>

@@ -1,0 +1,74 @@
+<style>
+    .grey_back{
+        background-color: grey; 
+				color: white;
+    }
+		.on-spot{
+				background-color: lightsalmon; 
+				color: black;
+		}
+		.online{
+				background-color: lightskyblue; 
+				color: black;
+		}
+</style>
+<div class="allregistrationspage">
+
+	  <div layout="row" layout-align="left left" style="font-size:1.5em">
+        <a ui-sref="main" style="color: white"><md-button class="md-primary md-raised">Back</md-button></a>
+      </div>
+    
+	<form>
+	  <div class="form-group" style="width: 80%">
+	    <div class="input-group">
+	      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+	      <input type="text" class="form-control" placeholder="Search The event" ng-model="searchTag">
+	    </div>      
+	  </div>
+	</form>
+	<div id="exportButtons">
+   <!--	
+		<md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+		<md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+	--> 
+		<md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+		<md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>		
+	</div>
+	<p style="font-style: italic;font-weight:bold;padding-left: 1%;padding-top: 1%;font-size: 1.1em;">Click on table column headers to sort them</p>
+	<p style="font-style: italic;padding-left: 1%;">*Event with grey backgrounds are team events</p>
+	<table id="export" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td>
+				No.
+				</td>
+				<td>
+					<a  ng-click="sortType = 'name'; sortReverse = !sortReverse">Event Name
+						<span ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'category.name'; sortReverse = !sortReverse">Category
+						<span ng-show="sortType == 'category.name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'category.name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+				<td>
+					<a ng-click="sortType = 'registration_type'; sortReverse = !sortReverse">Registration Type
+						<span ng-show="sortType == 'registration_type' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+						<span ng-show="sortType == 'registration_type' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="event in allevents_r | orderBy:sortType:sortReverse| filter:searchTag">
+				<td ng-class="{'grey_back': event.is_team_event}" ng-click="go_to_event(event)">{{$index+1}}</td>
+				<td ng-class="{'grey_back': event.is_team_event}" ng-click="go_to_event(event)">{{event.name}}</td>
+				<td ng-class="{'grey_back': event.is_team_event}" ng-click="go_to_event(event)">{{event.category.name}}</td>
+				<td ng-class="event.registration_type" ng-click="go_to_event(event)">{{event.registration_type}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

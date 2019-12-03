@@ -1,0 +1,10 @@
+<div class="container-fluid">
+<br><br>
+ <div class="row" ng-repeat="app in applications">
+      <a href="{{app.app_link}}" target="_blank">
+        <div class="col-sm-8 col-sm-offset-2 md-whiteframe-2dp" style="height:5em;background-color:#fff;padding-top:2em;margin-bottom:1em;text-align:center">
+          {{app.name}} ({{app.roll_number}}) | {{app.position}} | {{app.uploaded_at}}
+        </div>
+      </a>  
+  </div>
+</div>

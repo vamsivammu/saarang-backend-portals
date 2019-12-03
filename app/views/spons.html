@@ -1,0 +1,194 @@
+	<md-card>
+		<md-card-content>
+		    <div class="row">
+		        <div class="col-md-12">
+		        <h3>Instructions:</h3>
+		        <ul>
+		            <li><i><b>Title</b></i> will be the title above the logo. Ex: <i>Title Sponsor</i>, <i>Food Partner</i>, <i>Logistics Sponsor</i> </li>
+		            <li><i><b>Sponsor Link</b></i> will be the link to their website</li>
+		            <li><i><b>Priority</b></i> will decide their heirarchy in the spons page. (Lower the number selected, higher the priority)</li>
+		            <li><i><b>Row Layout</b></i> will indicate the total number of logos in that row along with this logo</li>
+		            <li><b>You'll find below, the preview of the Spons page as it appears in the main website. (Except the details below the image)</b></li>
+		            <li><i>For any queries, contact <a href="mailto:shafeef@saarang.org"><i>shafeef@saarang.org</i></a></i>
+		        </ul>
+		        <h3>Conditions for Image Upload:</h3>
+		          <ol>
+		              <li>Max height:<b>1000px</b></li>
+		              <li>Max size:<b>1MB</b></li>
+		          </ol>
+		        <h4>Link to optimize your image: <i><a href="http://www.imageoptimizer.net/Pages/Home.aspx" target="_blank">Optimize</a></i> </h4>  
+		        </div>
+		    </div>
+		</md-card-content>
+	</md-card>
+
+	<h2 class="text-center">Spons Portal</h2>
+	<div class="container-fluid">
+	    <md-input-container class="md-block">
+	      <label>Title</label>
+	      <input name="title" ng-model="logo.title"  required>
+	    </md-input-container>
+	    <md-input-container class="md-block">
+	      <label>Sponsor Link</label>
+	      <input name="sponsor_link" ng-model="logo.sponsor_link" required>
+	    </md-input-container>
+	    <div layout-gt-sm="row">
+	      <md-input-container class="md-block" flex-gt-sm>
+	        <label><b>Priority</b></label>
+	        <md-select name="priority" ng-model="logo.priority" required>
+	          <md-option ng-repeat="priority in priorities" value="{{priority}}">
+	            {{priority}}
+	          </md-option>
+	        </md-select>
+	      </md-input-container>
+	      <md-input-container class="md-block" flex-gt-sm>
+	        <label><b>Row Layout</b></label>
+	        <md-select name="row_layout" ng-model="logo.row_layout" required>
+	          <md-option ng-repeat="row in rows" value="{{row}}">
+	            {{row}}
+	          </md-option>
+	        </md-select>
+	      </md-input-container>
+	    </div>
+	    
+	    <!-- Input file for logo -->
+	    
+	    <!-- <form name="logoForm" method="post" action="/api/logos/spons/uploads" enctype="multipart/form-data">
+		    <input type='file' accept='image/*' ng-model="logo.logo" id="logo_image" name='logo' onchange="openFile(event)" required><br>
+			<img id='output'>
+	    </form> -->
+		
+	    <md-button class="md-raised md-primary" type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-max-height="2000">Upload Photo</md-button>
+	    
+	    <span ng-if="uploadInprogress"><b>Upload progress </b>:{{progress}}</span>
+	    <span ng-if="uploadComplete" style="color:green"><b>Image Upload Success</b></span>
+	    <span ng-if="uploadFailed" style="color:red"><b>Image Upload Failed</b></span>
+	    
+	    <br>
+	    <br>
+	    
+	    <div ng-if='uploadComplete'>
+	    <label><b>Image Preview:</b></label>
+	      <img ng-src="{{logo.logo}}" />
+	    </div>
+
+	    <br>
+
+	    <div class="text-center">
+	        <md-button class="md-raised col-md-12" type="submit" ng-click="createLogo()" ng-disabled="logo.priority==-1 ||logo.row_layout==-1||logo.title==''||logo.logo==''||logo.sponsor_link==''">Submit</md-button>
+	        <!-- test -->
+	        <!-- <md-button class="md-raised col-md-12" type="submit" ng-click="createLogo()">Submit</md-button> -->
+	        
+	    </div>
+	</div>
+	<hr>
+	<div class="text-center">Preview of spons page in website</div>
+	<hr>
+
+	<div class="container-fluid">
+	    <h1 class="text-center">SPONSORS</h1>
+	    <div class="row">
+	        <div class="col-xs-12">
+	            <p class="text-center">For sponsorship related queries please contact one of the sponsorship cores below:</p>
+	        </div>
+	    </div>
+		<div class="row">
+            <div class="col-md-4">
+                <p style="text-align: center;">
+                    Tanmay Bagree
+                    <br>
+                    <a class="sponsCoreMail" href="mailto:tanmay@saarang.org">
+                        tanmay@saarang.org
+                    </a>
+                    <br>
+                    +918758085542
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <p style="text-align: center;">
+						Pranjali Manjarekar
+                    <br>
+                    <a class="sponsCoreMail" href="mailto:pranjali@saarang.org">
+                        pranjali@saarang.org
+                    </a>
+                    <br>
+                    +919405214570
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <p style="text-align: center;">
+						Aniket Kamthe
+                    <br>
+                    <a class="sponsCoreMail" href="mailto:aniket@saarang.org">
+                        aniket@saarang.org
+                    </a>
+                    <br>
+                    +919970320507
+                </p>
+            </div>
+	    <hr>
+	    <div class="row" ng-repeat="row in logos">
+	        <div ng-if="row.length===1">
+	            <div ng-repeat="logo in row"  class="col-md-4 col-md-offset-4">
+	            <center>
+	            <h2 class="text-center text-info" style="color:black; font-size:20px">{{logo.title}}</h2>
+	            <a href="{{logo.sponsor_link}}" target="_blank">
+	                <img style="min-height:60px;max-height:100px;vertical-align:middle;margin-bottom:50px;" ng-src="{{logo.logo}}" class="img-responsive">
+	            </a>
+	            <label>Priority: </label>{{logo.priority}}
+	            <br>
+	            <label>Row Layout: </label>{{logo.row_layout}}
+	            <br>
+	            <button class="btn btn-danger" ng-click="deleteLogo(logo)">Delete</button>
+	            </center>
+	            </div>
+	        </div>
+	        <div ng-if="row.length===2">
+	            <div ng-repeat="logo in row" class="col-md-6">
+	            <center>
+	            <h2 class="text-center text-info" style="color:black; font-size:20px">{{logo.title}}</h2>
+	            <a href="{{logo.sponsor_link}}" target="_blank">
+	                <img style="min-height:50px;max-height:100px;vertical-align:middle;margin-bottom:50px;" ng-src="{{logo.logo}}" class="img-responsive">
+	            </a>
+	            <label>Priority: </label>{{logo.priority}}
+	            <br>
+	            <label>Row Layout: </label>{{logo.row_layout}}
+	            <br>
+	            <button class="btn btn-danger" ng-click="deleteLogo(logo)">Delete</button>
+		        </center>
+	            </div>
+	        </div>
+	        <div ng-if="row.length===3" >
+	            <div ng-repeat="logo in row" class="col-md-4">
+	            <center>
+	            <h2 class="text-center text-info" style="color:black; font-size:20px">{{logo.title}}</h2>
+	            <a href="{{logo.sponsor_link}}" target="_blank">
+	                <img style="min-height:40px;max-height:100px;vertical-align:middle;margin-bottom:50px;" ng-src="{{logo.logo}}" class="img-responsive">
+	            </a>
+	            <label>Priority: </label>{{logo.priority}}
+	            <br>
+	            <label>Row Layout: </label>{{logo.row_layout}}
+	            <br>
+	            <button class="btn btn-danger" ng-click="deleteLogo(logo)">Delete</button>
+	        	</center>
+	            </div>
+	        </div>
+	        <div ng-if="row.length===4">
+	            <div ng-repeat="logo in row" class="col-md-3">
+	            <center>
+	            <h2 class="text-center text-info" style="color:black; font-size:20px">{{logo.title}}</h2>
+	            <a href="{{logo.sponsor_link}}" target="_blank">
+	                <img style="min-height:30px;max-height:100px;vertical-align:middle;margin-bottom:50px;" ng-src="{{logo.logo}}" class="img-responsive">
+	            </a>
+	            <label>Priority: </label>{{logo.priority}}
+	            <br>
+	            <label>Row Layout: </label>{{logo.row_layout}}
+	            <br>
+	            <button class="btn btn-danger" ng-click="deleteLogo(logo)">Delete</button>
+	        	</center>
+	            </div>
+	        </div>
+	    </div>
+	</div>

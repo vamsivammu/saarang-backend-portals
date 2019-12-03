@@ -1,0 +1,34 @@
+<!--<div>
+  <a class="md-button md-warn md-raised" ui-sref="bills" style="color: white;text-decoration: none;float: left;">Bill Uploads</a>
+</div>
+<div>
+  <a class="md-button md-primary md-raised" ui-sref="coordPortal" style="color: white;text-decoration: none;float: right;">Click here to Download/Submit your Applications</a>
+</div> -->
+
+
+<div class="wrapper">
+  <br><br><br><br><br><br>
+  <form class="login" name="form" ng-submit="login(form)" novalidate>
+    <p class="title">login</p>
+    <input required type="email" name="email" placeholder="email" ng-model="user.email" flex-gt-sm autofocus/>
+    <i class="fa fa-user"></i>
+    <input required type="password" placeholder="Password" flex-gt-sm  name="password" ng-model="user.password" />
+    <i class="fa fa-key"></i><br>
+            
+   <a ui-sref="signup">Register here</a><br>
+   
+    <button type="submit">
+      <i class="spinner"></i>
+      <span class="state">Log in</span>
+    </button><br>
+    <div>   
+  </form>
+</div>
+
+<md-card>
+        <md-card-content>
+          <div style="font-size:1.25em">
+            If you have just signed up, fill in <a href="https://docs.google.com/spreadsheets/d/13F83nhgU0FpPrcnM6kvIxn390ZClK_PLwKkBzGBFRr4/edit?usp=sharing" target="_blank" style="margin:0 10px 0 10px;color: red"><b><i><u>this form</u></i></b></a> so we that can activate your account. You can login only after your account has been activated.
+          </div>
+        </md-card-content>
+</md-card>

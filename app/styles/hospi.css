@@ -1,0 +1,38 @@
+/*Statistics*/
+.stati_table th{
+	text-align: center;
+	font-size: 16px;
+	border: 0.1px solid #ddd;
+}
+.stati_table td{
+	font-size: 16px;
+	border: 0.1px solid #ddd;
+}
+/*Teams*/
+tr {
+	cursor: pointer;
+}
+/*Hostels*/
+.room_card {
+	width: 200px;
+	display: inline-block;
+}
+
+.md-select-menu-container.md-active.md-clickable {
+	z-index: 1052;
+}
+.md-select-backdrop.md-click-catcher {
+	z-index: 1051;
+}
+md-toast {
+	z-index: 9999;
+}
+md-select {
+	margin: 0;
+}
+.md-dialog-container {
+	z-index: 1055;
+}
+md-progress-circular {
+	margin: 0 29px;
+}
