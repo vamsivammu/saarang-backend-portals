@@ -3,7 +3,8 @@
 	<br>
 	<!-- Add Hostel Form -->
 	<div>
-		<form class="form form-horizontal" name="hostelform" ng-submit="createHostel()" novalidate ng-show="!showAddHostel">
+		<form class="form form-horizontal" name="hostelform" ng-submit="createHostel()" novalidate
+			ng-show="!showAddHostel">
 			<div class="form-group">
 				<label class="control-label col-sm-2">Hostel Name</label>
 				<div class="input-group col-sm-10">
@@ -21,47 +22,47 @@
 					<label class="radio-inline">
 						<input type="radio" name="gender" ng-model="hostel.type" value="Female">
 						Female
-					</label>	
-				</div>		
+					</label>
+				</div>
 			</div>
 
 			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-		    	<md-button class="md-raised md-primary" type="submit">
-		    		Add
-		    	</md-button>
-		    	<md-button class="md-raised" ng-click="showAddHostel = true">
-		    		Cancel
-		    	</md-button>
-		    </section>
+				<md-button class="md-raised md-primary" type="submit">
+					Add
+				</md-button>
+				<md-button class="md-raised" ng-click="showAddHostel = true">
+					Cancel
+				</md-button>
+			</section>
 		</form>
 	</div>
 
 	<section layout="row" layout-sm="column" layout-align="center center" layout-wrap ng-show="showAddHostel">
-    	<md-button class="md-raised md-primary" ng-click="showAddHostel = false">
-    		<span class="glyphicon glyphicon-plus" aria-hidden="true">
-    		</span>
-    		Add Hostel
-    	</md-button>
-    </section>
+		<md-button class="md-raised md-primary" ng-click="showAddHostel = false">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true">
+			</span>
+			Add Hostel
+		</md-button>
+	</section>
 	<!-- end:Add Hostel Form -->
-    <br>
+	<br>
 
 </div>
 
 <!-- Hostel Tabs -->
 <md-tabs md-selected="selectedHostel" md-dynamic-height md-border-bottom>
-    <md-tab class="hostel_tab" ng-repeat="h in hostels" md-on-select="getRooms(h.id)">
+	<md-tab class="hostel_tab" ng-repeat="h in hostels" md-on-select="getRooms(h.id)">
 
-    	<md-tab-label>
-    		{{h.name + ' (' + h.type + ')'}}
-    	</md-tab-label>
+		<md-tab-label>
+			{{h.name + ' (' + h.type + ')'}}
+		</md-tab-label>
 
-    	<md-tab-body>
-			
-	        <div class="container" style="left: 0;right: 0;margin: auto;">
+		<md-tab-body>
 
-	        	<br>
-	        	<br>
+			<div class="container" style="left: 0;right: 0;margin: auto;">
+
+				<br>
+				<br>
 				<!-- Add Room Form -->
 				<div ng-show="showAddRoom">
 					<form class="form form-horizontal" name="roomform" ng-submit="createRoom(h.id)" novalidate>
@@ -75,44 +76,79 @@
 						<div class="form-group">
 							<label class="control-label col-sm-2">Capacity</label>
 							<div class="input-group col-sm-10">
-								<input type="number" name="capacity" class="form-control" ng-model="room.capacity" required>
+								<input type="number" name="capacity" class="form-control" ng-model="room.capacity"
+									required>
 							</div>
 						</div>
 
 						<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-					    	<md-button class="md-raised md-primary" type="submit">
-					    		Add
-					    	</md-button>
-					    	<md-button class="md-raised" ng-click="showAddRoom=false;">
-					    		Cancel
-					    	</md-button>
-					    </section>
+							<md-button class="md-raised md-primary" type="submit">
+								Add
+							</md-button>
+							<md-button class="md-raised" ng-click="showAddRoom=false;">
+								Cancel
+							</md-button>
+						</section>
 					</form>
 					<br>
 				</div>
 				<!-- end:Add Room Form -->
 
 				<!-- Hostel Actions -->
-	        	<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-			    	<md-button class="md-raised md-primary" ng-click="showAddRoom=true;" ng-hide="showAddRoom">
-			    		<span class="glyphicon glyphicon-plus" aria-hidden="true">
-	    				</span>
-			    		Add Room
-			    	</md-button>
-			    	<md-button class="md-raised md-warn" ng-disabled="rooms.length != 0" ng-click="deleteHostel(h.id)">
-			    		<span class="glyphicon glyphicon-remove" aria-hidden="true">
-	    				</span>
-			    		Delete Hostel
-			    	</md-button>
-			    </section>
+				<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+					<md-button class="md-raised md-primary" ng-click="showAddRoom=true;" ng-hide="showAddRoom">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true">
+						</span>
+						Add Room
+					</md-button>
+					<md-button class="md-raised md-warn" ng-disabled="rooms.length != 0" ng-click="deleteHostel(h.id)">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true">
+						</span>
+						Delete Hostel
+					</md-button>
+				</section>
 				<!-- end:Hostel Actions -->
 
 				<br>
 				<br>
 
-	        	<!-- Hostel Rooms -->
-	        	
-	        	<md-card class="room_card" ng-repeat="r in rooms">
+				<!-- Hostel Rooms -->
+				<table ng-if="rooms.length > 0" class="table table-hover">
+					<thead ng-style="{ 'background-color': '#1c1c30', 'color': '#ffffff'}">
+						<tr>
+							<th>Room no.</th>
+							<th>Capacity</th>
+							<th>Occupancy</th>
+							<th>Vacancy</th>
+							<th>Check-In</th>
+							<th>Check-Out</th>
+							<th>Status</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tr ng-repeat="r in rooms| orderBy:'number'" data-toggle="modal" data-target="#roomDetails"
+						ng-click="getOccupants(r)" ng-style="{ 'background-color': getColorOfRow(r)}">
+						<td class="room-detail"><b>{{r.number}}</b></td>
+						<td class="room-detail">{{r.capacity}}</td>
+						<td class="room-detail">{{r.occupants.length}}</td>
+						<td class="room-detail">{{r.vacancy}}</td>
+						<td class="room-detail">{{getCheckInDate(r)}}</td>
+						<td class="room-detail">{{getCheckOutDate(r)}}</td>
+						<td class="room-detail">
+
+						</td>
+						<td class="room-detail"><span ng-if="r.vacancy==r.capacity"
+								ng-click="deleteRoom(r); $event.stopPropagation();"
+								class="label label-danger">Delete</span>
+						</td>
+					</tr>
+				</table>
+
+				<div ng-if="rooms.length == 0" class="container">
+					No rooms added.
+				</div>
+
+				<!-- <md-card class="room_card" ng-repeat="r in rooms">
         			<md-card-title>
           				<md-card-title-text>
             				<span class="md-headline">
@@ -136,33 +172,35 @@
           					Delete
           				</md-button>
         			</md-card-actions>
-      			</md-card>
-	      		
-	      		<!-- end:Hostel Rooms -->
+      			</md-card> -->
+
+				<!-- end:Hostel Rooms -->
 
 				<br>
 				<br>
 
-	        </div>
-			
+			</div>
+
 		</md-tab-body>
 
-    </md-tab>
+	</md-tab>
 </md-tabs>
 <!-- end:Hostel Tabs -->
 
 
-<div class="modal fade" id="roomDetails" role="dialog" data-backdrop="static"> 
-    <div class="modal-dialog modal-lg">
-      	<div class="modal-content">
-        	<div class="modal-body">
-        		<button type="button" class="close" data-dismiss="modal" ng-click="getRooms(hostels[selectedHostel].id);showEditRoom=false;">&times;</button>
-        		<br>
-        		<br>
-        		<md-button class="md-raised md-primary" ng-hide="showEditRoom" ng-click="Eroom={'number': roomDetails.number, 'capacity': roomDetails.capacity}; showEditRoom=true;">
-		    		Edit Room Details
-		    	</md-button>
-		    	<div ng-show="showEditRoom">
+<div class="modal fade" id="roomDetails" role="dialog" data-backdrop="static">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="getRooms(hostels[selectedHostel].id);showEditRoom=false;">&times;</button>
+				<br>
+				<br>
+				<md-button class="md-raised md-primary" ng-hide="showEditRoom"
+					ng-click="Eroom={'number': roomDetails.number, 'capacity': roomDetails.capacity}; showEditRoom=true;">
+					Edit Room Details
+				</md-button>
+				<div ng-show="showEditRoom">
 					<div class="form-group">
 						<label class="control-label col-sm-2">Room Number</label>
 						<div class="input-group col-sm-10">
@@ -178,47 +216,116 @@
 					</div>
 
 					<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-				    	<md-button class="md-raised md-primary" ng-click="EditRoom();">
-				    		Save
-				    	</md-button>
-				    	<md-button class="md-raised" ng-click="showEditRoom=false;">
-				    		Cancel
-				    	</md-button>
-				    </section>
+						<md-button class="md-raised md-primary" ng-click="EditRoom();">
+							Save
+						</md-button>
+						<md-button class="md-raised" ng-click="showEditRoom=false;">
+							Cancel
+						</md-button>
+					</section>
 					<br>
 				</div>
-        		<br>
-        		<br>
-         		<table class="table table-bordered">
-         			<tr ng-repeat="user in roomDetails.occupants">
-         				<td>
-         					{{user.name}}
-         				</td>
-         				<td>
-         					{{user.mobile}}
-         				</td>
-         				<td>
-         					{{user.saarang_id}}
-         				</td>
-         				<td>
-         					<button type="button" class="btn btn-primary btn-xs btn-danger" ng-click="removeUser(user.saarang_id)">REMOVE</button>
-         				</td>
-         			</tr>
-         		</table>
+				<br>
+				<br>
 
-         		<form class="form form-horizontal" name="adduserform" ng-submit="addUser()" novalidate>
-				    <div class="input-group">
-                       <input type="text" class="form-control" ng-model="addUserSaarangId" placeholder="Add member by Saarang ID" required>
-                       <span class="input-group-btn">
-                          <button class="btn btn-success" type="submit">
-                             ADD
-                          </button>
-                       </span>
-                    </div>
+				<table class="user-in-room" ng-repeat="user in roomDetails.occupants">
+					<tr>
+						<td><b>Name:</b></td>
+						<td>{{user.name}}</td>
+					</tr>
+					<tr>
+						<td><b>Contact:</b></td>
+						<td>{{user.mobile}}</td>
+					</tr>
+					<tr>
+						<td><b>Team ID:</b></td>
+						<td>{{user.accom_team_id}}</td>
+					</tr>
+					<tr>
+						<td><b>Team Name:</b></td>
+						<td>{{user.accom_team.name}}</td>
+					</tr>
+					<tr>
+						<td><b>Check-In:</b></td>
+						<td>{{DateString(user.check_in_time)}}</td>
+					</tr>
+					<tr>
+						<td><b>Check-Out:</b></td>
+						<td>{{DateString(user.check_out_time)}}</td>
+					</tr>
+					<tr>
+						<td><b>Comments:</b></td>
+						<td>{{user.hospi_notes}}</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<button type="button" class="btn btn-primary btn-xs btn-danger"
+								ng-click="removeUser(user.saarang_id)">REMOVE</button>
+						</td>
+					</tr>
+				</table>
+
+				<!-- <table class="table table-bordered">
+					<tr ng-repeat="user in roomDetails.occupants">
+						<td>
+							{{user.name}}
+						</td>
+						<td>
+							{{user.mobile}}
+						</td>
+						<td>
+							{{user.saarang_id}}
+						</td>
+						<td>
+							<button type="button" class="btn btn-primary btn-xs btn-danger"
+								ng-click="removeUser(user.saarang_id)">REMOVE</button>
+						</td>
+					</tr>
+				</table> -->
+
+				<form class="form form-vertical" name="adduserform" ng-submit="addUser()" novalidate>
+					<table class="custom-input-table">
+						<tr>
+							<td class="custom-input-label">
+								Saarang ID:
+							</td>
+							<td>
+								<input type="text" style="width: 100%;" ng-model="addUserSaarangId" required>
+							</td>
+						</tr>
+						<tr>
+							<td class="custom-input-label">
+								Team ID:
+							</td>
+							<td>
+								<input type="text" style="width: 100%;" ng-model="addUserTeamId" required>
+							</td>
+						</tr>
+						<tr>
+							<td class="custom-input-label">Check-In date: </td>
+							<td><input type="datetime-local" style="width: 100%;" ng-model="addUserCheckIn"
+									value="{addUserCheckIn.toJSON()}" required></td>
+						</tr>
+						<tr>
+							<td class="custom-input-label">
+								Comments:
+							</td>
+							<td>
+								<textarea style="width: 100%;" ng-model="addUserComments">
+								</textarea>
+							</td>
+						</tr>
+					</table>
+					<span class="input-group-btn">
+						<button class="btn btn-success" type="submit">
+							ADD
+						</button>
+					</span>
 				</form>
 				<br>
-        		<br>
-        	</div>
-      	</div>
-    </div>
- </div>
+				<br>
+			</div>
+		</div>
+	</div>
+</div>

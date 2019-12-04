@@ -8,7 +8,11 @@
 	font-size: 16px;
 	border: 0.1px solid #ddd;
 }
-/*Teams*/
+
+thead tr th {
+	text-align: center;
+}
+
 tr {
 	cursor: pointer;
 }
@@ -16,6 +20,33 @@ tr {
 .room_card {
 	width: 200px;
 	display: inline-block;
+}
+
+.room-detail{
+	border: 1px solid black;
+}
+
+.custom-input-table{
+	margin: 5px;
+	text-align: left;
+	width: 100%;
+}
+.custom-input-table tr td{
+	padding: 2px;
+	text-align: left;
+}
+
+.user-in-room{
+	width: 98%;
+	margin: 2%;
+	padding: 5px;
+	border: 1px solid black;
+}
+
+.user-in-room tr td{
+	padding: 2px 5px;
+	width: 50%;
+	text-align: left;
 }
 
 .md-select-menu-container.md-active.md-clickable {
