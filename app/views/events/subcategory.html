@@ -1,0 +1,86 @@
+<div class="container-fluid">
+	<h1 class="title">All Sub Categories</h1>
+	<div class="container allcategories" ng-hide="edit">
+		<div style="margin-bottom:10px;">
+			<md-button class="md-fab md-primary md-mini" aria-label="Add" ng-click="add()">
+				<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+			</md-button>
+		</div>
+		<div class="category-table">
+			<form>
+			  <div class="form-group">
+			    <div class="input-group">
+			      <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+			      <input type="text" class="form-control" placeholder="Search for Sub Category" ng-model="searchTag">
+			    </div>      
+			  </div>
+			</form>
+			<div id="exportButtons">
+			<!--	<md-button class="md-raised" onClick ="$('#export').tableExport({type:'json',escape:'false'});">JSON</md-button>
+				<md-button class="md-raised md-warn" onClick ="$('#export').tableExport({type:'csv',escape:'false'});">CSV</md-button>
+				-->
+				<md-button class="md-raised md-primary" onClick ="$('#export').tableExport({type:'excel',escape:'false'});">XLS</md-button>
+				<md-button class="md-primary md-raised" onClick="$('#export').tableExport({type:'pdf',escape:'false'});">PDF</md-button>
+			</div>
+			<table id="export" class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<td></td>
+						<td>
+							<a ng-click="sortType = 'name'; sortReverse = !sortReverse">Name
+								<span ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+								<span ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+							</a>
+						</td>
+						<td>
+							<a ng-click="sortType = 'description'; sortReverse = !sortReverse">Description
+								<span ng-show="sortType == 'description' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+								<span ng-show="sortType == 'description' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+							</a>
+						</td>						
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="subcategory in subcategories | orderBy:sortType:sortReverse| filter:searchTag">
+						<td ng-click="delete(subcategory)"><i class="glyphicon glyphicon-trash icons"></i></td>
+						<td ng-click="edit_category(subcategory)">{{subcategory.name}}</td>
+						<td ng-bind-html="subcategory.info"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div id="categoryForm" ng-show="edit">
+		<div class="row">
+			<div style="margin-bottom:10px;">
+				<md-button class="md-raised md-primary" ng-click="cancel()">View Sub Categories</md-button>
+			</div>
+			<form id="addSubCategory" name="addSubCategory" role="form" ng-submit="onSubmit()" class="form-horizontal">
+				<div class="form-group">
+					<label for="subcategory-name" class="control-label col-sm-2">Sub Category-Name&nbsp;:</label>
+					<div class="col-sm-10">
+						<input id="name" name="name" ng-model="subcategory.name" class="form-control" required="true"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="subcategory-description" class="control-label col-sm-2">Sub Category-Description&nbsp;:</label>
+					<div class="col-sm-10">
+						<textarea id="description" name="description" placeholder="Add data as HTML" ng-model="subcategory.info" class="form-control" required="true"></textarea>
+					</div>
+                </div>
+                <div class="form-group">
+					<label for="Category" class="control-label col-sm-2">Category&nbsp;:</label>
+					<div class="col-sm-10">
+						<select id="category" name="category" ng-model="subcategory.category_id" class="form-control" required="true" ng-options="category.id as category.name for category in categories">
+						</select>
+					</div>
+				</div>
+				<div class="button-holder">
+					<button type="submit" class="btn btn-primary">Add Sub Category</button>
+					<button ng-click="cancel()" type="button" class="btn btn-default">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

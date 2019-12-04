@@ -19,6 +19,7 @@ angular.module('erpSaarangFrontendApp')
     $scope.showtab = function(event){
       $scope.event_c.subtab = true;
       $rootScope.edit_event = event;
+      
       $scope.edit_event = $rootScope.edit_event;
     }
     $scope.events = $rootScope.allevents;
