@@ -35,7 +35,8 @@ angular.module('erpSaarangFrontendApp')
                     }
             },
       headers:{
-                'Authorization' :"Bearer "+$localStorage.auth_token
+                'Authorization' :"Bearer "+$localStorage.auth_token,
+                'X-Hasura-Role':$localStorage.member.role
              }
       }).then(function(res){
       $rootScope.allevents = res.data;
@@ -54,7 +55,8 @@ angular.module('erpSaarangFrontendApp')
                     }
             },
       headers:{
-                'Authorization' :"Bearer "+$localStorage.auth_token
+                'Authorization' :"Bearer "+$localStorage.auth_token,
+                'X-Hasura-Role':$localStorage.member.role
              }
       }).then(function(res){
       $rootScope.categories = res.data;
@@ -73,7 +75,8 @@ angular.module('erpSaarangFrontendApp')
                     }
             },
       headers:{
-                'Authorization' :"Bearer "+$localStorage.auth_token
+                'Authorization' :"Bearer "+$localStorage.auth_token,
+                'X-Hasura-Role':$localStorage.member.role
              }
       }).then(function(res){
       $rootScope.subcategories = res.data;

@@ -59,7 +59,7 @@ angular.module('erpSaarangFrontendApp')
                       }
               },
         headers:{
-                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
               }
         }).then(function(res){
           console.log(res.data)
@@ -101,7 +101,7 @@ angular.module('erpSaarangFrontendApp')
             }
         },
         headers:{
-                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
               }
         }).then(function(res){
           console.log(res.data)
@@ -129,7 +129,7 @@ angular.module('erpSaarangFrontendApp')
                       }
               },
         headers:{
-                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
               }
         }).then(function(res){
         $scope.allregs = res.data;
@@ -170,7 +170,7 @@ angular.module('erpSaarangFrontendApp')
                       }
               },
         headers:{
-                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
               }
         }).then(function(res){
           console.log(res);
@@ -208,7 +208,7 @@ angular.module('erpSaarangFrontendApp')
                             }
                     },
               headers:{
-                        'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                        'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
                     }
               }).then(function(res){
                 console.log(res)
@@ -251,7 +251,7 @@ angular.module('erpSaarangFrontendApp')
                             }
                     },
               headers:{
-                        'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                        'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
                     }
               }).then(function(res){
                 console.log(res);
@@ -283,7 +283,7 @@ angular.module('erpSaarangFrontendApp')
                               }
                       },
                 headers:{
-                          'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                          'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
                       }
                 }).then(function(res){
                   console.log(res);
@@ -324,7 +324,7 @@ angular.module('erpSaarangFrontendApp')
                       }
               },
         headers:{
-                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
               }
         }).then(function(res){
             $mdToast.show(
@@ -366,7 +366,7 @@ angular.module('erpSaarangFrontendApp')
       if(!id) {
         $mdToast.show($mdToast.simple().textContent('Invalid Id!').hideDelay(3000));
       } else {
-        $http.post('https://data.saarang.org/v1/query', {"type": "select", "args": {"table": "event_team", "columns": ["id", "saarang_id", "name", {"name": "leader", "columns": ["name","mobile", "saarang_id"]}, {"name": "members_view", "columns": [{"name": "member", "columns": ["*"]}]}], "where": {"saarang_id": id}}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+        $http.post('https://data.saarang.org/v1/query', {"type": "select", "args": {"table": "event_team", "columns": ["id", "saarang_id", "name", {"name": "leader", "columns": ["name","mobile", "saarang_id"]}, {"name": "members_view", "columns": [{"name": "member", "columns": ["*"]}]}], "where": {"saarang_id": id}}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
           .then(function(response) {
             if(response.data.length!=0) {
               $scope.AddExistingTeamSaarangID = '';
@@ -424,7 +424,7 @@ angular.module('erpSaarangFrontendApp')
                   }
               }
           }
-      }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+      }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
           .then(function(response) {
             console.log(response)
             if(response.data[0].eventTeams.length > 0){
@@ -447,7 +447,7 @@ angular.module('erpSaarangFrontendApp')
                           }
                       ]
                   }
-              }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+              }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
               .then(function(res) {
                 console.log(res)
                 $scope.AddExistingTeamDetails.members_view.push(userdetails);
@@ -490,7 +490,7 @@ angular.module('erpSaarangFrontendApp')
                 ]
             }
         }
-    }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+    }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
         .then(function(response) {
           console.log(response.data)
 
@@ -499,12 +499,12 @@ angular.module('erpSaarangFrontendApp')
     };
 
     $scope.SaveAndRegisterExistingTeam = function() {
-      $http.post('https://data.saarang.org/v1/query', {"type": "select", "args": {"table": "event_team", "columns": ["*"], "where": {"$and": [{"event_id": $scope.selected_event.id}, {"id": $scope.AddExistingTeamDetails.id}]}}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+      $http.post('https://data.saarang.org/v1/query', {"type": "select", "args": {"table": "event_team", "columns": ["*"], "where": {"$and": [{"event_id": $scope.selected_event.id}, {"id": $scope.AddExistingTeamDetails.id}]}}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
         .then(function(response) {
           console.log(response.data)
 
           // if(response.data.length==0) {
-          //   $http.post('https://data.saarang.org/v1/query', {"type": "insert", "args": {"table": "event_registration", "objects": [{"event_id": $scope.selected_event.id, "team_id": $scope.AddExistingTeamDetails.id, "participated": false, "registered_on": moment()._d, "registered_by": $localStorage.member}]}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+          //   $http.post('https://data.saarang.org/v1/query', {"type": "insert", "args": {"table": "event_registration", "objects": [{"event_id": $scope.selected_event.id, "team_id": $scope.AddExistingTeamDetails.id, "participated": false, "registered_on": moment()._d, "registered_by": $localStorage.member}]}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
           //     .then(function(response) {
           //       $mdToast.show($mdToast.simple().textContent('Registration Successfull!').hideDelay(3000));
           //       $('#AddExistingTeam').modal('toggle');
@@ -577,7 +577,7 @@ angular.module('erpSaarangFrontendApp')
                   }
               }
           }
-      }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+      }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
           .then(function(response) {
             console.log(response)
             if(response.data[0].eventTeams.length > 0){
@@ -629,14 +629,14 @@ angular.module('erpSaarangFrontendApp')
             }
         },
           headers:{
-                    'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                    'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
                  }
           }).then(function(res){
             console.log(res)
             $state.reload();
         }).catch(function(err){
           console.log(err.data);
-          // console.log($localStorage.auth_token, 'X-Hasura-Role' : "core");
+          // console.log($localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role);
         });
       }
     };
@@ -657,7 +657,7 @@ angular.module('erpSaarangFrontendApp')
                         }
                 },
           headers:{
-                    'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                    'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
                  }
           }).then(function(res){
             console.log("deleted team members")
@@ -674,7 +674,7 @@ angular.module('erpSaarangFrontendApp')
                             }
                     },
               headers:{
-                        'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                        'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
                      }
               }).then(function(resp){
                 console.log("deleted team")
@@ -683,7 +683,7 @@ angular.module('erpSaarangFrontendApp')
             })
         }).catch(function(err){
           console.log(err.data);
-          // console.log($localStorage.auth_token, 'X-Hasura-Role' : "core");
+          // console.log($localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role);
         });
       }
     };
@@ -742,7 +742,7 @@ angular.module('erpSaarangFrontendApp')
             }
         },
         headers:{
-                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                  'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
               }
         }).then(function(res){
           console.log(res.data[0].eventTeams.length);
@@ -762,7 +762,7 @@ angular.module('erpSaarangFrontendApp')
                       }
                   }
               }
-          }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+          }, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
                     .then(function(response) {
                       $scope.leader = response.data[0];
                     });
@@ -789,7 +789,7 @@ angular.module('erpSaarangFrontendApp')
         for(var i=0; i<$scope.AddNewTeamDetails.members.length; ++i)
           if($scope.AddNewTeamDetails.leader_id===$scope.AddNewTeamDetails.members[i].saarang_id) {flag=$scope.AddNewTeamDetails.members[i].id;}
         if(flag) {
-          $http.post('https://data.saarang.org/v1/query', {"type": "insert", "args": {"table": "event_team", "returning": ["id"], "objects": [{"leader_id": $scope.leader.id, "event_id": $scope.selected_event.id, "registered_by": $localStorage.member , "name": $scope.AddNewTeamDetails.name}]}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+          $http.post('https://data.saarang.org/v1/query', {"type": "insert", "args": {"table": "event_team", "returning": ["id"], "objects": [{"leader_id": $scope.leader.id, "event_id": $scope.selected_event.id, "registered_by": $localStorage.member , "name": $scope.AddNewTeamDetails.name}]}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
             .then(function(response) {
                if(response.data.returning[0].id<10000){
 
@@ -801,14 +801,14 @@ angular.module('erpSaarangFrontendApp')
                
                  else {$scope.AddNewTeamDetails.saarang_id = "SA19TE000" + response.data.returning[0].id;}
                }
-              $http.post('https://data.saarang.org/v1/query', {"type": "update", "args": {"table": "event_team", "returning": ["id"], "$set": {"saarang_id": $scope.AddNewTeamDetails.saarang_id}, "where": {"id": response.data.returning[0].id}}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+              $http.post('https://data.saarang.org/v1/query', {"type": "update", "args": {"table": "event_team", "returning": ["id"], "$set": {"saarang_id": $scope.AddNewTeamDetails.saarang_id}, "where": {"id": response.data.returning[0].id}}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
                 .then(function(response) {
                   var team_memberArray = [];
                   for(var j=0; j<$scope.AddNewTeamDetails.members.length; ++j)
                     team_memberArray.push({"team_id": response.data.returning[0].id, "member_id": $scope.AddNewTeamDetails.members[j].id});
-                  $http.post('https://data.saarang.org/v1/query', {"type": "insert", "args": {"table": "event_team_member", "objects": team_memberArray}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+                  $http.post('https://data.saarang.org/v1/query', {"type": "insert", "args": {"table": "event_team_member", "objects": team_memberArray}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
                     .then(function(response) {
-                    //  $http.post('https://data.saarang.org/v1/query', {"type": "insert", "args": {"table": "event_registration", "objects": [{"event_id": $scope.selected_event.id, "team_id": team_memberArray[0].team_id, "participated": false, "registered_on": moment()._d}]}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : "core"}})
+                    //  $http.post('https://data.saarang.org/v1/query', {"type": "insert", "args": {"table": "event_registration", "objects": [{"event_id": $scope.selected_event.id, "team_id": team_memberArray[0].team_id, "participated": false, "registered_on": moment()._d}]}}, {"headers": {"Authorization": "Bearer " + $localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role}})
                     //  .then(function(response) {
                           $mdToast.show($mdToast.simple().textContent('Team created and event registered successfully!').hideDelay(3000));
                           $('#AddNewTeam').modal('toggle');
@@ -845,7 +845,7 @@ angular.module('erpSaarangFrontendApp')
                             }
                     },
               headers:{
-                        'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : "core"
+                        'Authorization' :"Bearer "+$localStorage.auth_token, 'X-Hasura-Role' : $localStorage.member.role
                     }
               }).then(function(res){
                 $state.reload();

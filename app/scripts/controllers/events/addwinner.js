@@ -42,7 +42,7 @@ angular.module('erpSaarangFrontendApp')
                     },
               headers:{
                         'Authorization' :"Bearer "+$localStorage.auth_token,
-                        'X-Hasura-Role' : "core"
+                        'X-Hasura-Role' : $localStorage.member.role
                      }
               }).then(function(res){
               $rootScope.allevents = res.data;
@@ -71,7 +71,7 @@ angular.module('erpSaarangFrontendApp')
                   },
             headers:{
                       'Authorization' :"Bearer "+$localStorage.auth_token,
-                      'X-Hasura-Role' : "core"
+                      'X-Hasura-Role' : $localStorage.member.role
                    }
             }).then(function(res){
             $scope.winners = res.data;
@@ -98,7 +98,7 @@ angular.module('erpSaarangFrontendApp')
                   },
             headers:{
                       'Authorization' :"Bearer "+$localStorage.auth_token,
-                      'X-Hasura-Role' : "core"
+                      'X-Hasura-Role' : $localStorage.member.role
                    }
             }).then(function(res){
               // console.log("success");
@@ -140,7 +140,7 @@ angular.module('erpSaarangFrontendApp')
                     },
                   headers:{
                       'Authorization' :"Bearer "+$localStorage.auth_token,
-                      'X-Hasura-Role' : "core"
+                      'X-Hasura-Role' : $localStorage.member.role
                   }
               }).then(function(res){
                 res = res.data;
@@ -167,7 +167,7 @@ angular.module('erpSaarangFrontendApp')
           },
           headers:{
             'Authorization':"Bearer "+$localStorage.auth_token,
-            'X-Hasura-Role' : "core"
+            'X-Hasura-Role' : $localStorage.member.role
           }
         }).then(function(res){
           res = res.data;
@@ -191,7 +191,7 @@ angular.module('erpSaarangFrontendApp')
                     },
                   headers:{
                       'Authorization' :"Bearer "+$localStorage.auth_token,
-                      'X-Hasura-Role' : "core"
+                      'X-Hasura-Role' : $localStorage.member.role
                   }
               }).then(function(res){
                 res = res.data;
@@ -217,7 +217,7 @@ angular.module('erpSaarangFrontendApp')
                     },
                   headers:{
                       'Authorization' :"Bearer "+$localStorage.auth_token,
-                      'X-Hasura-Role' : "core"
+                      'X-Hasura-Role' : $localStorage.member.role
                   }
               }).then(function(res){
                 res = res.data;
@@ -243,7 +243,7 @@ angular.module('erpSaarangFrontendApp')
                     },
                   headers:{
                       'Authorization' :"Bearer "+$localStorage.auth_token,
-                      'X-Hasura-Role' : "core"
+                      'X-Hasura-Role' : $localStorage.member.role
                   }
               }).then(function(res){
                 res = res.data;
@@ -271,7 +271,7 @@ angular.module('erpSaarangFrontendApp')
           },
           headers:{
             'Authorization':"Bearer "+$localStorage.auth_token,
-            'X-Hasura-Role' : "core"
+            'X-Hasura-Role' : $localStorage.member.role
           }
         }).then(function(res){
           res = res.data;
@@ -297,7 +297,7 @@ angular.module('erpSaarangFrontendApp')
           },
           headers:{
             'Authorization':"Bearer "+$localStorage.auth_token,
-            'X-Hasura-Role' : "core"
+            'X-Hasura-Role' : $localStorage.member.role
           }
         }).then(function(res){
           res = res.data;
@@ -323,7 +323,7 @@ angular.module('erpSaarangFrontendApp')
           },
           headers:{
             'Authorization':"Bearer "+$localStorage.auth_token,
-            'X-Hasura-Role' : "core"
+            'X-Hasura-Role' : $localStorage.member.role
           }
         }).then(function(res){
           res = res.data;
@@ -350,7 +350,7 @@ angular.module('erpSaarangFrontendApp')
             },
             headers:{
               'Authorization':"Bearer "+$localStorage.auth_token,
-              'X-Hasura-Role' : "core"
+              'X-Hasura-Role' : $localStorage.member.role
             }
           }).then(function(res){
             console.log("success");
@@ -374,7 +374,7 @@ angular.module('erpSaarangFrontendApp')
             },
             headers:{
               'Authorization':"Bearer "+$localStorage.auth_token,
-              'X-Hasura-Role' : "core"
+              'X-Hasura-Role' : $localStorage.member.role
             }
           }).then(function(res){
             console.log("success");
@@ -409,7 +409,7 @@ angular.module('erpSaarangFrontendApp')
               },
             headers:{
                       'Authorization' :"Bearer "+$localStorage.auth_token,
-                      'X-Hasura-Role' : "core"
+                      'X-Hasura-Role' : $localStorage.member.role
                   }
             }).then(function(res){
               res = res.data;
@@ -432,7 +432,7 @@ angular.module('erpSaarangFrontendApp')
                     },
                   headers:{
                             'Authorization' :"Bearer "+$localStorage.auth_token,
-                            'X-Hasura-Role' : "core"
+                            'X-Hasura-Role' : $localStorage.member.role
                         }
                   }).then(function(res){
                     $http({
@@ -454,7 +454,7 @@ angular.module('erpSaarangFrontendApp')
                         },
                       headers:{
                                 'Authorization' :"Bearer "+$localStorage.auth_token,
-                                'X-Hasura-Role' : "core"
+                                'X-Hasura-Role' : $localStorage.member.role
                             }
                       }).then(function(res){
                           $scope.add_cancel();
@@ -495,7 +495,7 @@ angular.module('erpSaarangFrontendApp')
               },
             headers:{
                       'Authorization' :"Bearer "+$localStorage.auth_token,
-                      'X-Hasura-Role' : "core"
+                      'X-Hasura-Role' : $localStorage.member.role
                   }
             }).then(function(res){
               res = res.data;
@@ -518,7 +518,7 @@ angular.module('erpSaarangFrontendApp')
                     },
                   headers:{
                             'Authorization' :"Bearer "+$localStorage.auth_token,
-                            'X-Hasura-Role' : "core"
+                            'X-Hasura-Role' : $localStorage.member.role
                         }
                   }).then(function(res){
                     $http({
@@ -540,7 +540,7 @@ angular.module('erpSaarangFrontendApp')
                         },
                       headers:{
                                 'Authorization' :"Bearer "+$localStorage.auth_token,
-                                'X-Hasura-Role' : "core"
+                                'X-Hasura-Role' : $localStorage.member.role
                             }
                       }).then(function(res){
                           $scope.add_cancel();

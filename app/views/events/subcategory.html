@@ -43,7 +43,7 @@
 				<tbody>
 					<tr ng-repeat="subcategory in subcategories | orderBy:sortType:sortReverse| filter:searchTag">
 						<td ng-click="delete(subcategory)"><i class="glyphicon glyphicon-trash icons"></i></td>
-						<td ng-click="edit_category(subcategory)">{{subcategory.name}}</td>
+						<td ng-click="edit_subcategory(subcategory)">{{subcategory.name}}</td>
 						<td ng-bind-html="subcategory.info"></td>
 					</tr>
 				</tbody>

@@ -616,9 +616,9 @@
                                                 ng-show="tm.is_confirmed"
                                                 ng-click="confirmDialog_removeMember(tm)">DELETE</button>
                                             <button type="button" class="btn btn-success btn-xs"
-                                                ng-show="!tm.is_confirmed" ng-click="AcceptMember(tm)">ACCEPT</button>
+                                                ng-show="!tm.accom_is_confirmed" ng-click="AcceptMember(tm)">ACCEPT</button>
                                             <button type="button" class="btn btn-danger btn-xs"
-                                                ng-show="!tm.is_confirmed" ng-click="RejectMember(tm)">REJECT</button>
+                                                ng-show="!tm.accom_is_confirmed" ng-click="RejectMember(tm)">REJECT</button>
                                         </td>
                                     </tr>
                                 </tbody>
